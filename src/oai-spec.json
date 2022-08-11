@@ -1,0 +1,5934 @@
+{
+  "openapi": "3.0.0",
+  "x-readme": {
+    "samples-languages": ["curl", "ruby", "php", "python"]
+  },
+  "info": {
+    "version": "0.6",
+    "title": "Openscreen REST API",
+    "description": "Openscreen's REST API\n Use getAccessToken EP to obtain the access token",
+    "contact": {
+      "name": "Openscreen API Support",
+      "url": "https://www.openscreen.com/contact/",
+      "email": "support@openscreen.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://kbdgsb6g57.execute-api.us-east-1.amazonaws.com/prod"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AccountStatus": {
+        "type": "string",
+        "enum": ["ACTIVE", "SUSPENDED"]
+      },
+      "AccountUserRole": {
+        "type": "string",
+        "enum": ["OWNER", "ADMINISTRATOR", "BILLING_CONTACT", "MEMBER", "API_KEY", "INVITATION_DECLINED"]
+      },
+      "PricePlanName": {
+        "type": "string",
+        "enum": [
+          "individualStarter",
+          "individualPro",
+          "enterpriseStarter",
+          "enterprisePro",
+          "enterpriseCustom",
+          "unlimited"
+        ]
+      },
+      "PricePlanPaymentPeriod": {
+        "type": "string",
+        "enum": ["monthly", "annual"]
+      },
+      "PricePlanReporting": {
+        "type": "string",
+        "enum": ["basic", "advanced", "basic", "advanced"]
+      },
+      "ProjectStatus": {
+        "type": "string",
+        "enum": ["ACTIVE", "SUSPENDED"]
+      },
+      "QrCodeDynamicRedirectType": {
+        "type": "string",
+        "enum": ["NO_SCAN_ID", "SCAN_ID_IN_PATH_PARAMETER", "SCAN_ID_IN_QUERY_STRING_PARAMETER"]
+      },
+      "QrCodeErrorCorrectionLevel": {
+        "type": "string",
+        "enum": ["L", "M", "Q", "H"]
+      },
+      "QrCodeIntentType": {
+        "type": "string",
+        "enum": ["STATIC_REDIRECT", "DYNAMIC_REDIRECT", "DYNAMIC_REDIRECT_TO_APP"]
+      },
+      "QrCodeLocatorKeyType": {
+        "type": "string",
+        "enum": ["SHORT_URL", "HASHED_ID", "SECURE_ID"]
+      },
+      "QrCodeStatus": {
+        "type": "string",
+        "enum": ["ACTIVE", "INACTIVE", "SUSPENDED"]
+      },
+      "QrCodeType": {
+        "type": "string",
+        "enum": ["PNG", "JPEG", "SVG", "png", "jpeg", "svg"]
+      },
+      "Entity": {
+        "type": "object",
+        "properties": {}
+      },
+      "DdbEntity": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/DdbEntity"
+          },
+          "code": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "data": {
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "request": {
+            "type": "string"
+          },
+          "responseId": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "stack": {
+            "type": "array",
+            "description": "JavaScript array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "assetCount": {
+            "type": "number"
+          },
+          "collectTaxInfo": {
+            "type": "boolean"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "contactCount": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "dynamicQrCodeCount": {
+            "type": "number"
+          },
+          "lastScanId": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "needsPaymentUpdate": {
+            "type": "boolean"
+          },
+          "projectCount": {
+            "type": "number"
+          },
+          "scanCount": {
+            "type": "number"
+          },
+          "staticQrCodeCount": {
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AccountStatus"
+          },
+          "stripeCustomerId": {
+            "type": "string"
+          }
+        }
+      },
+      "AccountInvitation": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "description": "moment timestamp stored in Unix epoch time (seconds), also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "invitationId": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "sendersFirstName": {
+            "type": "string"
+          },
+          "sendersLastName": {
+            "type": "string"
+          },
+          "sendersUserId": {
+            "type": "string"
+          },
+          "userRole": {
+            "$ref": "#/components/schemas/AccountUserRole"
+          }
+        }
+      },
+      "AccountResponse": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Account"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "accountId": {
+                "type": "string"
+              },
+              "assetCount": {
+                "type": "number"
+              },
+              "collectTaxInfo": {
+                "type": "boolean"
+              },
+              "companyName": {
+                "type": "string"
+              },
+              "contactCount": {
+                "type": "number"
+              },
+              "created": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "currentPeriod": {
+                "$ref": "#/components/schemas/PricePlanPeriod"
+              },
+              "dynamicQrCodeCount": {
+                "type": "number"
+              },
+              "lastScanId": {
+                "type": "string"
+              },
+              "modified": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "needsPaymentUpdate": {
+                "type": "boolean"
+              },
+              "pricePlan": {
+                "$ref": "#/components/schemas/PricePlan"
+              },
+              "projectCount": {
+                "type": "number"
+              },
+              "scanCount": {
+                "type": "number"
+              },
+              "staticQrCodeCount": {
+                "type": "number"
+              },
+              "status": {
+                "$ref": "#/components/schemas/AccountStatus"
+              },
+              "stripeCustomerId": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "AccountUser": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "userId": {
+            "type": "string"
+          },
+          "userRole": {
+            "$ref": "#/components/schemas/AccountUserRole"
+          }
+        }
+      },
+      "ApiKey": {
+        "type": "object",
+        "properties": {
+          "apiKeyId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Asset": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "scanCount": {
+            "type": "number"
+          }
+        }
+      },
+      "AssetContact": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "AssetGroupAsset": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "cellPhone": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ContactConsent"
+            }
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mailingAddress": {
+            "$ref": "#/components/schemas/ContactMailingAddress"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "nickname": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactConsent": {
+        "type": "object",
+        "properties": {
+          "consented": {
+            "type": "boolean"
+          },
+          "consentedAt": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactEmail": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactMailingAddress": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "postalOrZip": {
+            "type": "string"
+          },
+          "provinceOrState": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactPhone": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "EmailInvitation": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "description": "moment timestamp stored in Unix epoch time (seconds), also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "invitationId": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "NestedAsset": {
+        "type": "object",
+        "properties": {
+          "customAttributes": {
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "qrCodes": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/NestedQrCode"
+            }
+          }
+        }
+      },
+      "NestedContact": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/NestedAsset"
+          },
+          "cellPhone": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ContactConsent"
+            }
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mailingAddress": {
+            "$ref": "#/components/schemas/ContactMailingAddress"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "NestedQrCode": {
+        "type": "object",
+        "properties": {
+          "dynamicRedirectType": {
+            "$ref": "#/components/schemas/QrCodeDynamicRedirectType"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "intentState": {
+            "type": "object"
+          },
+          "intentType": {
+            "$ref": "#/components/schemas/QrCodeIntentType"
+          },
+          "locatorKeyType": {
+            "$ref": "#/components/schemas/QrCodeLocatorKeyType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QrCodeStatus"
+          },
+          "validFrom": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "validTo": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "PricePlan": {
+        "type": "object",
+        "properties": {
+          "additionalScanCost": {
+            "type": "number"
+          },
+          "annualPrice": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "dataExport": {
+            "type": "boolean"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "monthlyPrice": {
+            "type": "number"
+          },
+          "monthlyScans": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "paymentPeriod": {
+            "type": "string"
+          },
+          "pricePlanId": {
+            "type": "string"
+          },
+          "projects": {
+            "type": "number"
+          },
+          "qrCodes": {
+            "type": "number"
+          },
+          "reporting": {
+            "$ref": "#/components/schemas/PricePlanReporting"
+          },
+          "roleBasedManagement": {
+            "type": "boolean"
+          },
+          "stripeCustomerId": {
+            "type": "string"
+          },
+          "stripePlanId": {
+            "type": "string"
+          },
+          "stripeSubscriptionId": {
+            "type": "string"
+          },
+          "subscriptionItemId": {
+            "type": "string"
+          },
+          "users": {
+            "type": "number"
+          }
+        }
+      },
+      "PricePlanPeriod": {
+        "type": "object",
+        "properties": {
+          "additionalScans": {
+            "type": "number"
+          },
+          "additionalScansCost": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "period": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "periodEndDate": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "pricePlanId": {
+            "type": "string"
+          },
+          "projects": {
+            "type": "number"
+          },
+          "projectsCreated": {
+            "type": "number"
+          },
+          "projectsRemaining": {
+            "type": "number"
+          },
+          "qrCodes": {
+            "type": "number"
+          },
+          "qrCodesCreated": {
+            "type": "number"
+          },
+          "qrCodesRemaining": {
+            "type": "number"
+          },
+          "qrScansRemaining": {
+            "type": "number"
+          },
+          "scansUsed": {
+            "type": "number"
+          },
+          "users": {
+            "type": "number"
+          },
+          "usersCreated": {
+            "type": "number"
+          },
+          "usersRemaining": {
+            "type": "number"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "assetCount": {
+            "type": "number"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "contactCount": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "dynamicQrCodeCount": {
+            "type": "number"
+          },
+          "lastScanId": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "scanCount": {
+            "type": "number"
+          },
+          "staticQrCodeCount": {
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          }
+        }
+      },
+      "ProjectAccount": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "ProjectContact": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "QrCode": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "dynamicRedirectType": {
+            "$ref": "#/components/schemas/QrCodeDynamicRedirectType"
+          },
+          "image": {
+            "$ref": "#/components/schemas/QrCodeImage"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "intentState": {
+            "type": "object"
+          },
+          "intentType": {
+            "$ref": "#/components/schemas/QrCodeIntentType"
+          },
+          "locatorKey": {
+            "type": "string"
+          },
+          "locatorKeyType": {
+            "$ref": "#/components/schemas/QrCodeLocatorKeyType"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "qrCodeId": {
+            "type": "string"
+          },
+          "scanCount": {
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QrCodeStatus"
+          },
+          "validFrom": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "validTo": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "QrCodeImage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string"
+          },
+          "options": {
+            "$ref": "#/components/schemas/QrCodeOptions"
+          }
+        }
+      },
+      "QrCodeLocator": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "locatorKey": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "qrCodeId": {
+            "type": "string"
+          }
+        }
+      },
+      "QrCodeOptions": {
+        "type": "object",
+        "properties": {
+          "background": {
+            "type": "string"
+          },
+          "backgroundGradientColors": {
+            "type": "string"
+          },
+          "backgroundGradientRotation": {
+            "type": "number"
+          },
+          "cornerDotColor": {
+            "type": "string"
+          },
+          "cornerSquareColor": {
+            "type": "string"
+          },
+          "darkColor": {
+            "type": "string"
+          },
+          "dataUrl": {
+            "type": "boolean"
+          },
+          "errorCorrectionLevel": {
+            "$ref": "#/components/schemas/QrCodeErrorCorrectionLevel"
+          },
+          "foreground": {
+            "type": "string"
+          },
+          "foregroundGradientColors": {
+            "type": "string"
+          },
+          "foregroundGradientRotation": {
+            "type": "number"
+          },
+          "format": {
+            "$ref": "#/components/schemas/QrCodeType"
+          },
+          "image": {
+            "type": "string"
+          },
+          "lightColor": {
+            "type": "string"
+          },
+          "margin": {
+            "type": "number"
+          },
+          "scale": {
+            "type": "number"
+          },
+          "version": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          }
+        }
+      },
+      "ResponseAsset": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "qrCodes": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/QrCode"
+            }
+          }
+        }
+      },
+      "ResponseContact": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Contact"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "cellPhone": {
+                "type": "string"
+              },
+              "consent": {
+                "type": "array",
+                "description": "an array of Entity derived JavaScript objects",
+                "items": {
+                  "$ref": "#/components/schemas/ContactConsent"
+                }
+              },
+              "contactId": {
+                "type": "string"
+              },
+              "created": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "customAttributes": {
+                "type": "object"
+              },
+              "emailAddress": {
+                "type": "string"
+              },
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "mailingAddress": {
+                "$ref": "#/components/schemas/ContactMailingAddress"
+              },
+              "middleName": {
+                "type": "string"
+              },
+              "modified": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "nickname": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Scan": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "browserName": {
+            "type": "string"
+          },
+          "browserVersion": {
+            "type": "string"
+          },
+          "cpuArchitecture": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "deviceModel": {
+            "type": "string"
+          },
+          "deviceType": {
+            "type": "string"
+          },
+          "deviceVendor": {
+            "type": "string"
+          },
+          "engineName": {
+            "type": "string"
+          },
+          "engineVersion": {
+            "type": "string"
+          },
+          "ipAddress": {
+            "type": "string"
+          },
+          "locationCityName": {
+            "type": "string"
+          },
+          "locationCountryCode": {
+            "type": "string"
+          },
+          "locationCountryName": {
+            "type": "string"
+          },
+          "locationLatitude": {
+            "type": "string"
+          },
+          "locationLongitude": {
+            "type": "string"
+          },
+          "locationPostalCode": {
+            "type": "string"
+          },
+          "locationRegionCode": {
+            "type": "string"
+          },
+          "locationRegionName": {
+            "type": "string"
+          },
+          "locationTimeZone": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "osName": {
+            "type": "string"
+          },
+          "osVersion": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "qrCodeId": {
+            "type": "string"
+          },
+          "scanId": {
+            "type": "string"
+          },
+          "scanTime": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "userAgent": {
+            "type": "string"
+          }
+        }
+      },
+      "ScanContact": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "scanId": {
+            "type": "string"
+          }
+        }
+      },
+      "Sms": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "delivered": {
+            "type": "boolean"
+          },
+          "deliveredAt": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "from": {
+            "type": "string"
+          },
+          "inbound": {
+            "type": "boolean"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "priceUnit": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "smsId": {
+            "type": "string"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          }
+        }
+      },
+      "SmsTemplate": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "responseUrl": {
+            "type": "string"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "statusUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "UserCombined": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/User"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "created": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "email": {
+                "type": "string"
+              },
+              "expiresAt": {
+                "description": "moment timestamp stored in Unix epoch time (seconds), also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "firstName": {
+                "type": "string"
+              },
+              "invitationId": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "middleName": {
+                "type": "string"
+              },
+              "modified": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "phone": {
+                "type": "string"
+              },
+              "userId": {
+                "type": "string"
+              },
+              "userRole": {
+                "$ref": "#/components/schemas/AccountUserRole"
+              }
+            }
+          }
+        ]
+      },
+      "ScansByLocationProjectAggregation": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "day": {
+            "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "location": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScansByOSNameProjectAggregation": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "day": {
+            "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "osName": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScansByAssetProjectAggregation": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "day": {
+            "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScansByLocationAccountAggregation": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "day": {
+            "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "location": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "ScansByOSNameAccountAggregation": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "day": {
+            "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "osName": {
+            "type": "string"
+          }
+        }
+      },
+      "ScansByAssetAccountAggregation": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "day": {
+            "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScanContactAccountIndex": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "indexedEntityName": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "scanId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScanContactProjectIndex": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "indexedEntityName": {
+            "type": "string"
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "scanId": {
+            "type": "string"
+          }
+        }
+      },
+      "ExportedScan": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Scan"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "assetName": {
+                "type": "string"
+              },
+              "browserName": {
+                "type": "string"
+              },
+              "browserVersion": {
+                "type": "string"
+              },
+              "cpuArchitecture": {
+                "type": "string"
+              },
+              "created": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "deviceModel": {
+                "type": "string"
+              },
+              "deviceType": {
+                "type": "string"
+              },
+              "deviceVendor": {
+                "type": "string"
+              },
+              "engineName": {
+                "type": "string"
+              },
+              "engineVersion": {
+                "type": "string"
+              },
+              "ipAddress": {
+                "type": "string"
+              },
+              "locationCityName": {
+                "type": "string"
+              },
+              "locationCountryCode": {
+                "type": "string"
+              },
+              "locationCountryName": {
+                "type": "string"
+              },
+              "locationLatitude": {
+                "type": "string"
+              },
+              "locationLongitude": {
+                "type": "string"
+              },
+              "locationPostalCode": {
+                "type": "string"
+              },
+              "locationRegionCode": {
+                "type": "string"
+              },
+              "locationRegionName": {
+                "type": "string"
+              },
+              "locationTimeZone": {
+                "type": "string"
+              },
+              "modified": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "osName": {
+                "type": "string"
+              },
+              "osVersion": {
+                "type": "string"
+              },
+              "projectId": {
+                "type": "string"
+              },
+              "qrCodeId": {
+                "type": "string"
+              },
+              "scanId": {
+                "type": "string"
+              },
+              "scanTime": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "userAgent": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "AccountContact": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "AccountScan": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "scanId": {
+            "type": "string"
+          }
+        }
+      },
+      "ProjectScan": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "created": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "modified": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "scanId": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateProjectByAccountIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateProjectByAccountIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          }
+        }
+      },
+      "GetAssetsByAccountIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "assets": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            }
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfAssets": {
+            "type": "number"
+          }
+        }
+      },
+      "GetContactsByAccountIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfContacts": {
+            "type": "number"
+          }
+        }
+      },
+      "GetProjectsByAccountIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "next": {
+            "type": "string"
+          },
+          "numberOfProjects": {
+            "type": "number"
+          },
+          "projects": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            }
+          }
+        }
+      },
+      "GetQrCodesByAccountIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfQrCodes": {
+            "type": "number"
+          },
+          "qrCodes": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/QrCode"
+            }
+          }
+        }
+      },
+      "GetScansByAccountIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfScans": {
+            "type": "number"
+          },
+          "scans": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Scan"
+            }
+          }
+        }
+      },
+      "CreateContactByAssetIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "cellPhone": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ContactConsent"
+            }
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mailingAddress": {
+            "$ref": "#/components/schemas/ContactMailingAddress"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateContactByAssetIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          },
+          "assetContact": {
+            "$ref": "#/components/schemas/AssetContact"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "contactEmail": {
+            "$ref": "#/components/schemas/ContactEmail"
+          },
+          "contactPhone": {
+            "$ref": "#/components/schemas/ContactPhone"
+          },
+          "projectContact": {
+            "$ref": "#/components/schemas/ProjectContact"
+          }
+        }
+      },
+      "CreateQrCodeByAssetIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "dynamicRedirectType": {
+            "$ref": "#/components/schemas/QrCodeDynamicRedirectType"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "intentState": {
+            "type": "object"
+          },
+          "intentType": {
+            "$ref": "#/components/schemas/QrCodeIntentType"
+          },
+          "locatorKeyType": {
+            "$ref": "#/components/schemas/QrCodeLocatorKeyType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QrCodeStatus"
+          },
+          "validFrom": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "validTo": {
+            "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "CreateQrCodeByAssetIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "locatorKey": {
+            "type": "string"
+          },
+          "qrCode": {
+            "$ref": "#/components/schemas/QrCode"
+          },
+          "qrCodeId": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteAssetResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          }
+        }
+      },
+      "GetAssetResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/ResponseAsset"
+          },
+          "assetId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAssetGroupResponseBody": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            }
+          },
+          "groupId": {
+            "type": "string"
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfAssets": {
+            "type": "number"
+          }
+        }
+      },
+      "GetContactsByAssetIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "assetContacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/AssetContact"
+            }
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfContacts": {
+            "type": "number"
+          }
+        }
+      },
+      "GetQrCodesByAssetIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfQrCodes": {
+            "type": "number"
+          },
+          "qrCodes": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/QrCode"
+            }
+          }
+        }
+      },
+      "GetScansByAssetIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfScans": {
+            "type": "number"
+          },
+          "scans": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Scan"
+            }
+          }
+        }
+      },
+      "LinkContactToAssetRequestBody": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "LinkContactToAssetResponseBody": {
+        "type": "object",
+        "properties": {
+          "assetContact": {
+            "$ref": "#/components/schemas/AssetContact"
+          },
+          "projectContact": {
+            "$ref": "#/components/schemas/ProjectContact"
+          }
+        }
+      },
+      "UpdateAssetRequestBody": {
+        "type": "object",
+        "properties": {
+          "customAttributes": {
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "groupId": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateAssetResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          },
+          "assetId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessTokenRequestBody": {
+        "type": "object",
+        "properties": {
+          "accessKey": {
+            "type": "string"
+          },
+          "accessSecret": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessTokenResponseBody": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteContactResponseBody": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        }
+      },
+      "GetContactResponseBody": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        }
+      },
+      "UpdateContactRequestBody": {
+        "type": "object",
+        "properties": {
+          "cellPhone": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ContactConsent"
+            }
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mailingAddress": {
+            "$ref": "#/components/schemas/ContactMailingAddress"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateContactResponseBody": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        }
+      },
+      "CreateAssetByProjectIdRequestBody": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NestedAsset"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "customAttributes": {
+                "type": "object"
+              },
+              "description": {
+                "type": "string"
+              },
+              "groupId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "qrCodes": {
+                "type": "array",
+                "description": "an array of Entity derived JavaScript objects",
+                "items": {
+                  "$ref": "#/components/schemas/NestedQrCode"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "CreateAssetByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/ResponseAsset"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateAssetsByProjectIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/NestedAsset"
+            }
+          }
+        }
+      },
+      "CreateAssetsByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ResponseAsset"
+            }
+          },
+          "numberOfAssets": {
+            "type": "number"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateContactByProjectIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/NestedAsset"
+          },
+          "cellPhone": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ContactConsent"
+            }
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mailingAddress": {
+            "$ref": "#/components/schemas/ContactMailingAddress"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateContactByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          },
+          "assetContact": {
+            "$ref": "#/components/schemas/AssetContact"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "contactEmail": {
+            "$ref": "#/components/schemas/ContactEmail"
+          },
+          "contactPhone": {
+            "$ref": "#/components/schemas/ContactPhone"
+          },
+          "projectContact": {
+            "$ref": "#/components/schemas/ProjectContact"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "qrCodes": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/QrCode"
+            }
+          }
+        }
+      },
+      "CreateContactsByProjectIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "contacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/NestedContact"
+            }
+          }
+        }
+      },
+      "CreateContactsByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "contacts": {
+            "type": "array",
+            "description": "JavaScript array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "numberOfContacts": {
+            "type": "number"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSmsTemplateByProjectIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "responseUrl": {
+            "type": "string"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "statusUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSmsTemplateByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "smsTemplate": {
+            "$ref": "#/components/schemas/SmsTemplate"
+          }
+        }
+      },
+      "DeleteSmsTemplateByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "responseUrl": {
+            "type": "string"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "statusUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAssetsByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            }
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfAssets": {
+            "type": "number"
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetContactsByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "contacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          },
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfContacts": {
+            "type": "number"
+          },
+          "projectContacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ProjectContact"
+            }
+          },
+          "projectId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetProjectByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          }
+        }
+      },
+      "GetQrCodesByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfQrCodes": {
+            "type": "number"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "qrCodes": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/QrCode"
+            }
+          }
+        }
+      },
+      "GetScansByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfScans": {
+            "type": "number"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "scans": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/Scan"
+            }
+          }
+        }
+      },
+      "GetSmsTemplateByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "responseUrl": {
+            "type": "string"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "statusUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "GetSmsTemplatesByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "lastKey": {
+            "type": "string"
+          },
+          "numberOfSmsTemplates": {
+            "type": "number"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "smsTemplates": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/SmsTemplate"
+            }
+          }
+        }
+      },
+      "UpdateProjectByProjectIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          }
+        }
+      },
+      "UpdateProjectByProjectIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          }
+        }
+      },
+      "UpdateSmsTemplateResponseBody": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "responseUrl": {
+            "type": "string"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "statusUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteQrCodeResponseBody": {
+        "type": "object",
+        "properties": {
+          "qrCode": {
+            "$ref": "#/components/schemas/QrCode"
+          }
+        }
+      },
+      "GetQrCodeResponseBody": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QrCode"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "created": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "dynamicRedirectType": {
+                "$ref": "#/components/schemas/QrCodeDynamicRedirectType"
+              },
+              "image": {
+                "$ref": "#/components/schemas/QrCodeImage"
+              },
+              "intent": {
+                "type": "string"
+              },
+              "intentState": {
+                "type": "object"
+              },
+              "intentType": {
+                "$ref": "#/components/schemas/QrCodeIntentType"
+              },
+              "locatorKey": {
+                "type": "string"
+              },
+              "locatorKeyType": {
+                "$ref": "#/components/schemas/QrCodeLocatorKeyType"
+              },
+              "modified": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "qrCodeId": {
+                "type": "string"
+              },
+              "scanCount": {
+                "type": "number"
+              },
+              "status": {
+                "$ref": "#/components/schemas/QrCodeStatus"
+              },
+              "validFrom": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              "validTo": {
+                "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "UpdateQrCodeRequestBody": {
+        "type": "object",
+        "properties": {
+          "dynamicRedirectType": {
+            "$ref": "#/components/schemas/QrCodeDynamicRedirectType"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "intentState": {
+            "type": "object"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QrCodeStatus"
+          }
+        }
+      },
+      "UpdateQrCodeResponseBody": {
+        "type": "object",
+        "properties": {
+          "qrCode": {
+            "$ref": "#/components/schemas/QrCode"
+          }
+        }
+      },
+      "CreateContactByScanIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "cellPhone": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ContactConsent"
+            }
+          },
+          "customAttributes": {
+            "type": "object"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "mailingAddress": {
+            "$ref": "#/components/schemas/ContactMailingAddress"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateContactByScanIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          },
+          "assetContact": {
+            "$ref": "#/components/schemas/AssetContact"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "contactEmail": {
+            "$ref": "#/components/schemas/ContactEmail"
+          },
+          "contactPhone": {
+            "$ref": "#/components/schemas/ContactPhone"
+          },
+          "projectContact": {
+            "$ref": "#/components/schemas/ProjectContact"
+          },
+          "scanContact": {
+            "$ref": "#/components/schemas/ScanContact"
+          }
+        }
+      },
+      "GetScanResponseBody": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/Asset"
+          },
+          "contacts": {
+            "type": "array",
+            "description": "an array of Entity derived JavaScript objects",
+            "items": {
+              "$ref": "#/components/schemas/ResponseContact"
+            }
+          },
+          "qrCode": {
+            "$ref": "#/components/schemas/QrCode"
+          },
+          "scan": {
+            "$ref": "#/components/schemas/Scan"
+          }
+        }
+      },
+      "SendSmsByScanIdRequestBody": {
+        "type": "object",
+        "properties": {
+          "customVariables": {
+            "type": "object"
+          },
+          "smsTemplateName": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          }
+        }
+      },
+      "SendSmsByScanIdResponseBody": {
+        "type": "object",
+        "properties": {
+          "sms": {
+            "$ref": "#/components/schemas/Sms"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/auth/getAccessToken": {
+      "post": {
+        "summary": "GetAccessToken",
+        "operationId": "GetAccessToken",
+        "tags": ["account"],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAccessTokenRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessTokenResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}/projects": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateProjectByAccountId",
+        "operationId": "CreateProjectByAccountId",
+        "tags": ["project"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "text string with no newlines or control characters",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectByAccountIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectByAccountIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetProjectsByAccountId",
+        "operationId": "GetProjectsByAccountId",
+        "tags": ["project"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "text string with no newlines or control characters",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "next",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectsByAccountIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}/assets": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetAssetsByAccountId",
+        "operationId": "GetAssetsByAccountId",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "text string with no newlines or control characters",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAssetsByAccountIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}/contacts": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetContactsByAccountId",
+        "operationId": "GetContactsByAccountId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "text string with no newlines or control characters",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "assetName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContactsByAccountIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}/qrcodes": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetQrCodesByAccountId",
+        "operationId": "GetQrCodesByAccountId",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "text string with no newlines or control characters",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "assetName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQrCodesByAccountIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}/scans": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetScansByAccountId",
+        "operationId": "GetScansByAccountId",
+        "tags": ["scan"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "text string with no newlines or control characters",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "assetName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScansByAccountIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{assetId}/contacts": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateContactByAssetId",
+        "operationId": "CreateContactByAssetId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactByAssetIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateContactByAssetIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetContactsByAssetId",
+        "operationId": "GetContactsByAssetId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContactsByAssetIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{assetId}/qrcodes": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateQrCodeByAssetId",
+        "operationId": "CreateQrCodeByAssetId",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQrCodeByAssetIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQrCodeByAssetIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetQrCodesByAssetId",
+        "operationId": "GetQrCodesByAssetId",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "integer number greater than 0",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "string value that must be present in enumeration",
+            "name": "errorCorrectionLevel",
+            "schema": {
+              "$ref": "#/components/schemas/QrCodeErrorCorrectionLevel"
+            }
+          },
+          {
+            "in": "query",
+            "description": "string value that must be present in enumeration",
+            "name": "format",
+            "schema": {
+              "$ref": "#/components/schemas/QrCodeType"
+            }
+          },
+          {
+            "in": "query",
+            "description": "positive integer number",
+            "name": "margin",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "positive integer number",
+            "name": "scale",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "positive integer number",
+            "name": "width",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "boolean value or value that evaluates to boolean value",
+            "name": "dataUrl",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "darkColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "lightColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "foreground",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "background",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "url",
+            "name": "image",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Color of the corner dots",
+            "name": "cornerDotColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Color of the corner squares",
+            "name": "cornerSquareColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Array of gradient colors (HEX, RGB, or HTML color codes)",
+            "name": "backgroundGradientColors",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Rotation of gradient in radians",
+            "name": "backgroundGradientRotation",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Array of gradient colors (HEX, RGB, or HTML color codes)",
+            "name": "foregroundGradientColors",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Rotation of gradient in radians",
+            "name": "foregroundGradientRotation",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQrCodesByAssetIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{assetId}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "DeleteAsset",
+        "operationId": "DeleteAsset",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAssetResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetAsset",
+        "operationId": "GetAsset",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAssetResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "UpdateAsset",
+        "operationId": "UpdateAsset",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAssetRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAssetResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assetGroups/{groupId}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetAssetGroup",
+        "operationId": "GetAssetGroup",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "groupId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAssetGroupResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{assetId}/scans": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetScansByAssetId",
+        "operationId": "GetScansByAssetId",
+        "tags": ["scan"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScansByAssetIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assets/{assetId}/contacts/{contactId}": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "LinkContactToAsset",
+        "operationId": "LinkContactToAsset",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LinkContactToAssetRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LinkContactToAssetResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "UnlinkContactToAsset",
+        "operationId": "UnlinkContactToAsset",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "assetId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Response Body"
+          }
+        }
+      }
+    },
+    "/contacts/{contactId}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "DeleteContact",
+        "operationId": "DeleteContact",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteContactResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetContact",
+        "operationId": "GetContact",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContactResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "UpdateContact",
+        "operationId": "UpdateContact",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateContactRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateContactResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/assets": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateAssetByProjectId",
+        "operationId": "CreateAssetByProjectId",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssetByProjectIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAssetByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetAssetsByProjectId",
+        "operationId": "GetAssetsByProjectId",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAssetsByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/assets/batch": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateAssetsByProjectId",
+        "operationId": "CreateAssetsByProjectId",
+        "tags": ["asset"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssetsByProjectIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAssetsByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/contacts": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateContactByProjectId",
+        "operationId": "CreateContactByProjectId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactByProjectIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateContactByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetContactsByProjectId",
+        "operationId": "GetContactsByProjectId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "email address",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Valid US E.164 format phone number of the form '+14165554444'",
+            "name": "phone",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "assetName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContactsByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/contacts/batch": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateContactsByProjectId",
+        "operationId": "CreateContactsByProjectId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactsByProjectIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateContactsByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/smstemplates": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateSmsTemplateByProjectId",
+        "operationId": "CreateSmsTemplateByProjectId",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSmsTemplateByProjectIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSmsTemplateByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetSmsTemplatesByProjectId",
+        "operationId": "GetSmsTemplatesByProjectId",
+        "tags": ["sms"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSmsTemplatesByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/smstemplates/{smsTemplateName}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "DeleteSmsTemplateByProjectId",
+        "operationId": "DeleteSmsTemplateByProjectId",
+        "tags": ["sms"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "description": "SMS template name",
+            "name": "smsTemplateName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteSmsTemplateByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetSmsTemplateByProjectId",
+        "operationId": "GetSmsTemplateByProjectId",
+        "tags": ["sms"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "SMS template name",
+            "name": "smsTemplateName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSmsTemplateByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "UpdateSmsTemplate",
+        "operationId": "UpdateSmsTemplate",
+        "tags": ["sms"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "description": "SMS template name",
+            "name": "smsTemplateName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateSmsTemplateResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetProjectByProjectId",
+        "operationId": "GetProjectByProjectId",
+        "tags": ["project"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "UpdateProjectByProjectId",
+        "operationId": "UpdateProjectByProjectId",
+        "tags": ["project"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectByProjectIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProjectByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/qrcodes": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetQrCodesByProjectId",
+        "operationId": "GetQrCodesByProjectId",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "assetName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQrCodesByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/scans": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetScansByProjectId",
+        "operationId": "GetScansByProjectId",
+        "tags": ["scan"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Integer between 1 and 100",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Combined PKSK entity key value used to paginate results",
+            "name": "lastKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "text string with no newlines or control characters",
+            "name": "assetName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScansByProjectIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qrcodes/{qrCodeId}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "DeleteQrCode",
+        "operationId": "DeleteQrCode",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "qrCodeId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteQrCodeResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetQrCode",
+        "operationId": "GetQrCode",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "qrCodeId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "integer number greater than 0",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "string value that must be present in enumeration",
+            "name": "errorCorrectionLevel",
+            "schema": {
+              "$ref": "#/components/schemas/QrCodeErrorCorrectionLevel"
+            }
+          },
+          {
+            "in": "query",
+            "description": "string value that must be present in enumeration",
+            "name": "format",
+            "schema": {
+              "$ref": "#/components/schemas/QrCodeType"
+            }
+          },
+          {
+            "in": "query",
+            "description": "positive integer number",
+            "name": "margin",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "positive integer number",
+            "name": "scale",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "positive integer number",
+            "name": "width",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "boolean value or value that evaluates to boolean value",
+            "name": "dataUrl",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "darkColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "lightColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "foreground",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+            "name": "background",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "url",
+            "name": "image",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Color of the corner dots",
+            "name": "cornerDotColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Color of the corner squares",
+            "name": "cornerSquareColor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Array of gradient colors (HEX, RGB, or HTML color codes)",
+            "name": "backgroundGradientColors",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Rotation of gradient in radians",
+            "name": "backgroundGradientRotation",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Array of gradient colors (HEX, RGB, or HTML color codes)",
+            "name": "foregroundGradientColors",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "description": "Rotation of gradient in radians",
+            "name": "foregroundGradientRotation",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQrCodeResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "UpdateQrCode",
+        "operationId": "UpdateQrCode",
+        "tags": ["qrCode"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+            "name": "qrCodeId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQrCodeRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateQrCodeResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scans/{scanId}/contacts": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "CreateContactByScanId",
+        "operationId": "CreateContactByScanId",
+        "tags": ["contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+            "name": "scanId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactByScanIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateContactByScanIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scans/{scanId}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "GetScan",
+        "operationId": "GetScan",
+        "tags": ["scan"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+            "name": "scanId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScanResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scans/{scanId}/sms": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "SendSmsByScanId",
+        "operationId": "SendSmsByScanId",
+        "tags": ["sms"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+            "name": "scanId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendSmsByScanIdRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendSmsByScanIdResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

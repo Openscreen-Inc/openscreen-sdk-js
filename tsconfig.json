@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* Project Options */
+    "target": "ESNext",
+    "module": "ESNext",
+
+    /* Emit */
+    "outDir": "dist",
+    "rootDir": "src",
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "declarationDir": "typings",
+
+    /* Strict Checks */
+    "strict": true,
+    "strictPropertyInitialization": false,
+
+    /* Module Resolution */
+    "esModuleInterop": true,
+    //"isolatedModules": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+
+    /* Linter Checks */
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Advanced */
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*.ts" ],
+  "exclude": ["node_modules", "dist", "**/spec.ts", "test/**/*.js" ]
+}

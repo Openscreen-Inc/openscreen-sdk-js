@@ -1,0 +1,6074 @@
+{
+  "enums": [
+    {
+      "name": "AccountStatus",
+      "values": ["ACTIVE", "SUSPENDED"]
+    },
+    {
+      "name": "AccountUserRole",
+      "values": ["OWNER", "ADMINISTRATOR", "BILLING_CONTACT", "MEMBER", "API_KEY", "INVITATION_DECLINED"]
+    },
+    {
+      "name": "PricePlanName",
+      "values": [
+        "individualStarter",
+        "individualPro",
+        "enterpriseStarter",
+        "enterprisePro",
+        "enterpriseCustom",
+        "unlimited"
+      ]
+    },
+    {
+      "name": "PricePlanPaymentPeriod",
+      "values": ["monthly", "annual"]
+    },
+    {
+      "name": "PricePlanReporting",
+      "values": ["basic", "advanced", "basic", "advanced"]
+    },
+    {
+      "name": "ProjectStatus",
+      "values": ["ACTIVE", "SUSPENDED"]
+    },
+    {
+      "name": "QrCodeDynamicRedirectType",
+      "values": ["NO_SCAN_ID", "SCAN_ID_IN_PATH_PARAMETER", "SCAN_ID_IN_QUERY_STRING_PARAMETER"]
+    },
+    {
+      "name": "QrCodeErrorCorrectionLevel",
+      "values": ["L", "M", "Q", "H"]
+    },
+    {
+      "name": "QrCodeIntentType",
+      "values": ["STATIC_REDIRECT", "DYNAMIC_REDIRECT", "DYNAMIC_REDIRECT_TO_APP"]
+    },
+    {
+      "name": "QrCodeLocatorKeyType",
+      "values": ["SHORT_URL", "HASHED_ID", "SECURE_ID"]
+    },
+    {
+      "name": "QrCodeStatus",
+      "values": ["ACTIVE", "INACTIVE", "SUSPENDED"]
+    },
+    {
+      "name": "QrCodeType",
+      "values": ["PNG", "SVG", "png", "svg"]
+    }
+  ],
+  "entities": [
+    {
+      "name": "Entity",
+      "properties": [],
+      "isHandlerType": false
+    },
+    {
+      "name": "DdbEntity",
+      "properties": [
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Response",
+      "properties": [
+        {
+          "name": "body",
+          "$ref": "#/entities/DdbEntity",
+          "required": false
+        },
+        {
+          "name": "code",
+          "type": "number",
+          "description": "integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "data",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "request",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "responseId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAA'",
+          "required": true
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "stack",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "JavaScript array",
+          "required": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Account",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "assetCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "collectTaxInfo",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "contactCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "dynamicQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "lastScanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "needsPaymentUpdate",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "projectCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "staticQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/AccountStatus",
+          "required": true
+        },
+        {
+          "name": "stripeCustomerId",
+          "type": "string",
+          "description": "Stripe customer id",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "AccountInvitation",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "email address",
+          "required": true
+        },
+        {
+          "name": "expiresAt",
+          "type": "string",
+          "description": "moment timestamp stored in Unix epoch time (seconds), also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "invitationId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "sendersFirstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "sendersLastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "sendersUserId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "userRole",
+          "$ref": "#/enums/AccountUserRole",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "AccountResponse",
+      "extends": "#/entities/Account",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "assetCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "collectTaxInfo",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "contactCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "currentPeriod",
+          "$ref": "#/entities/PricePlanPeriod",
+          "required": true
+        },
+        {
+          "name": "dynamicQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "lastScanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "needsPaymentUpdate",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "pricePlan",
+          "$ref": "#/entities/PricePlan",
+          "required": true
+        },
+        {
+          "name": "projectCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "staticQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/AccountStatus",
+          "required": true
+        },
+        {
+          "name": "stripeCustomerId",
+          "type": "string",
+          "description": "Stripe customer id",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "AccountUser",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "userRole",
+          "$ref": "#/enums/AccountUserRole",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ApiKey",
+      "properties": [
+        {
+          "name": "apiKeyId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Asset",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "AssetContact",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "AssetGroupAsset",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Contact",
+      "properties": [
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ContactConsent",
+      "properties": [
+        {
+          "name": "consented",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "consentedAt",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "description": "url",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ContactEmail",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "email address",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ContactMailingAddress",
+      "properties": [
+        {
+          "name": "address",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "postalOrZip",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "provinceOrState",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ContactPhone",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "EmailInvitation",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "email address",
+          "required": true
+        },
+        {
+          "name": "expiresAt",
+          "type": "string",
+          "description": "moment timestamp stored in Unix epoch time (seconds), also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "invitationId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "NestedAsset",
+      "properties": [
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/NestedQrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "NestedContact",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/NestedAsset",
+          "required": false
+        },
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "NestedQrCode",
+      "properties": [
+        {
+          "name": "dynamicRedirectType",
+          "$ref": "#/enums/QrCodeDynamicRedirectType",
+          "required": true
+        },
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "intentState",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "intentType",
+          "$ref": "#/enums/QrCodeIntentType",
+          "required": true
+        },
+        {
+          "name": "locatorKeyType",
+          "$ref": "#/enums/QrCodeLocatorKeyType",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/QrCodeStatus",
+          "required": false
+        },
+        {
+          "name": "validFrom",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "validTo",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "PricePlan",
+      "properties": [
+        {
+          "name": "additionalScanCost",
+          "type": "number",
+          "description": "positive number",
+          "required": true
+        },
+        {
+          "name": "annualPrice",
+          "type": "number",
+          "description": "positive number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "dataExport",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "monthlyPrice",
+          "type": "number",
+          "description": "positive number",
+          "required": true
+        },
+        {
+          "name": "monthlyScans",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "paymentPeriod",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "pricePlanId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projects",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "reporting",
+          "$ref": "#/enums/PricePlanReporting",
+          "required": true
+        },
+        {
+          "name": "roleBasedManagement",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "stripeCustomerId",
+          "type": "string",
+          "description": "Stripe customer id",
+          "required": true
+        },
+        {
+          "name": "stripePlanId",
+          "type": "string",
+          "description": "Stripe plan id",
+          "required": false
+        },
+        {
+          "name": "stripeSubscriptionId",
+          "type": "string",
+          "description": "Stripe subscription id",
+          "required": true
+        },
+        {
+          "name": "subscriptionItemId",
+          "type": "string",
+          "description": "Stripe subscription item id",
+          "required": true
+        },
+        {
+          "name": "users",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "PricePlanPeriod",
+      "properties": [
+        {
+          "name": "additionalScans",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "additionalScansCost",
+          "type": "number",
+          "description": "positive number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "period",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "periodEndDate",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "pricePlanId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projects",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectsCreated",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectsRemaining",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrCodesCreated",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrCodesRemaining",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrScansRemaining",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scansUsed",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "users",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "usersCreated",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "usersRemaining",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Project",
+      "properties": [
+        {
+          "name": "assetCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "contactCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "dynamicQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "lastScanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "staticQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/ProjectStatus",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ProjectAccount",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ProjectContact",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "QrCode",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "dynamicRedirectType",
+          "$ref": "#/enums/QrCodeDynamicRedirectType",
+          "required": true
+        },
+        {
+          "name": "image",
+          "$ref": "#/entities/QrCodeImage",
+          "required": false
+        },
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "intentState",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "intentType",
+          "$ref": "#/enums/QrCodeIntentType",
+          "required": true
+        },
+        {
+          "name": "locatorKey",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "locatorKeyType",
+          "$ref": "#/enums/QrCodeLocatorKeyType",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/QrCodeStatus",
+          "required": true
+        },
+        {
+          "name": "validFrom",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "validTo",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "QrCodeImage",
+      "properties": [
+        {
+          "name": "data",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "options",
+          "$ref": "#/entities/QrCodeOptions",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "QrCodeLocator",
+      "properties": [
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "locatorKey",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "QrCodeOptions",
+      "properties": [
+        {
+          "name": "background",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": true
+        },
+        {
+          "name": "darkColor",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": false
+        },
+        {
+          "name": "dataUrl",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "errorCorrectionLevel",
+          "$ref": "#/enums/QrCodeErrorCorrectionLevel",
+          "required": true
+        },
+        {
+          "name": "foreground",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": true
+        },
+        {
+          "name": "format",
+          "$ref": "#/enums/QrCodeType",
+          "required": true
+        },
+        {
+          "name": "lightColor",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": false
+        },
+        {
+          "name": "margin",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "version",
+          "type": "number",
+          "description": "integer number greater than 0",
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "description": "positive integer number",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ResponseAsset",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/QrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ResponseContact",
+      "extends": "#/entities/Contact",
+      "properties": [
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Scan",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "browserName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "browserVersion",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "cpuArchitecture",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "deviceModel",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "deviceType",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "deviceVendor",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "engineName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "engineVersion",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "ipAddress",
+          "type": "string",
+          "description": "iP address",
+          "required": true
+        },
+        {
+          "name": "locationCityName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationCountryCode",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationCountryName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationLatitude",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationLongitude",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationPostalCode",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationRegionCode",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationRegionName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationTimeZone",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "osName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "osVersion",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "scanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": true
+        },
+        {
+          "name": "scanTime",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "userAgent",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScanContact",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "scanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "Sms",
+      "properties": [
+        {
+          "name": "body",
+          "type": "string",
+          "description": "text",
+          "required": true
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "delivered",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": false
+        },
+        {
+          "name": "deliveredAt",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "from",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "inbound",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": true
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "description": "positive number",
+          "required": false
+        },
+        {
+          "name": "priceUnit",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "smsId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "SmsTemplate",
+      "properties": [
+        {
+          "name": "body",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "responseUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        },
+        {
+          "name": "statusUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "User",
+      "properties": [
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "UserCombined",
+      "extends": "#/entities/User",
+      "properties": [
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "expiresAt",
+          "type": "string",
+          "description": "moment timestamp stored in Unix epoch time (seconds), also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "invitationId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "userRole",
+          "$ref": "#/enums/AccountUserRole",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScansByLocationProjectAggregation",
+      "properties": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "day",
+          "type": "string",
+          "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+          "required": true
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScansByOSNameProjectAggregation",
+      "properties": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "day",
+          "type": "string",
+          "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "osName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScansByAssetProjectAggregation",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "day",
+          "type": "string",
+          "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScansByLocationAccountAggregation",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "day",
+          "type": "string",
+          "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+          "required": true
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScansByOSNameAccountAggregation",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "day",
+          "type": "string",
+          "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "osName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ScansByAssetAccountAggregation",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "day",
+          "type": "string",
+          "description": "ISO 8601 string timestamp (UTC time) formatted as YYYY-MM-DD, also converts from moment or Date object",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "ExportedScan",
+      "extends": "#/entities/Scan",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "browserName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "browserVersion",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "cpuArchitecture",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "deviceModel",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "deviceType",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "deviceVendor",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "engineName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "engineVersion",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "ipAddress",
+          "type": "string",
+          "description": "iP address",
+          "required": true
+        },
+        {
+          "name": "locationCityName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationCountryCode",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationCountryName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationLatitude",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationLongitude",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationPostalCode",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationRegionCode",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationRegionName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "locationTimeZone",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "osName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "osVersion",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "scanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": true
+        },
+        {
+          "name": "scanTime",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": true
+        },
+        {
+          "name": "userAgent",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "AccountContact",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": false
+    },
+    {
+      "name": "CreateProjectByAccountIdPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateProjectByAccountIdRequestBody",
+      "properties": [
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateProjectByAccountIdResponseBody",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "project",
+          "$ref": "#/entities/Project",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetsByAccountIdPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetsByAccountIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetsByAccountIdResponseBody",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Asset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfAssets",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByAccountIdPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByAccountIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByAccountIdResponseBody",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "contacts",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Contact"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfContacts",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetProjectsByAccountIdPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetProjectsByAccountIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        },
+        {
+          "name": "next",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetProjectsByAccountIdResponseBody",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "next",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfProjects",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projects",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Project"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByAccountIdPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByAccountIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByAccountIdResponseBody",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfQrCodes",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/QrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByAccountIdPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByAccountIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByAccountIdResponseBody",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfScans",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scans",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Scan"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateAccountPathParameters",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateAccountRequestBody",
+      "properties": [
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/AccountStatus",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateAccountResponseBody",
+      "extends": "#/entities/Account",
+      "properties": [
+        {
+          "name": "accountId",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "assetCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "collectTaxInfo",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "contactCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "dynamicQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "lastScanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": false
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "needsPaymentUpdate",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "projectCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "staticQrCodeCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/AccountStatus",
+          "required": true
+        },
+        {
+          "name": "stripeCustomerId",
+          "type": "string",
+          "description": "Stripe customer id",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByAssetIdPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByAssetIdRequestBody",
+      "properties": [
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByAssetIdResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": true
+        },
+        {
+          "name": "assetContact",
+          "$ref": "#/entities/AssetContact",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "contact",
+          "$ref": "#/entities/Contact",
+          "required": true
+        },
+        {
+          "name": "contactEmail",
+          "$ref": "#/entities/ContactEmail",
+          "required": false
+        },
+        {
+          "name": "contactPhone",
+          "$ref": "#/entities/ContactPhone",
+          "required": false
+        },
+        {
+          "name": "projectContact",
+          "$ref": "#/entities/ProjectContact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateQrCodeByAssetIdPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateQrCodeByAssetIdRequestBody",
+      "properties": [
+        {
+          "name": "dynamicRedirectType",
+          "$ref": "#/enums/QrCodeDynamicRedirectType",
+          "required": true
+        },
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "intentState",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "intentType",
+          "$ref": "#/enums/QrCodeIntentType",
+          "required": true
+        },
+        {
+          "name": "locatorKeyType",
+          "$ref": "#/enums/QrCodeLocatorKeyType",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/QrCodeStatus",
+          "required": false
+        },
+        {
+          "name": "validFrom",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "validTo",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateQrCodeByAssetIdResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "locatorKey",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "qrCode",
+          "$ref": "#/entities/QrCode",
+          "required": true
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteAssetPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteAssetResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteAssetGroupPathParameters",
+      "properties": [
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteAssetGroupResponseBody",
+      "properties": [
+        {
+          "name": "deletedAssetsCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "deletedQrCodesCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/ResponseAsset",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetGroupPathParameters",
+      "properties": [
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetGroupQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetGroupResponseBody",
+      "properties": [
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Asset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfAssets",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByAssetIdPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByAssetIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByAssetIdResponseBody",
+      "properties": [
+        {
+          "name": "assetContacts",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/AssetContact"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "contacts",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Contact"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfContacts",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByAssetIdPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByAssetIdQueryStringParameters",
+      "extends": "#/entities/QrCodeOptions",
+      "properties": [
+        {
+          "name": "background",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": true
+        },
+        {
+          "name": "darkColor",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": false
+        },
+        {
+          "name": "dataUrl",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "errorCorrectionLevel",
+          "$ref": "#/enums/QrCodeErrorCorrectionLevel",
+          "required": true
+        },
+        {
+          "name": "foreground",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": true
+        },
+        {
+          "name": "format",
+          "$ref": "#/enums/QrCodeType",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "lightColor",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        },
+        {
+          "name": "margin",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "version",
+          "type": "number",
+          "description": "integer number greater than 0",
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "description": "positive integer number",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByAssetIdResponseBody",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfQrCodes",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/QrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByAssetIdPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByAssetIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByAssetIdResponseBody",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfScans",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scans",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Scan"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "LinkContactToAssetPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "LinkContactToAssetRequestBody",
+      "properties": [
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "LinkContactToAssetResponseBody",
+      "properties": [
+        {
+          "name": "assetContact",
+          "$ref": "#/entities/AssetContact",
+          "required": true
+        },
+        {
+          "name": "projectContact",
+          "$ref": "#/entities/ProjectContact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UnlinkContactToAssetPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateAssetPathParameters",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateAssetRequestBody",
+      "properties": [
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateAssetResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAccessTokenRequestBody",
+      "properties": [
+        {
+          "name": "accessKey",
+          "type": "string",
+          "description": "text",
+          "required": true
+        },
+        {
+          "name": "accessSecret",
+          "type": "string",
+          "description": "text",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAccessTokenResponseBody",
+      "properties": [
+        {
+          "name": "error",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "description": "text",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteContactPathParameters",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteContactResponseBody",
+      "properties": [
+        {
+          "name": "contact",
+          "$ref": "#/entities/Contact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactPathParameters",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactResponseBody",
+      "properties": [
+        {
+          "name": "contact",
+          "$ref": "#/entities/Contact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateContactPathParameters",
+      "properties": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateContactRequestBody",
+      "properties": [
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateContactResponseBody",
+      "properties": [
+        {
+          "name": "contact",
+          "$ref": "#/entities/Contact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetByProjectIdRequestBody",
+      "extends": "#/entities/NestedAsset",
+      "properties": [
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/NestedQrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/ResponseAsset",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetGroupByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetGroupByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/NestedAsset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetGroupByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ResponseAsset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "groupId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "numberOfAssets",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetsByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetsByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/NestedAsset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateAssetsByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ResponseAsset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "numberOfAssets",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/NestedAsset",
+          "required": false
+        },
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": false
+        },
+        {
+          "name": "assetContact",
+          "$ref": "#/entities/AssetContact",
+          "required": false
+        },
+        {
+          "name": "contact",
+          "$ref": "#/entities/Contact",
+          "required": true
+        },
+        {
+          "name": "contactEmail",
+          "$ref": "#/entities/ContactEmail",
+          "required": false
+        },
+        {
+          "name": "contactPhone",
+          "$ref": "#/entities/ContactPhone",
+          "required": false
+        },
+        {
+          "name": "projectContact",
+          "$ref": "#/entities/ProjectContact",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/QrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactsByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactsByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "contacts",
+          "$ref": "#/entities/NestedContact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactsByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "contacts",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "JavaScript array",
+          "required": true
+        },
+        {
+          "name": "numberOfContacts",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateQrCodeByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateQrCodeByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "intentState",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/QrCodeStatus",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateQrCodeByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "locatorKey",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "qrCode",
+          "$ref": "#/entities/QrCode",
+          "required": true
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateSmsTemplateByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateSmsTemplateByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "body",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "responseUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        },
+        {
+          "name": "statusUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateSmsTemplateByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "smsTemplate",
+          "$ref": "#/entities/SmsTemplate",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteProjectPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteProjectResponseBody",
+      "properties": [
+        {
+          "name": "project",
+          "$ref": "#/entities/Project",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetsByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetsByProjectIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetAssetsByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Asset"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfAssets",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByProjectIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetContactsByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "contacts",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Contact"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfContacts",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectContacts",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ProjectContact"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetProjectByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetProjectByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "project",
+          "$ref": "#/entities/Project",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByProjectIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodesByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfQrCodes",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "qrCodes",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/QrCode"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByProjectIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "assetName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScansByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfScans",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "scans",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/Scan"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetSmsTemplateByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetSmsTemplateByProjectIdQueryStringParameters",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Integer between 1 and 100",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetSmsTemplateByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "lastKey",
+          "type": "string",
+          "description": "Combined PKSK entity key value used to paginate results",
+          "required": false
+        },
+        {
+          "name": "numberOfSmsTemplates",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "smsTemplates",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/SmsTemplate"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateProjectByProjectIdPathParameters",
+      "properties": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateProjectByProjectIdRequestBody",
+      "properties": [
+        {
+          "name": "companyName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/ProjectStatus",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateProjectByProjectIdResponseBody",
+      "properties": [
+        {
+          "name": "project",
+          "$ref": "#/entities/Project",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodePathParameters",
+      "properties": [
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodeQueryStringParameters",
+      "extends": "#/entities/QrCodeOptions",
+      "properties": [
+        {
+          "name": "background",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": true
+        },
+        {
+          "name": "darkColor",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": false
+        },
+        {
+          "name": "dataUrl",
+          "type": "boolean",
+          "description": "boolean value or value that evaluates to boolean value",
+          "required": true
+        },
+        {
+          "name": "errorCorrectionLevel",
+          "$ref": "#/enums/QrCodeErrorCorrectionLevel",
+          "required": true
+        },
+        {
+          "name": "foreground",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": true
+        },
+        {
+          "name": "format",
+          "$ref": "#/enums/QrCodeType",
+          "required": true
+        },
+        {
+          "name": "lightColor",
+          "type": "string",
+          "description": "hex RGB/RGBA color value starting with a '#' character 7 or 9 characters in length",
+          "required": false
+        },
+        {
+          "name": "margin",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "version",
+          "type": "number",
+          "description": "integer number greater than 0",
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "description": "positive integer number",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetQrCodeResponseBody",
+      "extends": "#/entities/QrCode",
+      "properties": [
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "created",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "dynamicRedirectType",
+          "$ref": "#/enums/QrCodeDynamicRedirectType",
+          "required": true
+        },
+        {
+          "name": "image",
+          "$ref": "#/entities/QrCodeImage",
+          "required": false
+        },
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "intentState",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "intentType",
+          "$ref": "#/enums/QrCodeIntentType",
+          "required": true
+        },
+        {
+          "name": "locatorKey",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": true
+        },
+        {
+          "name": "locatorKeyType",
+          "$ref": "#/enums/QrCodeLocatorKeyType",
+          "required": true
+        },
+        {
+          "name": "modified",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "scanCount",
+          "type": "number",
+          "description": "positive integer number",
+          "required": true
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/QrCodeStatus",
+          "required": true
+        },
+        {
+          "name": "validFrom",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        },
+        {
+          "name": "validTo",
+          "type": "string",
+          "description": "moment timestamp stored as an ISO 8601 string, also converts from ISO 8601 string or Date object",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateQrCodePathParameters",
+      "properties": [
+        {
+          "name": "qrCodeId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateQrCodeRequestBody",
+      "properties": [
+        {
+          "name": "dynamicRedirectType",
+          "$ref": "#/enums/QrCodeDynamicRedirectType",
+          "required": false
+        },
+        {
+          "name": "intent",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "intentState",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "intentType",
+          "$ref": "#/enums/QrCodeIntentType",
+          "required": false
+        },
+        {
+          "name": "status",
+          "$ref": "#/enums/QrCodeStatus",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateQrCodeResponseBody",
+      "properties": [
+        {
+          "name": "qrCode",
+          "$ref": "#/entities/QrCode",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByScanIdPathParameters",
+      "properties": [
+        {
+          "name": "scanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByScanIdRequestBody",
+      "properties": [
+        {
+          "name": "cellPhone",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": false
+        },
+        {
+          "name": "consent",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ContactConsent"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": false
+        },
+        {
+          "name": "customAttributes",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "emailAddress",
+          "type": "string",
+          "description": "email address",
+          "required": false
+        },
+        {
+          "name": "firstName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "lastName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "mailingAddress",
+          "$ref": "#/entities/ContactMailingAddress",
+          "required": false
+        },
+        {
+          "name": "middleName",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "nickname",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "text string with no newlines or control characters",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "CreateContactByScanIdResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": true
+        },
+        {
+          "name": "assetContact",
+          "$ref": "#/entities/AssetContact",
+          "required": true
+        },
+        {
+          "name": "assetId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "contact",
+          "$ref": "#/entities/Contact",
+          "required": true
+        },
+        {
+          "name": "contactEmail",
+          "$ref": "#/entities/ContactEmail",
+          "required": false
+        },
+        {
+          "name": "contactPhone",
+          "$ref": "#/entities/ContactPhone",
+          "required": false
+        },
+        {
+          "name": "projectContact",
+          "$ref": "#/entities/ProjectContact",
+          "required": true
+        },
+        {
+          "name": "scanContact",
+          "$ref": "#/entities/ScanContact",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScanPathParameters",
+      "properties": [
+        {
+          "name": "scanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetScanResponseBody",
+      "properties": [
+        {
+          "name": "asset",
+          "$ref": "#/entities/Asset",
+          "required": true
+        },
+        {
+          "name": "contacts",
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/ResponseContact"
+          },
+          "description": "an array of Entity derived JavaScript objects",
+          "required": true
+        },
+        {
+          "name": "qrCode",
+          "$ref": "#/entities/QrCode",
+          "required": true
+        },
+        {
+          "name": "scan",
+          "$ref": "#/entities/Scan",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "SendSmsByScanIdPathParameters",
+      "properties": [
+        {
+          "name": "scanId",
+          "type": "string",
+          "description": "unique identifier based on an epoch time stamp, with a randomized suffix to ensure uniqueness, of the form '9999999999999-AAAAAAAAAAA'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "SendSmsByScanIdRequestBody",
+      "properties": [
+        {
+          "name": "customVariables",
+          "type": "object",
+          "description": "JavaScript object",
+          "required": false
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "description": "Valid US E.164 format phone number of the form '+14165554444'",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "SendSmsByScanIdResponseBody",
+      "properties": [
+        {
+          "name": "sms",
+          "$ref": "#/entities/Sms",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteSmsTemplatePathParameters",
+      "properties": [
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "DeleteSmsTemplateResponseBody",
+      "properties": [
+        {
+          "name": "body",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "responseUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": false
+        },
+        {
+          "name": "statusUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetSmsTemplatePathParameters",
+      "properties": [
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "GetSmsTemplateResponseBody",
+      "properties": [
+        {
+          "name": "body",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "responseUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        },
+        {
+          "name": "statusUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateSmsTemplatePathParameters",
+      "properties": [
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": true
+        }
+      ],
+      "isHandlerType": true
+    },
+    {
+      "name": "UpdateSmsTemplateResponseBody",
+      "properties": [
+        {
+          "name": "body",
+          "type": "string",
+          "description": "text",
+          "required": false
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "description": "UUID (v4), of the form '01234567-89ab-cdef-0123-456789abcdef'",
+          "required": true
+        },
+        {
+          "name": "responseUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        },
+        {
+          "name": "smsTemplateName",
+          "type": "string",
+          "description": "SMS template name",
+          "required": false
+        },
+        {
+          "name": "statusUrl",
+          "type": "string",
+          "description": "url",
+          "required": false
+        }
+      ],
+      "isHandlerType": true
+    }
+  ],
+  "library": [
+    {
+      "operationId": "create_project_by_account_id",
+      "function": "account(accountId).projects().create()",
+      "requestBody": "CreateProjectByAccountIdRequestBody",
+      "responseBody": "CreateProjectByAccountIdResponseBody",
+      "pathParameters": "CreateProjectByAccountIdPathParameters",
+      "tag": "project"
+    },
+    {
+      "operationId": "get_assets_by_account_id",
+      "function": "account(accountId).assets().get()",
+      "responseBody": "GetAssetsByAccountIdResponseBody",
+      "pathParameters": "GetAssetsByAccountIdPathParameters",
+      "queryStringParameters": "GetAssetsByAccountIdQueryStringParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "get_contacts_by_account_id",
+      "function": "account(accountId).contacts().get()",
+      "responseBody": "GetContactsByAccountIdResponseBody",
+      "pathParameters": "GetContactsByAccountIdPathParameters",
+      "queryStringParameters": "GetContactsByAccountIdQueryStringParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "get_projects_by_account_id",
+      "function": "account(accountId).projects().get()",
+      "responseBody": "GetProjectsByAccountIdResponseBody",
+      "pathParameters": "GetProjectsByAccountIdPathParameters",
+      "queryStringParameters": "GetProjectsByAccountIdQueryStringParameters",
+      "tag": "project"
+    },
+    {
+      "operationId": "get_qr_codes_by_account_id",
+      "function": "account(accountId).qrCodes().get()",
+      "responseBody": "GetQrCodesByAccountIdResponseBody",
+      "pathParameters": "GetQrCodesByAccountIdPathParameters",
+      "queryStringParameters": "GetQrCodesByAccountIdQueryStringParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "get_scans_by_account_id",
+      "function": "account(accountId).scans().get()",
+      "responseBody": "GetScansByAccountIdResponseBody",
+      "pathParameters": "GetScansByAccountIdPathParameters",
+      "queryStringParameters": "GetScansByAccountIdQueryStringParameters",
+      "tag": "scan"
+    },
+    {
+      "operationId": "update_account",
+      "function": "account(accountId).update()",
+      "requestBody": "UpdateAccountRequestBody",
+      "responseBody": "UpdateAccountResponseBody",
+      "pathParameters": "UpdateAccountPathParameters",
+      "tag": "account"
+    },
+    {
+      "operationId": "create_contact_by_asset_id",
+      "function": "asset(assetId).contacts().create()",
+      "requestBody": "CreateContactByAssetIdRequestBody",
+      "responseBody": "CreateContactByAssetIdResponseBody",
+      "pathParameters": "CreateContactByAssetIdPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "create_qr_code_by_asset_id",
+      "function": "asset(assetId).qrCodes().create()",
+      "requestBody": "CreateQrCodeByAssetIdRequestBody",
+      "responseBody": "CreateQrCodeByAssetIdResponseBody",
+      "pathParameters": "CreateQrCodeByAssetIdPathParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "delete_asset",
+      "function": "asset(assetId).delete()",
+      "responseBody": "DeleteAssetResponseBody",
+      "pathParameters": "DeleteAssetPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "delete_asset_group",
+      "function": "assetGroup(groupId).delete()",
+      "responseBody": "DeleteAssetGroupResponseBody",
+      "pathParameters": "DeleteAssetGroupPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "get_asset",
+      "function": "asset(assetId).get()",
+      "responseBody": "GetAssetResponseBody",
+      "pathParameters": "GetAssetPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "get_asset_group",
+      "function": "assetGroup(groupId).get()",
+      "responseBody": "GetAssetGroupResponseBody",
+      "pathParameters": "GetAssetGroupPathParameters",
+      "queryStringParameters": "GetAssetGroupQueryStringParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "get_contacts_by_asset_id",
+      "function": "asset(assetId).contacts().get()",
+      "responseBody": "GetContactsByAssetIdResponseBody",
+      "pathParameters": "GetContactsByAssetIdPathParameters",
+      "queryStringParameters": "GetContactsByAssetIdQueryStringParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "get_qr_codes_by_asset_id",
+      "function": "asset(assetId).qrCodes().get()",
+      "responseBody": "GetQrCodesByAssetIdResponseBody",
+      "pathParameters": "GetQrCodesByAssetIdPathParameters",
+      "queryStringParameters": "GetQrCodesByAssetIdQueryStringParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "get_scans_by_asset_id",
+      "function": "asset(assetId).scans().get()",
+      "responseBody": "GetScansByAssetIdResponseBody",
+      "pathParameters": "GetScansByAssetIdPathParameters",
+      "queryStringParameters": "GetScansByAssetIdQueryStringParameters",
+      "tag": "scan"
+    },
+    {
+      "operationId": "link_contact_to_asset",
+      "function": "asset(assetId).contact(contactId).link()",
+      "requestBody": "LinkContactToAssetRequestBody",
+      "responseBody": "LinkContactToAssetResponseBody",
+      "pathParameters": "LinkContactToAssetPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "unlink_contact_to_asset",
+      "function": "asset(assetId).contact(contactId).unlink()",
+      "pathParameters": "UnlinkContactToAssetPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "update_asset",
+      "function": "asset(assetId).update()",
+      "requestBody": "UpdateAssetRequestBody",
+      "responseBody": "UpdateAssetResponseBody",
+      "pathParameters": "UpdateAssetPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "get_access_token",
+      "function": "authGetAccessToken().create()",
+      "requestBody": "GetAccessTokenRequestBody",
+      "responseBody": "GetAccessTokenResponseBody",
+      "tag": "auth"
+    },
+    {
+      "operationId": "delete_contact",
+      "function": "contact(contactId).delete()",
+      "responseBody": "DeleteContactResponseBody",
+      "pathParameters": "DeleteContactPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "get_contact",
+      "function": "contact(contactId).get()",
+      "responseBody": "GetContactResponseBody",
+      "pathParameters": "GetContactPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "update_contact",
+      "function": "contact(contactId).update()",
+      "requestBody": "UpdateContactRequestBody",
+      "responseBody": "UpdateContactResponseBody",
+      "pathParameters": "UpdateContactPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "create_asset_by_project_id",
+      "function": "project(projectId).assets().create()",
+      "requestBody": "CreateAssetByProjectIdRequestBody",
+      "responseBody": "CreateAssetByProjectIdResponseBody",
+      "pathParameters": "CreateAssetByProjectIdPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "create_asset_group_by_project_id",
+      "function": "project(projectId).assetGroups().create()",
+      "requestBody": "CreateAssetGroupByProjectIdRequestBody",
+      "responseBody": "CreateAssetGroupByProjectIdResponseBody",
+      "pathParameters": "CreateAssetGroupByProjectIdPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "create_assets_by_project_id",
+      "function": "project(projectId).assetsBatch().create()",
+      "requestBody": "CreateAssetsByProjectIdRequestBody",
+      "responseBody": "CreateAssetsByProjectIdResponseBody",
+      "pathParameters": "CreateAssetsByProjectIdPathParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "create_contact_by_project_id",
+      "function": "project(projectId).contacts().create()",
+      "requestBody": "CreateContactByProjectIdRequestBody",
+      "responseBody": "CreateContactByProjectIdResponseBody",
+      "pathParameters": "CreateContactByProjectIdPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "create_contacts_by_project_id",
+      "function": "project(projectId).contactsBatch().create()",
+      "requestBody": "CreateContactsByProjectIdRequestBody",
+      "responseBody": "CreateContactsByProjectIdResponseBody",
+      "pathParameters": "CreateContactsByProjectIdPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "create_qr_code_by_project_id",
+      "function": "project(projectId).qrCodes().create()",
+      "requestBody": "CreateQrCodeByProjectIdRequestBody",
+      "responseBody": "CreateQrCodeByProjectIdResponseBody",
+      "pathParameters": "CreateQrCodeByProjectIdPathParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "create_sms_template_by_project_id",
+      "function": "project(projectId).smsTemplates().create()",
+      "requestBody": "CreateSmsTemplateByProjectIdRequestBody",
+      "responseBody": "CreateSmsTemplateByProjectIdResponseBody",
+      "pathParameters": "CreateSmsTemplateByProjectIdPathParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "delete_project",
+      "function": "project(projectId).delete()",
+      "responseBody": "DeleteProjectResponseBody",
+      "pathParameters": "DeleteProjectPathParameters",
+      "tag": "project"
+    },
+    {
+      "operationId": "get_assets_by_project_id",
+      "function": "project(projectId).assets().get()",
+      "responseBody": "GetAssetsByProjectIdResponseBody",
+      "pathParameters": "GetAssetsByProjectIdPathParameters",
+      "queryStringParameters": "GetAssetsByProjectIdQueryStringParameters",
+      "tag": "asset"
+    },
+    {
+      "operationId": "get_contacts_by_project_id",
+      "function": "project(projectId).contacts().get()",
+      "responseBody": "GetContactsByProjectIdResponseBody",
+      "pathParameters": "GetContactsByProjectIdPathParameters",
+      "queryStringParameters": "GetContactsByProjectIdQueryStringParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "get_project_by_project_id",
+      "function": "project(projectId).get()",
+      "responseBody": "GetProjectByProjectIdResponseBody",
+      "pathParameters": "GetProjectByProjectIdPathParameters",
+      "tag": "project"
+    },
+    {
+      "operationId": "get_qr_codes_by_project_id",
+      "function": "project(projectId).qrCodes().get()",
+      "responseBody": "GetQrCodesByProjectIdResponseBody",
+      "pathParameters": "GetQrCodesByProjectIdPathParameters",
+      "queryStringParameters": "GetQrCodesByProjectIdQueryStringParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "get_scans_by_project_id",
+      "function": "project(projectId).scans().get()",
+      "responseBody": "GetScansByProjectIdResponseBody",
+      "pathParameters": "GetScansByProjectIdPathParameters",
+      "queryStringParameters": "GetScansByProjectIdQueryStringParameters",
+      "tag": "scan"
+    },
+    {
+      "operationId": "get_sms_template_by_project_id",
+      "function": "project(projectId).smsTemplates().get()",
+      "responseBody": "GetSmsTemplateByProjectIdResponseBody",
+      "pathParameters": "GetSmsTemplateByProjectIdPathParameters",
+      "queryStringParameters": "GetSmsTemplateByProjectIdQueryStringParameters",
+      "tag": "sms"
+    },
+    {
+      "operationId": "update_project_by_project_id",
+      "function": "project(projectId).update()",
+      "requestBody": "UpdateProjectByProjectIdRequestBody",
+      "responseBody": "UpdateProjectByProjectIdResponseBody",
+      "pathParameters": "UpdateProjectByProjectIdPathParameters",
+      "tag": "project"
+    },
+    {
+      "operationId": "get_qr_code",
+      "function": "qrCode(qrCodeId).get()",
+      "responseBody": "GetQrCodeResponseBody",
+      "pathParameters": "GetQrCodePathParameters",
+      "queryStringParameters": "GetQrCodeQueryStringParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "update_qr_code",
+      "function": "qrCode(qrCodeId).update()",
+      "requestBody": "UpdateQrCodeRequestBody",
+      "responseBody": "UpdateQrCodeResponseBody",
+      "pathParameters": "UpdateQrCodePathParameters",
+      "tag": "qrCode"
+    },
+    {
+      "operationId": "create_contact_by_scan_id",
+      "function": "scan(scanId).contacts().create()",
+      "requestBody": "CreateContactByScanIdRequestBody",
+      "responseBody": "CreateContactByScanIdResponseBody",
+      "pathParameters": "CreateContactByScanIdPathParameters",
+      "tag": "contact"
+    },
+    {
+      "operationId": "get_scan",
+      "function": "scan(scanId).get()",
+      "responseBody": "GetScanResponseBody",
+      "pathParameters": "GetScanPathParameters",
+      "tag": "scan"
+    },
+    {
+      "operationId": "send_sms_by_scan_id",
+      "function": "scan(scanId).sms().send()",
+      "requestBody": "SendSmsByScanIdRequestBody",
+      "responseBody": "SendSmsByScanIdResponseBody",
+      "pathParameters": "SendSmsByScanIdPathParameters",
+      "tag": "sms"
+    },
+    {
+      "operationId": "delete_sms_template",
+      "function": "smsTemplate(smsTemplateName).delete()",
+      "responseBody": "DeleteSmsTemplateResponseBody",
+      "pathParameters": "DeleteSmsTemplatePathParameters",
+      "tag": "sms"
+    },
+    {
+      "operationId": "get_sms_template",
+      "function": "smsTemplate(smsTemplateName).get()",
+      "responseBody": "GetSmsTemplateResponseBody",
+      "pathParameters": "GetSmsTemplatePathParameters",
+      "tag": "sms"
+    },
+    {
+      "operationId": "update_sms_template",
+      "function": "smsTemplate(smsTemplateName).update()",
+      "responseBody": "UpdateSmsTemplateResponseBody",
+      "pathParameters": "UpdateSmsTemplatePathParameters",
+      "tag": "sms"
+    }
+  ]
+}
