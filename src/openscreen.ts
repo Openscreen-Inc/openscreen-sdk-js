@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios'
-import {SdkResources, ResponseQrCode} from './sdk'
+import {ResponseQrCode, SdkResources} from './sdk'
 import {ICloudConfig} from './cloud-config'
 import {IConfig} from './config'
 import {IOpenscreenSession} from './openscreen-session'
@@ -261,10 +261,10 @@ export class Openscreen extends SdkResources implements IOpenscreenSession {
 
   // eslint-disable-next-line class-methods-use-this
   async saveQrImageDataToFile(qrCode: ResponseQrCode, path?: string) {
-    const format = qrCode.image.options.format.toLowerCase()
+    const format = qrCode.image.options!.format!.toLowerCase()
     if (format === 'png' || format === 'jpeg') {
       let binaryData: string
-      if (qrCode.image.options.dataUrl) {
+      if (qrCode.image.options!.dataUrl) {
         binaryData = Buffer.from(qrCode.image.data.replace(/^data:image\/\w+;base64,/, ''), 'base64').toString('binary')
       } else {
         binaryData = Buffer.from(qrCode.image.data, 'base64').toString('binary')

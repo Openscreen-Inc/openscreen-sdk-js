@@ -53,6 +53,7 @@ export enum AuthTokenScope {
 
 export enum PricePlanName {
   FREE = 'free',
+  PAYASYOUGO = 'payAsYouGo',
   ADVANCED = 'advanced',
   PRO = 'pro',
   ENTERPRISE_CUSTOM = 'enterpriseCustom',
@@ -164,9 +165,8 @@ export enum UserSettingsDomain {
 export enum ConsentStatus {
   ACCEPTED = 'ACCEPTED',
   DECLINED = 'DECLINED',
-  true = 'ACCEPTED',
-  false = 'DECLINED',
-  _query = '',
+  true = 'true',
+  false = 'false',
 }
 
 export enum ConsentType {
@@ -208,19 +208,25 @@ export interface DdbAggregatedEntity {
 export interface Account {
   accountId: string
   assetCount: number
-  collectTaxInfo: boolean
+  collectTaxInfo?: boolean
   companyName?: string
   contactCount: number
   created?: string | Date | number
   dynamicQrCodeCount: number
+  emailCount: number
+  isLocked?: boolean
   lastScanId?: string
+  mmsCount: number
   modified?: string | Date | number
   needsPaymentUpdate: boolean
+  paymentFailedDate?: string
   projectCount: number
   scanCount: number
+  smsCount: number
   staticQrCodeCount: number
-  status: AccountStatus
+  status?: AccountStatus
   stripeCustomerId: string
+  userCount: number
 }
 
 export interface AccountEmailContact {
@@ -258,21 +264,27 @@ export interface AccountPhoneContact {
 export interface AccountResponse extends Account {
   accountId: string
   assetCount: number
-  collectTaxInfo: boolean
+  collectTaxInfo?: boolean
   companyName?: string
   contactCount: number
   created?: string | Date | number
   currentPeriod: PricePlanPeriod
   dynamicQrCodeCount: number
+  emailCount: number
+  isLocked?: boolean
   lastScanId?: string
+  mmsCount: number
   modified?: string | Date | number
   needsPaymentUpdate: boolean
+  paymentFailedDate?: string
   pricePlan: PricePlan
   projectCount: number
   scanCount: number
+  smsCount: number
   staticQrCodeCount: number
-  status: AccountStatus
+  status?: AccountStatus
   stripeCustomerId: string
+  userCount: number
 }
 
 export interface AccountScan {
@@ -301,6 +313,7 @@ export interface ApiKey {
 }
 
 export interface ApiKeyCredentials {
+  algorithm?: string
   apiKeyId: string
   created?: string | Date | number
   description?: string
@@ -350,16 +363,20 @@ export interface Contact {
   emailAddress?: string
   firstName: string
   lastName: string
+  lastScan?: LastScan
+  lastScanProjectName?: string
   lastSms?: string
   mailingAddress?: ContactMailingAddress
   middleName: string
   modified?: string | Date | number
   nickname: string
+  scanCount?: number
   type?: string
 }
 
 export interface ContactConsent {
   accountId?: string
+  accountName?: string
   consentStatus?: ConsentStatus
   consentType?: ConsentType
   consented: boolean
@@ -367,6 +384,7 @@ export interface ContactConsent {
   contactId?: string
   customAttributes?: NestedKeyValueObject
   projectId?: string
+  projectName?: string
   url: string
 }
 
@@ -387,7 +405,7 @@ export interface EmailInvitation {
   modified?: string | Date | number
 }
 
-export interface ExportedScan extends Scan {
+export interface LastScan {
   assetId: string
   assetName: string
   browserName?: string
@@ -441,12 +459,12 @@ export interface NestedContact {
 }
 
 export interface NestedQrCode {
-  dynamicRedirectType: QrCodeDynamicRedirectType
-  imageOptions: QrCodeImageOptions
+  dynamicRedirectType?: QrCodeDynamicRedirectType
+  imageOptions?: QrCodeImageOptions
   intent?: string
   intentState?: NestedKeyValueObject
-  intentType: QrCodeIntentType
-  locatorKeyType: QrCodeLocatorKeyType
+  intentType?: QrCodeIntentType
+  locatorKeyType?: QrCodeLocatorKeyType
   status?: QrCodeStatus
   validFrom?: string | Date | number
   validTo?: string | Date | number
@@ -464,42 +482,60 @@ export interface PhoneSession {
 
 export interface PricePlan {
   annualPrice: number
+  assets: number
+  contacts: number
   created?: string | Date | number
   dataExport: boolean
+  emails: number
+  mms: number
   modified?: string | Date | number
   monthlyPrice: number
   name: string
   paymentPeriod?: string
+  pricePerAsset: number
+  pricePerContact: number
+  pricePerEmail: number
+  pricePerSMS: number
   pricePlanId: string
   projects: number
   qrCodes: number
-  reporting: PricePlanReporting
+  reporting?: PricePlanReporting
   roleBasedManagement: boolean
+  sms: number
   stripeCustomerId: string
-  stripePlanId?: string
   stripeSubscriptionId: string
-  subscriptionItemId: string
   totalScans: number
   users: number
 }
 
 export interface PricePlanPeriod {
+  assetsLimit?: number
+  assetsTotal: number
+  contactsLimit?: number
+  contactsTotal: number
   created?: string | Date | number
+  emailsLimit?: number
+  emailsSentThisPeriod?: number
+  emailsTotal: number
+  invoiceId?: string
+  mmsLimit?: number
+  mmsSentThisPeriod?: number
+  mmsTotal: number
   modified?: string | Date | number
   period: string | Date | number
   periodEndDate: string | Date | number
   pricePlanId: string
-  projects: number
-  projectsCreated: number
-  projectsRemaining: number
-  qrCodes: number
-  qrCodesCreated: number
-  qrCodesRemaining: number
-  qrScansRemaining: number
-  scansUsed: number
-  users: number
-  usersCreated: number
-  usersRemaining: number
+  projectsLimit?: number
+  projectsTotal: number
+  qrCodesLimit?: number
+  qrCodesTotal: number
+  qrScansLimit?: number
+  scansUsedTotal: number
+  smsLimit?: number
+  smsSentThisPeriod?: number
+  smsTotal: number
+  usersLimit?: number
+  usersTotal: number
 }
 
 export interface Project {
@@ -515,7 +551,7 @@ export interface Project {
   projectId: string
   scanCount: number
   staticQrCodeCount: number
-  status: ProjectStatus
+  status?: ProjectStatus
 }
 
 export interface ProjectAccount {
@@ -559,28 +595,28 @@ export interface ProjectScan {
 export interface QrCode {
   assetId: string
   created?: string | Date | number
-  dynamicRedirectType: QrCodeDynamicRedirectType
-  imageOptions: QrCodeImageOptions
+  dynamicRedirectType?: QrCodeDynamicRedirectType
+  imageOptions?: QrCodeImageOptions
   intent?: string
   intentState?: NestedKeyValueObject
-  intentType: QrCodeIntentType
+  intentType?: QrCodeIntentType
   locatorKey: string
-  locatorKeyType: QrCodeLocatorKeyType
+  locatorKeyType?: QrCodeLocatorKeyType
   modified?: string | Date | number
   qrCodeId: string
   scanCount: number
-  status: QrCodeStatus
+  status?: QrCodeStatus
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
 
 export interface QrCodeImage {
   data: string
-  options: QrCodeImageOptions
+  options?: QrCodeImageOptions
 }
 
 export interface QrCodeImageOptions {
-  background: string
+  background?: string
   backgroundGradientColors?: string
   backgroundGradientRotation?: number
   backgroundGradientType?: QrCodeGradientTypes
@@ -591,20 +627,19 @@ export interface QrCodeImageOptions {
   darkColor?: string
   dataUrl: boolean
   dotType?: QrCodeDotTypes
-  errorCorrectionLevel: QrCodeErrorCorrectionLevel
-  foreground: string
+  errorCorrectionLevel?: QrCodeErrorCorrectionLevel
+  foreground?: string
   foregroundGradientColors?: string
   foregroundGradientRotation?: number
   foregroundGradientType?: QrCodeGradientTypes
-  format: QrCodeType
-  height: number
+  format?: QrCodeType
   lightColor?: string
   logo?: string
-  logoMargin: number
-  margin: number
-  scale: number
+  logoMargin?: number
+  margin?: number
+  scale?: number
   version?: number
-  width: number
+  width?: number
 }
 
 export interface QrCodeLocator {
@@ -617,18 +652,18 @@ export interface QrCodeLocator {
 export interface QrCodeNamed extends QrCode {
   assetId: string
   created?: string | Date | number
-  dynamicRedirectType: QrCodeDynamicRedirectType
-  imageOptions: QrCodeImageOptions
+  dynamicRedirectType?: QrCodeDynamicRedirectType
+  imageOptions?: QrCodeImageOptions
   intent?: string
   intentState?: NestedKeyValueObject
-  intentType: QrCodeIntentType
+  intentType?: QrCodeIntentType
   locatorKey: string
-  locatorKeyType: QrCodeLocatorKeyType
+  locatorKeyType?: QrCodeLocatorKeyType
   modified?: string | Date | number
   name: string
   qrCodeId: string
   scanCount: number
-  status: QrCodeStatus
+  status?: QrCodeStatus
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
@@ -658,22 +693,23 @@ export interface ResponseBodyUser {
 
 export interface ResponseQrCode {
   assetId: string
-  dynamicRedirectType: QrCodeDynamicRedirectType
+  dynamicRedirectType?: QrCodeDynamicRedirectType
   image: QrCodeImage
   intent?: string
   intentState?: NestedKeyValueObject
-  intentType: QrCodeIntentType
+  intentType?: QrCodeIntentType
   locatorKey: string
-  locatorKeyType: QrCodeLocatorKeyType
+  locatorKeyType?: QrCodeLocatorKeyType
   qrCodeId: string
   scanCount: number
-  status: QrCodeStatus
+  status?: QrCodeStatus
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
 
 export interface Scan {
   assetId: string
+  assetName: string
   browserName?: string
   browserVersion?: string
   cpuArchitecture?: string
@@ -704,9 +740,12 @@ export interface Scan {
 }
 
 export interface ScanContact {
+  assetId: string
+  assetName: string
   contactId: string
   created?: string | Date | number
   modified?: string | Date | number
+  projectId: string
   scanId: string
 }
 
@@ -715,7 +754,7 @@ export interface ScanContactAccountIndex {
   assetId: string
   contactId: string
   created?: string | Date | number
-  indexedEntityName: string
+  indexedEntityName?: string
   modified?: string | Date | number
   scanId: string
 }
@@ -724,7 +763,7 @@ export interface ScanContactProjectIndex {
   assetId: string
   contactId: string
   created?: string | Date | number
-  indexedEntityName: string
+  indexedEntityName?: string
   modified?: string | Date | number
   projectId: string
   scanId: string
@@ -764,6 +803,14 @@ export interface SmsTemplate {
   responseUrl?: string
   smsTemplateName: string
   statusUrl?: string
+}
+
+export interface SuspendedAccount {
+  created?: string | Date | number
+  isLocked: boolean
+  modified?: string | Date | number
+  paymentFailDate: string | Date | number
+  suspendedAccount: string
 }
 
 export interface User {
@@ -934,7 +981,7 @@ export interface GetConsentByAccountIdPathParameters {
 }
 
 export interface GetConsentByAccountIdQueryStringParameters {
-  consentStatus: ConsentStatus
+  consentStatus?: ConsentStatus
   consentType: ConsentType
   lastKey?: string
   limit?: number
@@ -1049,12 +1096,12 @@ export interface CreateQrCodeByAssetIdPathParameters {
 }
 
 export interface CreateQrCodeByAssetIdRequestBody {
-  dynamicRedirectType: QrCodeDynamicRedirectType
-  imageOptions: QrCodeImageOptions
+  dynamicRedirectType?: QrCodeDynamicRedirectType
+  imageOptions?: QrCodeImageOptions
   intent?: string
   intentState?: NestedKeyValueObject
-  intentType: QrCodeIntentType
-  locatorKeyType: QrCodeLocatorKeyType
+  intentType?: QrCodeIntentType
+  locatorKeyType?: QrCodeLocatorKeyType
   status?: QrCodeStatus
   validFrom?: string | Date | number
   validTo?: string | Date | number
@@ -1098,7 +1145,6 @@ export interface GetAssetQueryStringParameters {
   foregroundGradientRotation?: number
   foregroundGradientType?: QrCodeGradientTypes
   format?: QrCodeType
-  height?: number
   lightColor?: string
   logo?: string
   logoMargin?: number
@@ -1152,7 +1198,6 @@ export interface GetQrCodesByAssetIdQueryStringParameters {
   foregroundGradientRotation?: number
   foregroundGradientType?: QrCodeGradientTypes
   format?: QrCodeType
-  height?: number
   lastKey?: string
   lightColor?: string
   limit?: number
@@ -1225,7 +1270,7 @@ export interface CreateConsentByContactIdPathParameters {
 }
 
 export interface CreateConsentByContactIdRequestBody {
-  consentStatus: ConsentStatus
+  consentStatus?: ConsentStatus
   consentType: ConsentType
   consentedAt: string | Date | number
   projectId?: string
@@ -1242,13 +1287,13 @@ export interface DeleteConsentByContactIdPathParameters {
 }
 
 export interface DeleteConsentByContactIdQueryStringParameters {
-  consentStatus: ConsentStatus
+  consentStatus?: ConsentStatus
   consentType: ConsentType
   projectId?: string
 }
 
 export interface DeleteConsentByContactIdResponseBody {
-  consent: ContactConsent[]
+  consent: ContactConsent
   contactId: string
 }
 
@@ -1265,7 +1310,7 @@ export interface GetConsentsByContactIdPathParameters {
 }
 
 export interface GetConsentsByContactIdQueryStringParameters {
-  consentStatus: ConsentStatus
+  consentStatus?: ConsentStatus
   consentType?: ConsentType
   lastKey?: string
   limit?: number
@@ -1284,6 +1329,41 @@ export interface GetContactPathParameters {
 
 export interface GetContactResponseBody {
   contact: Contact
+}
+
+export interface GetContactExportByContactIdPathParameters {
+  contactId: string
+}
+
+export interface GetContactExportByContactIdQueryStringParameters {
+  format?: string
+}
+
+export interface GetContactExportByContactIdResponseBody {
+  contact: NestedKeyValueObject
+}
+
+export interface GetScansByContactIdPathParameters {
+  contactId: string
+}
+
+export interface GetScansByContactIdResponseBody {
+  scans: Scan[]
+}
+
+export interface LinkContactToScanPathParameters {
+  contactId: string
+  scanId: string
+}
+
+export interface LinkContactToScanResponseBody extends ScanContact {
+  assetId: string
+  assetName: string
+  contactId: string
+  created?: string | Date | number
+  modified?: string | Date | number
+  projectId: string
+  scanId: string
 }
 
 export interface UpdateContactPathParameters {
@@ -1450,7 +1530,7 @@ export interface GetConsentByProjectIdPathParameters {
 }
 
 export interface GetConsentByProjectIdQueryStringParameters {
-  consentStatus: ConsentStatus
+  consentStatus?: ConsentStatus
   consentType: ConsentType
   lastKey?: string
   limit?: number
@@ -1618,7 +1698,6 @@ export interface GetQrCodeQueryStringParameters {
   foregroundGradientRotation?: number
   foregroundGradientType?: QrCodeGradientTypes
   format?: QrCodeType
-  height?: number
   lightColor?: string
   logo?: string
   logoMargin?: number
@@ -1630,16 +1709,16 @@ export interface GetQrCodeQueryStringParameters {
 
 export interface GetQrCodeResponseBody extends ResponseQrCode {
   assetId: string
-  dynamicRedirectType: QrCodeDynamicRedirectType
+  dynamicRedirectType?: QrCodeDynamicRedirectType
   image: QrCodeImage
   intent?: string
   intentState?: NestedKeyValueObject
-  intentType: QrCodeIntentType
+  intentType?: QrCodeIntentType
   locatorKey: string
-  locatorKeyType: QrCodeLocatorKeyType
+  locatorKeyType?: QrCodeLocatorKeyType
   qrCodeId: string
   scanCount: number
-  status: QrCodeStatus
+  status?: QrCodeStatus
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
@@ -1953,6 +2032,40 @@ export class GetConsentsByContactIdRequest extends RequestGet<
 
 export class GetContactRequest extends RequestGet<GetContactPathParameters, undefined, GetContactResponseBody> {
   routeSegments?: RequestRouteSegment[] = [{parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'}]
+}
+
+export class GetContactExportByContactIdRequest extends RequestGet<
+  GetContactExportByContactIdPathParameters,
+  GetContactExportByContactIdQueryStringParameters,
+  GetContactExportByContactIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'},
+    {routePart: 'export', sdkPartName: 'export'},
+  ]
+}
+
+export class GetScansByContactIdRequest extends RequestGet<
+  GetScansByContactIdPathParameters,
+  undefined,
+  GetScansByContactIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'},
+    {routePart: 'scans', sdkPartName: 'scans'},
+  ]
+}
+
+export class LinkContactToScanRequest extends RequestPost<
+  LinkContactToScanPathParameters,
+  undefined,
+  undefined,
+  LinkContactToScanResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'},
+    {parm: 'scanId', routePart: 'scans', sdkPartName: 'scan'},
+  ]
 }
 
 export class UpdateContactRequest extends RequestPatch<
@@ -2452,9 +2565,45 @@ export class SdkContactConsentResources extends Resources {
   }
 }
 
+export class SdkContactExportResources extends Resources {
+  async get(
+    queryStringParameters: GetContactExportByContactIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetContactExportByContactIdResponseBody> {
+    const request = new GetContactExportByContactIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkContactScansResources extends Resources {
+  async get(options?: any): Promise<GetScansByContactIdResponseBody> {
+    const request = new GetScansByContactIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, options)
+  }
+}
+
+export class SdkContactScanResource extends Resource {
+  async link(options?: any): Promise<LinkContactToScanResponseBody> {
+    const request = new LinkContactToScanRequest(this.session)
+    return request.go(this.pathParameters, undefined, options)
+  }
+}
+
 export class SdkContactResource extends Resource {
   consent(): SdkContactConsentResources {
     return new SdkContactConsentResources(this.getSession(), this.pathParameters)
+  }
+
+  export(): SdkContactExportResources {
+    return new SdkContactExportResources(this.getSession(), this.pathParameters)
+  }
+
+  scans(): SdkContactScansResources {
+    return new SdkContactScansResources(this.getSession(), this.pathParameters)
+  }
+
+  scan(scanId: string): SdkContactScanResource {
+    return new SdkContactScanResource(this.getSession(), {...this.pathParameters, scanId})
   }
 
   async delete(options?: any): Promise<DeleteContactResponseBody> {
