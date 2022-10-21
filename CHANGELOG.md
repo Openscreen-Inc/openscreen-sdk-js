@@ -1,5 +1,14 @@
 # Openscreen Changelog
 
+## Version 1.2.0
+### Added
+- Add minimum 2 character requirement for Account name, Project name and Asset name fields
+### Fixed
+- Fix the issue where all `updateConsent` endpoints would only update one Consent at a time.
+### Changed
+- Update data export file name to be more relevant to the exported data
+- Update ContactConsent entity to accept an array of URLs using the new field `urls` instead of legacy field `url`.
+
 ## Version 1.1.0
 ### Added
 - Add new pricing model for all Openscreen users. Check out the new pricing at [www.openscreen.com](www.openscreen.com)
