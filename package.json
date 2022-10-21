@@ -1,6 +1,6 @@
 {
   "name": "@openscreen/sdk",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Generate Unique, Dynamic and trackable QR Codes at scale with Openscreen SDK",
   "keywords": [
     "qr",
@@ -19,8 +19,8 @@
   "license": "Apache-2.0",
   "author": {
     "name": "Openscreen Inc.",
-    "url": "https://openscreen.com",
-    "email": "dev@openscreen.com"
+    "email": "dev@openscreen.com",
+    "url": "https://openscreen.com"
   },
   "exports": {
     "require": "./dist/index.js",

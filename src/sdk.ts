@@ -385,7 +385,8 @@ export interface ContactConsent {
   customAttributes?: NestedKeyValueObject
   projectId?: string
   projectName?: string
-  url: string
+  url?: string
+  urls?: string[]
 }
 
 export interface ContactMailingAddress {
@@ -847,7 +848,8 @@ export interface ContactProjectEmailConsent {
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
   projectId: string
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactProjectSmsConsent {
@@ -859,7 +861,8 @@ export interface ContactProjectSmsConsent {
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
   projectId: string
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactProjectDataConsent {
@@ -870,7 +873,8 @@ export interface ContactProjectDataConsent {
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
   projectId: string
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactProjectCustomConsent {
@@ -881,7 +885,8 @@ export interface ContactProjectCustomConsent {
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
   projectId: string
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactAccountEmailConsent {
@@ -892,7 +897,8 @@ export interface ContactAccountEmailConsent {
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactAccountSmsConsent {
@@ -903,7 +909,8 @@ export interface ContactAccountSmsConsent {
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactAccountDataConsent {
@@ -914,7 +921,8 @@ export interface ContactAccountDataConsent {
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
-  url: string
+  url?: string
+  urls: string[]
 }
 
 export interface ContactAccountCustomConsent {
@@ -925,7 +933,8 @@ export interface ContactAccountCustomConsent {
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
   modified?: string | Date | number
-  url: string
+  url?: string
+  urls: string[]
 }
 
 // HANDLER INTERFACE TYPES
@@ -1053,6 +1062,7 @@ export interface GetScansByAccountIdPathParameters {
 }
 
 export interface GetScansByAccountIdQueryStringParameters {
+  ascending: boolean
   assetName?: string
   contactId?: string
   lastKey?: string
@@ -1274,7 +1284,8 @@ export interface CreateConsentByContactIdRequestBody {
   consentType: ConsentType
   consentedAt: string | Date | number
   projectId?: string
-  url: string
+  url?: string
+  urls?: string[]
 }
 
 export interface CreateConsentByContactIdResponseBody {
@@ -1305,11 +1316,11 @@ export interface DeleteContactResponseBody {
   contact: Contact
 }
 
-export interface GetConsentsByContactIdPathParameters {
+export interface GetConsentByContactIdPathParameters {
   contactId: string
 }
 
-export interface GetConsentsByContactIdQueryStringParameters {
+export interface GetConsentByContactIdQueryStringParameters {
   consentStatus?: ConsentStatus
   consentType?: ConsentType
   lastKey?: string
@@ -1317,7 +1328,7 @@ export interface GetConsentsByContactIdQueryStringParameters {
   projectId?: string
 }
 
-export interface GetConsentsByContactIdResponseBody {
+export interface GetConsentByContactIdResponseBody {
   consent: ContactConsent[]
   contactId: string
   lastKey?: string
@@ -1592,6 +1603,7 @@ export interface GetScansByProjectIdPathParameters {
 }
 
 export interface GetScansByProjectIdQueryStringParameters {
+  ascending: boolean
   assetName?: string
   contactId?: string
   lastKey?: string
@@ -2019,10 +2031,10 @@ export class DeleteContactRequest extends RequestDelete<
   routeSegments?: RequestRouteSegment[] = [{parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'}]
 }
 
-export class GetConsentsByContactIdRequest extends RequestGet<
-  GetConsentsByContactIdPathParameters,
-  GetConsentsByContactIdQueryStringParameters,
-  GetConsentsByContactIdResponseBody
+export class GetConsentByContactIdRequest extends RequestGet<
+  GetConsentByContactIdPathParameters,
+  GetConsentByContactIdQueryStringParameters,
+  GetConsentByContactIdResponseBody
 > {
   routeSegments?: RequestRouteSegment[] = [
     {parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'},
@@ -2557,10 +2569,10 @@ export class SdkContactConsentResources extends Resources {
   }
 
   async get(
-    queryStringParameters: GetConsentsByContactIdQueryStringParameters,
+    queryStringParameters: GetConsentByContactIdQueryStringParameters,
     options?: any,
-  ): Promise<GetConsentsByContactIdResponseBody> {
-    const request = new GetConsentsByContactIdRequest(this.session)
+  ): Promise<GetConsentByContactIdResponseBody> {
+    const request = new GetConsentByContactIdRequest(this.session)
     return request.go(this.pathParameters, queryStringParameters, options)
   }
 }
