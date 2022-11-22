@@ -1,5 +1,13 @@
 # Openscreen Changelog
 
+## Version 1.2.1
+### Fixed
+- Fix incorrect query parameter `next` for `GetProjectsByAccountId` endpoint.
+- Fix response for `GetQRCodesByProjectId` and `GetQRCodesByAccountID` to order by modified date.
+- Fix scan count increment by 2 for every QR code scan.
+### Changed
+- Update QR code scan and re-direct performance
+
 ## Version 1.2.0
 ### Added
 - Add minimum 2 character requirement for Account name, Project name and Asset name fields

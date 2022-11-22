@@ -51,6 +51,20 @@ export enum AuthTokenScope {
   NO_SESSION = 'NO_SESSION',
 }
 
+export enum ConsentStatus {
+  ACCEPTED = 'ACCEPTED',
+  DECLINED = 'DECLINED',
+  true = 'true',
+  false = 'false',
+}
+
+export enum ConsentType {
+  SMS = 'SMS',
+  EMAIL = 'EMAIL',
+  DATA = 'DATA',
+  CUSTOM = 'CUSTOM',
+}
+
 export enum PricePlanName {
   FREE = 'free',
   PAYASYOUGO = 'payAsYouGo',
@@ -162,20 +176,6 @@ export enum UserSettingsDomain {
   DASHBOARD = 'DASHBOARD',
 }
 
-export enum ConsentStatus {
-  ACCEPTED = 'ACCEPTED',
-  DECLINED = 'DECLINED',
-  true = 'true',
-  false = 'false',
-}
-
-export enum ConsentType {
-  SMS = 'SMS',
-  EMAIL = 'EMAIL',
-  DATA = 'DATA',
-  CUSTOM = 'CUSTOM',
-}
-
 // APPLICATION ENTITIES
 
 export interface Entity {}
@@ -198,11 +198,6 @@ export interface Response {
   source?: string
   stack?: Array<any>
   userId: string
-}
-
-export interface DdbAggregatedEntity {
-  created?: string | Date | number
-  modified?: string | Date | number
 }
 
 export interface Account {
@@ -374,6 +369,54 @@ export interface Contact {
   type?: string
 }
 
+export interface ContactAccountCustomConsent {
+  accountId: string
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  url?: string
+  urls: string[]
+}
+
+export interface ContactAccountDataConsent {
+  accountId: string
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  url?: string
+  urls: string[]
+}
+
+export interface ContactAccountEmailConsent {
+  accountId: string
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  url?: string
+  urls: string[]
+}
+
+export interface ContactAccountSmsConsent {
+  accountId: string
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  url?: string
+  urls: string[]
+}
+
 export interface ContactConsent {
   accountId?: string
   accountName?: string
@@ -395,6 +438,56 @@ export interface ContactMailingAddress {
   country: string
   postalOrZip: string
   provinceOrState: string
+}
+
+export interface ContactProjectCustomConsent {
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  projectId: string
+  url?: string
+  urls: string[]
+}
+
+export interface ContactProjectDataConsent {
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  projectId: string
+  url?: string
+  urls: string[]
+}
+
+export interface ContactProjectEmailConsent {
+  accountId: string
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  projectId: string
+  url?: string
+  urls: string[]
+}
+
+export interface ContactProjectSmsConsent {
+  accountId: string
+  consentStatus: ConsentStatus
+  consentedAt: string | Date | number
+  contactId: string
+  created?: string | Date | number
+  customAttributes?: NestedKeyValueObject
+  modified?: string | Date | number
+  projectId: string
+  url?: string
+  urls: string[]
 }
 
 export interface EmailInvitation {
@@ -436,6 +529,16 @@ export interface LastScan {
   scanId: string
   scanTime: string | Date | number
   userAgent?: string
+}
+
+export interface MostScannedAssetResponse {
+  assetId?: string
+  lastScanDate?: string | Date | number
+  name: string
+  projectId?: string
+  todaysScansCount?: number
+  totalScansCount?: number
+  weeklyScansCount?: number
 }
 
 export interface NestedAsset {
@@ -662,6 +765,7 @@ export interface QrCodeNamed extends QrCode {
   locatorKeyType?: QrCodeLocatorKeyType
   modified?: string | Date | number
   name: string
+  projectId?: string
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
@@ -674,10 +778,12 @@ export interface ResponseAsset {
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
   description?: string
+  lastScan?: LastScan
   modified?: string | Date | number
   name: string
   projectId: string
   qrCodes?: ResponseQrCode[]
+  scanCount: number
 }
 
 export interface ResponseBodyUser {
@@ -694,6 +800,7 @@ export interface ResponseBodyUser {
 
 export interface ResponseQrCode {
   assetId: string
+  created?: string | Date | number
   dynamicRedirectType?: QrCodeDynamicRedirectType
   image: QrCodeImage
   intent?: string
@@ -701,6 +808,9 @@ export interface ResponseQrCode {
   intentType?: QrCodeIntentType
   locatorKey: string
   locatorKeyType?: QrCodeLocatorKeyType
+  modified?: string | Date | number
+  name?: string
+  projectId?: string
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
@@ -745,26 +855,6 @@ export interface ScanContact {
   assetName: string
   contactId: string
   created?: string | Date | number
-  modified?: string | Date | number
-  projectId: string
-  scanId: string
-}
-
-export interface ScanContactAccountIndex {
-  accountId: string
-  assetId: string
-  contactId: string
-  created?: string | Date | number
-  indexedEntityName?: string
-  modified?: string | Date | number
-  scanId: string
-}
-
-export interface ScanContactProjectIndex {
-  assetId: string
-  contactId: string
-  created?: string | Date | number
-  indexedEntityName?: string
   modified?: string | Date | number
   projectId: string
   scanId: string
@@ -837,104 +927,6 @@ export interface UserSettings {
   modified?: string | Date | number
   path: UserSettingsDomain
   userId: string
-}
-
-export interface ContactProjectEmailConsent {
-  accountId: string
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  projectId: string
-  url?: string
-  urls: string[]
-}
-
-export interface ContactProjectSmsConsent {
-  accountId: string
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  projectId: string
-  url?: string
-  urls: string[]
-}
-
-export interface ContactProjectDataConsent {
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  projectId: string
-  url?: string
-  urls: string[]
-}
-
-export interface ContactProjectCustomConsent {
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  projectId: string
-  url?: string
-  urls: string[]
-}
-
-export interface ContactAccountEmailConsent {
-  accountId: string
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
-  urls: string[]
-}
-
-export interface ContactAccountSmsConsent {
-  accountId: string
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
-  urls: string[]
-}
-
-export interface ContactAccountDataConsent {
-  accountId: string
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
-  urls: string[]
-}
-
-export interface ContactAccountCustomConsent {
-  accountId: string
-  consentStatus: ConsentStatus
-  consentedAt: string | Date | number
-  contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
-  urls: string[]
 }
 
 // HANDLER INTERFACE TYPES
@@ -1029,7 +1021,7 @@ export interface GetProjectsByAccountIdPathParameters {
 export interface GetProjectsByAccountIdQueryStringParameters {
   lastKey?: string
   limit?: number
-  next?: string
+  name?: string
 }
 
 export interface GetProjectsByAccountIdResponseBody {
@@ -1062,7 +1054,7 @@ export interface GetScansByAccountIdPathParameters {
 }
 
 export interface GetScansByAccountIdQueryStringParameters {
-  ascending: boolean
+  ascending?: boolean
   assetName?: string
   contactId?: string
   lastKey?: string
@@ -1231,6 +1223,7 @@ export interface GetScansByAssetIdPathParameters {
 }
 
 export interface GetScansByAssetIdQueryStringParameters {
+  ascending?: boolean
   lastKey?: string
   limit?: number
 }
@@ -1351,7 +1344,7 @@ export interface GetContactExportByContactIdQueryStringParameters {
 }
 
 export interface GetContactExportByContactIdResponseBody {
-  contact: NestedKeyValueObject
+  fileName: string
 }
 
 export interface GetScansByContactIdPathParameters {
@@ -1721,6 +1714,7 @@ export interface GetQrCodeQueryStringParameters {
 
 export interface GetQrCodeResponseBody extends ResponseQrCode {
   assetId: string
+  created?: string | Date | number
   dynamicRedirectType?: QrCodeDynamicRedirectType
   image: QrCodeImage
   intent?: string
@@ -1728,6 +1722,9 @@ export interface GetQrCodeResponseBody extends ResponseQrCode {
   intentType?: QrCodeIntentType
   locatorKey: string
   locatorKeyType?: QrCodeLocatorKeyType
+  modified?: string | Date | number
+  name?: string
+  projectId?: string
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
@@ -1803,9 +1800,27 @@ export interface SendSmsByScanIdResponseBody {
   sms: Sms
 }
 
+export interface DeleteSessionApiKeySessionResponseBody {
+  apiKeyId: string
+  expires: string | Date | number
+  scope: AuthTokenScope
+}
+
 export interface GetSessionRequestBody {
   key: string
   secret: string
+}
+
+export interface GetSessionApiKeySessionResponseBody {
+  apiKeyId: string
+  expires: string | Date | number
+  scope: AuthTokenScope
+}
+
+export interface GetSessionRefreshApiKeySessionResponseBody {
+  apiKeyId: string
+  expires: string | Date | number
+  scope: AuthTokenScope
 }
 
 // HANDLER REQUEST CLASSES
@@ -2338,15 +2353,29 @@ export class SendSmsByScanIdRequest extends RequestPost<
   ]
 }
 
-export class DeleteSessionRequest extends RequestDelete<undefined, undefined, undefined> {
+export class DeleteSessionRequest extends RequestDelete<
+  undefined,
+  undefined,
+  GetSessionRefreshApiKeySessionResponseBody
+> {
   routeSegments?: RequestRouteSegment[] = [{routePart: 'auth/session', sdkPartName: 'authSession'}]
 }
 
-export class GetSessionRequest extends RequestPost<undefined, undefined, GetSessionRequestBody, undefined> {
+export class GetSessionRequest extends RequestPost<
+  undefined,
+  undefined,
+  GetSessionRequestBody,
+  GetSessionRefreshApiKeySessionResponseBody
+> {
   routeSegments?: RequestRouteSegment[] = [{routePart: 'auth/session', sdkPartName: 'authSession'}]
 }
 
-export class GetSessionRefreshRequest extends RequestPost<undefined, undefined, undefined, undefined> {
+export class GetSessionRefreshRequest extends RequestPost<
+  undefined,
+  undefined,
+  undefined,
+  GetSessionRefreshApiKeySessionResponseBody
+> {
   routeSegments?: RequestRouteSegment[] = [{routePart: 'auth/session/refresh', sdkPartName: 'refreshAuthSession'}]
 }
 
@@ -2869,19 +2898,19 @@ export class SdkScanResource extends Resource {
 }
 
 export class SdkAuthSessionResources extends Resources {
-  async delete(options?: any): Promise<any> {
+  async delete(options?: any): Promise<GetSessionRefreshApiKeySessionResponseBody> {
     const request = new DeleteSessionRequest(this.session)
     return request.go(this.pathParameters, undefined, options)
   }
 
-  async create(requestBody: GetSessionRequestBody, options?: any): Promise<any> {
+  async create(requestBody: GetSessionRequestBody, options?: any): Promise<GetSessionRefreshApiKeySessionResponseBody> {
     const request = new GetSessionRequest(this.session)
     return request.go(this.pathParameters, undefined, requestBody, options)
   }
 }
 
 export class SdkRefreshAuthSessionResources extends Resources {
-  async create(options?: any): Promise<any> {
+  async create(options?: any): Promise<GetSessionRefreshApiKeySessionResponseBody> {
     const request = new GetSessionRefreshRequest(this.session)
     return request.go(this.pathParameters, undefined, options)
   }

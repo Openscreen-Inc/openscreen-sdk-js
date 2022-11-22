@@ -1,6 +1,6 @@
 {
   "name": "@openscreen/sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Generate Unique, Dynamic and trackable QR Codes at scale with Openscreen SDK",
   "keywords": [
     "qr",
