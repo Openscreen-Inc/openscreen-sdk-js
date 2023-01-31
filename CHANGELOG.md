@@ -1,5 +1,15 @@
 # Openscreen Changelog
 
+## Version 1.3.0
+### Added
+- Sorting on GetAssets, GetProjects and GetContacts
+- Sorting type enums for Contact, Asset and QrCode sorting flags
+- Renaming projects functionality
+### Changed
+- Project entity updated to include accountId
+- QrCode entity updated to include projectId
+- QrCode entity updated to include its asset's name
+
 ## Version 1.2.1
 ### Fixed
 - Fix incorrect query parameter `next` for `GetProjectsByAccountId` endpoint.

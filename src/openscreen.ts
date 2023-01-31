@@ -51,6 +51,14 @@ class NullSession implements IOpenscreenSession {
   authorize(): Promise<void> {
     throw Error('no session')
   }
+
+  loginRequest(): Promise<void> {
+    return Promise.resolve(undefined)
+  }
+
+  refreshRequest(): Promise<void> {
+    return Promise.resolve(undefined)
+  }
 }
 
 export class Openscreen extends SdkResources implements IOpenscreenSession {
@@ -68,6 +76,8 @@ export class Openscreen extends SdkResources implements IOpenscreenSession {
   public debugQuery: boolean = false
   public debugOptions: boolean = false
   public exp: number
+  public loginSessionRequest: Promise<void> | undefined = undefined
+  public refreshSessionRequest: Promise<void> | undefined = undefined
 
   constructor() {
     super(new NullSession(), {})
@@ -171,55 +181,20 @@ export class Openscreen extends SdkResources implements IOpenscreenSession {
     if (this.debugConfig) {
       console.debug(`Openscreen CONFIG: (environment) ${JSON.stringify(cloudConfig, null, 2)}`)
     }
-    let key
-    let secret
-    key = config.key!
-    secret = config.secret!
     if (this.exp > new Date().getTime()) {
       return
     } else if (this.exp !== 0) {
       //means token expired and session is not brand new
-      if (this.debugAuth) console.info(`Openscreen AUTH: refreshing using axios cookie`)
-      await this.getAxios()
-      let res
-      try {
-        res = await this.axios!.post(`${cloudConfig.endpoint}/auth/session/refresh`)
-      } catch (e) {
-        if (e.code === 403) {
-          throw Error('Openscreen AUTH: Refreshing failed due to missing refresh token, exiting')
-        }
-        if (e.code === 401) {
-          throw Error('Openscreen AUTH: Refreshing failed due to an invalid refresh token, please re-login')
-        }
-        if (e.code === 500) {
-          throw Error('Openscreen AUTH: Refreshing failed due to an unexpected error, exiting')
-        }
+      if (!this.refreshSessionRequest) {
+        this.refreshSessionRequest = this.refreshRequest()
       }
-      if (res) {
-        const {expires, user} = res.data
-        if (this.debugAuth) console.info(`Openscreen AUTH: authorized '${key}' until expiry=${expires}`)
-        this.exp = expires
-        this.activeUser = user
-        return
-      }
+      await this.refreshSessionRequest
     }
     // if code reaches here that means the exp == 0 and its a brand new session so we gotta login
-    if (this.debugAuth) console.info(`Openscreen AUTH: authorizing '${key}'`)
-    await this.getAxios()
-    const res = await this.axios!.post(`${cloudConfig.endpoint}/auth/session`, {
-      key,
-      secret,
-    })
-    if (res.status === 403 || res.status === 500) {
-      throw Error('Openscreen AUTH: authentication failed')
+    if (!this.loginSessionRequest) {
+      this.loginSessionRequest = this.loginRequest()
     }
-    if (res.status === 200) {
-      const {expires, user} = res.data
-      this.activeUser = user
-      if (this.debugAuth) console.info(`Openscreen AUTH: authorized '${key}' until expiry=${expires}`)
-
-      this.exp = expires
-    }
+    await this.loginSessionRequest
   }
 
   async getCloudConfig(): Promise<ICloudConfig> {
@@ -257,6 +232,57 @@ export class Openscreen extends SdkResources implements IOpenscreenSession {
       await this.authorize()
     }
     return this.activeUser!
+  }
+
+  async loginRequest(): Promise<void> {
+    const cloudConfig = await this.cloudConfig
+    const config = this.getConfig()
+    const {key, secret} = config
+    if (this.debugAuth) console.info(`Openscreen AUTH: authorizing '${key}'`)
+    await this.getAxios()
+    const res = await this.axios!.post(`${cloudConfig!.endpoint}/auth/session`, {
+      key,
+      secret,
+    })
+    if (res.status === 403 || res.status === 500) {
+      throw Error('Openscreen AUTH: authentication failed')
+    }
+    if (res.status === 200) {
+      const {expires, user} = res.data
+      this.activeUser = user
+      if (this.debugAuth) console.info(`Openscreen AUTH: authorized '${key}' until expiry=${expires}`)
+
+      this.exp = expires
+    }
+  }
+
+  async refreshRequest() {
+    if (this.debugAuth) console.info(`Openscreen AUTH: refreshing using axios cookie`)
+    const cloudConfig = await this.getCloudConfig()
+    const config = this.getConfig()
+    const {key} = config
+    await this.getAxios()
+    let res
+    try {
+      res = await this.axios!.post(`${cloudConfig.endpoint}/auth/session/refresh`)
+    } catch (e) {
+      if (e.code === 403) {
+        throw Error('Openscreen AUTH: Refreshing failed due to missing refresh token, exiting')
+      }
+      if (e.code === 401) {
+        throw Error('Openscreen AUTH: Refreshing failed due to an invalid refresh token, please re-login')
+      }
+      if (e.code === 500) {
+        throw Error('Openscreen AUTH: Refreshing failed due to an unexpected error, exiting')
+      }
+    }
+    if (res) {
+      const {expires, user} = res.data
+      if (this.debugAuth) console.info(`Openscreen AUTH: authorized '${key}' until expiry=${expires}`)
+      this.exp = expires
+      this.activeUser = user
+      return
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this

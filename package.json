@@ -1,6 +1,6 @@
 {
   "name": "@openscreen/sdk",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Generate Unique, Dynamic and trackable QR Codes at scale with Openscreen SDK",
   "keywords": [
     "qr",
@@ -35,7 +35,7 @@
     "typings"
   ],
   "scripts": {
-    "build": "microbundle --format=modern,esm,cjs",
+    "build": "./scripts/build.sh",
     "build:watch": "tsc --watch",
     "dev": "microbundle watch",
     "lint": "eslint src",
