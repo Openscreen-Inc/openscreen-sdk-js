@@ -11,6 +11,8 @@ export interface IOpenscreenSession {
   debugQuery: boolean
   debugOptions: boolean
   exp: number
+  loginSessionRequest?: Promise<void>
+  refreshSessionRequest?: Promise<void>
 
   getConfig(): IConfig
 
@@ -19,4 +21,8 @@ export interface IOpenscreenSession {
   getAxios(): Promise<AxiosInstance>
 
   authorize(): Promise<void>
+
+  loginRequest(): Promise<void>
+
+  refreshRequest(): Promise<void>
 }
