@@ -182,19 +182,23 @@ export class Openscreen extends SdkResources implements IOpenscreenSession {
       console.debug(`Openscreen CONFIG: (environment) ${JSON.stringify(cloudConfig, null, 2)}`)
     }
     if (this.exp > new Date().getTime()) {
+      if (this.debugAuth) console.debug(`Openscreen AUTH: Access Token is still valid, using the same token`)
       return
     } else if (this.exp !== 0) {
       //means token expired and session is not brand new
+      if (this.debugAuth) console.debug(`Openscreen AUTH: Refreshing Access Token since it's expired`)
       if (!this.refreshSessionRequest) {
         this.refreshSessionRequest = this.refreshRequest()
       }
       await this.refreshSessionRequest
+      this.refreshSessionRequest = undefined
+    } else {
+      if (!this.loginSessionRequest) {
+        this.loginSessionRequest = this.loginRequest()
+      }
+      await this.loginSessionRequest
+      this.loginSessionRequest = undefined
     }
-    // if code reaches here that means the exp == 0 and its a brand new session so we gotta login
-    if (!this.loginSessionRequest) {
-      this.loginSessionRequest = this.loginRequest()
-    }
-    await this.loginSessionRequest
   }
 
   async getCloudConfig(): Promise<ICloudConfig> {
@@ -277,11 +281,9 @@ export class Openscreen extends SdkResources implements IOpenscreenSession {
       }
     }
     if (res) {
-      const {expires, user} = res.data
+      const {expires} = res.data
       if (this.debugAuth) console.info(`Openscreen AUTH: authorized '${key}' until expiry=${expires}`)
       this.exp = expires
-      this.activeUser = user
-      return
     }
   }
 

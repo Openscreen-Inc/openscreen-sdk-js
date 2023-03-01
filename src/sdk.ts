@@ -24,6 +24,13 @@ export enum AccountUserRole {
   INVITATION_DECLINED = 'INVITATION_DECLINED',
 }
 
+export enum AssetSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+  SCAN_COUNT = 'SCAN_COUNT',
+  QR_CODE_COUNT = 'QR_CODE_COUNT',
+}
+
 export enum AuthMessageId {
   INVALID_API_KEY = 'INVALID_API_KEY',
   INVALID_EMAIL = 'INVALID_EMAIL',
@@ -65,6 +72,30 @@ export enum ConsentType {
   CUSTOM = 'CUSTOM',
 }
 
+export enum ContactAssetSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+  LAST_SCAN_TIME = 'LAST_SCAN_TIME',
+  LAST_SCAN_LOCATION = 'LAST_SCAN_LOCATION',
+  SCAN_COUNT = 'SCAN_COUNT',
+}
+
+export enum ContactSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+  ASSET_NAME = 'ASSET_NAME',
+  PHONE = 'PHONE',
+  EMAIL = 'EMAIL',
+  LAST_SCAN_TIME = 'LAST_SCAN_TIME',
+  LAST_SCAN_LOCATION = 'LAST_SCAN_LOCATION',
+  SCAN_COUNT = 'SCAN_COUNT',
+}
+
+export enum OpenscreenEmails {
+  SALES_EMAIL = 'SALES_EMAIL',
+  SUPPORT_EMAIL = 'SUPPORT_EMAIL',
+}
+
 export enum PricePlanName {
   FREE = 'free',
   PAYASYOUGO = 'payAsYouGo',
@@ -84,6 +115,15 @@ export enum PricePlanReporting {
   ADVANCED = 'advanced',
   basic = 'basic',
   advance = 'advanced',
+}
+
+export enum ProjectSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+  SCAN_COUNT = 'SCAN_COUNT',
+  QR_CODE_COUNT = 'QR_CODE_COUNT',
+  CONTACT_COUNT = 'CONTACT_COUNT',
+  ASSET_COUNT = 'ASSET_COUNT',
 }
 
 export enum ProjectStatus {
@@ -115,6 +155,7 @@ export enum QrCodeDynamicRedirectType {
   NO_SCAN_ID = 'NO_SCAN_ID',
   SCAN_ID_IN_PATH_PARAMETER = 'SCAN_ID_IN_PATH_PARAMETER',
   SCAN_ID_IN_QUERY_STRING_PARAMETER = 'SCAN_ID_IN_QUERY_STRING_PARAMETER',
+  CUSTOM_QUERY_STRING_PARAMETER = 'CUSTOM_QUERY_STRING_PARAMETER',
 }
 
 export enum QrCodeErrorCorrectionLevel {
@@ -139,6 +180,12 @@ export enum QrCodeLocatorKeyType {
   SHORT_URL = 'SHORT_URL',
   HASHED_ID = 'HASHED_ID',
   SECURE_ID = 'SECURE_ID',
+}
+
+export enum QrCodeSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+  SCAN_COUNT = 'SCAN_COUNT',
 }
 
 export enum QrCodeStatus {
@@ -200,6 +247,11 @@ export interface Response {
   userId: string
 }
 
+export interface DdbDownstreamedEntity {
+  created?: string | Date | number
+  modified?: string | Date | number
+}
+
 export interface Account {
   accountId: string
   assetCount: number
@@ -224,11 +276,20 @@ export interface Account {
   userCount: number
 }
 
-export interface AccountEmailContact {
+export interface AccountEmailContact extends DdbDownstreamedEntity {
   accountId: string
   contactId: string
   created?: string | Date | number
   email: string
+  modified?: string | Date | number
+}
+
+export interface AccountInstalledApp {
+  accountId: string
+  appAccountId: string
+  appId: string
+  appName: string
+  created?: string | Date | number
   modified?: string | Date | number
 }
 
@@ -248,12 +309,26 @@ export interface AccountInvitation {
   userRole: AccountUserRole
 }
 
-export interface AccountPhoneContact {
+export interface AccountInvitationRequestBody {
+  email: string
+  firstName: string
+  lastName: string
+  userRole: AccountUserRole
+}
+
+export interface AccountPhoneContact extends DdbDownstreamedEntity {
   accountId: string
   contactId: string
   created?: string | Date | number
   modified?: string | Date | number
   phone: string
+}
+
+export interface AccountPublishedApp {
+  appId: string
+  created?: string | Date | number
+  modified?: string | Date | number
+  ownerAccountId: string
 }
 
 export interface AccountResponse extends Account {
@@ -326,7 +401,75 @@ export interface ApiKeySessionResponseBody {
   scope: AuthTokenScope
 }
 
+export interface App {
+  appDetailMedia?: string[]
+  appId: string
+  appName: string
+  appPrice: number
+  appStoreThumbnail?: string
+  appWebhook?: string
+  categories?: Array<any>
+  created?: string | Date | number
+  description?: string
+  featured: boolean
+  features?: string
+  heroImage?: string
+  isPublished: boolean
+  keywords?: Array<any>
+  logo?: string
+  modified?: string | Date | number
+  ownerAccountId: string
+  pricePlanPoints?: Array<any>
+  tagline?: string
+  uiUrl: string
+  website?: string
+}
+
+export interface AppAccount {
+  appAccountId: string
+  appId: string
+  appName: string
+  assetCount: number
+  contactCount: number
+  created?: string | Date | number
+  dynamicQrCodeCount: number
+  emailCount: number
+  lastScanId?: string
+  mainAccountId: string
+  mmsCount: number
+  modified?: string | Date | number
+  projectCount: number
+  scanCount: number
+  smsCount: number
+  staticQrCodeCount: number
+  userCount: number
+}
+
+export interface AppBasicDetails {
+  appId: string
+  appLogo?: string
+  appName: string
+  mainAccountId: string
+}
+
+export interface AppByName {
+  appId: string
+  appName: string
+  created?: string | Date | number
+  modified?: string | Date | number
+}
+
+export interface AppByTimestamp {
+  appId: string
+  appName: string
+  created?: string | Date | number
+  modified?: string | Date | number
+  timestamp: string | Date | number
+}
+
 export interface Asset {
+  appAccountId?: string
+  appId?: string
   assetId: string
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
@@ -350,6 +493,8 @@ export interface AssetContact {
 
 export interface Contact {
   accountId: string
+  appAccountId?: string
+  appId?: string
   cellPhone?: string
   consent?: ContactConsent[]
   contactId: string
@@ -365,7 +510,7 @@ export interface Contact {
   middleName: string
   modified?: string | Date | number
   nickname: string
-  scanCount?: number
+  scanCount: number
   type?: string
 }
 
@@ -563,6 +708,7 @@ export interface NestedContact {
 }
 
 export interface NestedQrCode {
+  customQueryStringParameterName?: string
   dynamicRedirectType?: QrCodeDynamicRedirectType
   imageOptions?: QrCodeImageOptions
   intent?: string
@@ -570,8 +716,30 @@ export interface NestedQrCode {
   intentType?: QrCodeIntentType
   locatorKeyType?: QrCodeLocatorKeyType
   status?: QrCodeStatus
+  stylingTemplateId?: string
   validFrom?: string | Date | number
   validTo?: string | Date | number
+}
+
+export interface PatchApp {
+  appDetailMedia?: string[]
+  appPrice?: number
+  appStoreThumbnail?: string
+  appWebhook?: string
+  categories?: Array<any>
+  created?: string | Date | number
+  description?: string
+  featured?: boolean
+  features?: string
+  heroImage?: string
+  isPublished?: boolean
+  keywords?: Array<any>
+  logo?: string
+  modified?: string | Date | number
+  pricePlanPoints?: Array<any>
+  tagline?: string
+  uiUrl?: string
+  website?: string
 }
 
 export interface PhoneSession {
@@ -643,6 +811,9 @@ export interface PricePlanPeriod {
 }
 
 export interface Project {
+  accountId: string
+  appAccountId?: string
+  appId?: string
   assetCount: number
   companyName?: string
   contactCount: number
@@ -672,7 +843,7 @@ export interface ProjectContact {
   projectId: string
 }
 
-export interface ProjectEmailContact {
+export interface ProjectEmailContact extends DdbDownstreamedEntity {
   contactId: string
   created?: string | Date | number
   email: string
@@ -680,7 +851,7 @@ export interface ProjectEmailContact {
   projectId: string
 }
 
-export interface ProjectPhoneContact {
+export interface ProjectPhoneContact extends DdbDownstreamedEntity {
   contactId: string
   created?: string | Date | number
   modified?: string | Date | number
@@ -696,9 +867,27 @@ export interface ProjectScan {
   scanId: string
 }
 
+export interface PublishedAppByName {
+  appId: string
+  appName: string
+  created?: string | Date | number
+  modified?: string | Date | number
+}
+
+export interface PublishedAppByTimestamp {
+  appId: string
+  appName: string
+  created?: string | Date | number
+  modified?: string | Date | number
+  timestamp: string | Date | number
+}
+
 export interface QrCode {
+  appAccountId?: string
+  appId?: string
   assetId: string
   created?: string | Date | number
+  customQueryStringParameterName?: string
   dynamicRedirectType?: QrCodeDynamicRedirectType
   imageOptions?: QrCodeImageOptions
   intent?: string
@@ -707,9 +896,12 @@ export interface QrCode {
   locatorKey: string
   locatorKeyType?: QrCodeLocatorKeyType
   modified?: string | Date | number
+  name: string
+  projectId?: string
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
+  stylingTemplateId?: string
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
@@ -741,6 +933,8 @@ export interface QrCodeImageOptions {
   logo?: string
   logoMargin?: number
   margin?: number
+  qrCodeLogoId?: string
+  saveAsBlob?: boolean
   scale?: number
   version?: number
   width?: number
@@ -753,27 +947,56 @@ export interface QrCodeLocator {
   qrCodeId: string
 }
 
-export interface QrCodeNamed extends QrCode {
-  assetId: string
+export interface QrCodeLogo {
+  accountId: string
   created?: string | Date | number
-  dynamicRedirectType?: QrCodeDynamicRedirectType
+  createdBy: string
+  hidden: boolean
+  lastModifiedBy: string
+  modified?: string | Date | number
+  qrCodeLogoId: string
+  s3Key: string
+  url: string
+}
+
+export interface QrCodeStylingTemplate {
+  accountId: string
+  created?: string | Date | number
+  createdBy: string
   imageOptions?: QrCodeImageOptions
-  intent?: string
-  intentState?: NestedKeyValueObject
-  intentType?: QrCodeIntentType
-  locatorKey: string
-  locatorKeyType?: QrCodeLocatorKeyType
+  lastModifiedBy: string
   modified?: string | Date | number
   name: string
   projectId?: string
-  qrCodeId: string
-  scanCount: number
-  status?: QrCodeStatus
-  validFrom?: string | Date | number
-  validTo?: string | Date | number
+  qrCodeLogo?: QrCodeLogo
+  stylingTemplateId: string
+}
+
+export interface RequestApp {
+  appDetailMedia?: string[]
+  appName: string
+  appPrice: number
+  appStoreThumbnail?: string
+  appWebhook?: string
+  categories?: Array<any>
+  created?: string | Date | number
+  description?: string
+  featured: boolean
+  features?: string
+  heroImage?: string
+  isPublished: boolean
+  keywords?: Array<any>
+  logo?: string
+  modified?: string | Date | number
+  pricePlanPoints?: Array<any>
+  tagline?: string
+  uiUrl: string
+  website?: string
 }
 
 export interface ResponseAsset {
+  appAccountId?: string
+  appId?: string
   assetId: string
   created?: string | Date | number
   customAttributes?: NestedKeyValueObject
@@ -782,6 +1005,7 @@ export interface ResponseAsset {
   modified?: string | Date | number
   name: string
   projectId: string
+  projectName?: string
   qrCodes?: ResponseQrCode[]
   scanCount: number
 }
@@ -799,6 +1023,8 @@ export interface ResponseBodyUser {
 }
 
 export interface ResponseQrCode {
+  appAccountId?: string
+  appId?: string
   assetId: string
   created?: string | Date | number
   dynamicRedirectType?: QrCodeDynamicRedirectType
@@ -814,6 +1040,7 @@ export interface ResponseQrCode {
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
+  stylingTemplateId?: string
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
@@ -946,6 +1173,34 @@ export interface CreateProjectByAccountIdResponseBody {
   project: Project
 }
 
+export interface CreateQrCodeLogoByAccountPathParameters {
+  accountId: string
+}
+
+export interface CreateQrCodeLogoByAccountRequestBody {
+  logoContentType: string
+}
+
+export interface CreateQrCodeLogoByAccountResponseBody {
+  presignedUrl: string
+  qrCodeLogo: QrCodeLogo
+}
+
+export interface CreateQrCodeStylingTemplateByAccountPathParameters {
+  accountId: string
+}
+
+export interface CreateQrCodeStylingTemplateByAccountRequestBody {
+  imageOptions?: QrCodeImageOptions
+  name: string
+  projectId?: string
+}
+
+export interface CreateQrCodeStylingTemplateByAccountResponseBody {
+  accountId: string
+  qrCodeStylingTemplate: QrCodeStylingTemplate
+}
+
 export interface DeleteContactsByAccountIdPathParameters {
   accountId: string
 }
@@ -965,9 +1220,11 @@ export interface GetAssetsByAccountIdPathParameters {
 }
 
 export interface GetAssetsByAccountIdQueryStringParameters {
+  ascending?: boolean
   lastKey?: string
   limit?: number
   name?: string
+  sortField?: AssetSortingTypes
 }
 
 export interface GetAssetsByAccountIdResponseBody {
@@ -999,12 +1256,14 @@ export interface GetContactsByAccountIdPathParameters {
 }
 
 export interface GetContactsByAccountIdQueryStringParameters {
+  ascending?: boolean
   assetName?: string
   contactName?: string
   email?: string
   lastKey?: string
   limit?: number
   phone?: string
+  sortField?: ContactSortingTypes
 }
 
 export interface GetContactsByAccountIdResponseBody {
@@ -1019,17 +1278,52 @@ export interface GetProjectsByAccountIdPathParameters {
 }
 
 export interface GetProjectsByAccountIdQueryStringParameters {
+  ascending?: boolean
   lastKey?: string
   limit?: number
   name?: string
+  sortField?: ProjectSortingTypes
 }
 
 export interface GetProjectsByAccountIdResponseBody {
   accountId: string
   lastKey?: string
-  next?: string
   numberOfProjects: number
   projects: Project[]
+}
+
+export interface GetQrCodeLogosByAccountIdPathParameters {
+  accountId: string
+}
+
+export interface GetQrCodeLogosByAccountIdQueryStringParameters {
+  ascending?: boolean
+  lastKey?: string
+  limit?: number
+}
+
+export interface GetQrCodeLogosByAccountIdResponseBody {
+  accountId: string
+  lastKey?: string
+  numberOfQrCodeLogos: number
+  qrCodeLogos: QrCodeLogo[]
+}
+
+export interface GetQrCodeStylingTemplatesByAccountIdPathParameters {
+  accountId: string
+}
+
+export interface GetQrCodeStylingTemplatesByAccountIdQueryStringParameters {
+  ascending?: boolean
+  lastKey?: string
+  limit?: number
+  stylingTemplateName?: string
+}
+
+export interface GetQrCodeStylingTemplatesByAccountIdResponseBody {
+  accountId: string
+  numberOfQrCodeStylingTemplates: number
+  qrCodeStylingTemplates: QrCodeStylingTemplate[]
 }
 
 export interface GetQrCodesByAccountIdPathParameters {
@@ -1037,16 +1331,18 @@ export interface GetQrCodesByAccountIdPathParameters {
 }
 
 export interface GetQrCodesByAccountIdQueryStringParameters {
+  ascending?: boolean
   assetName?: string
   lastKey?: string
   limit?: number
+  sortField?: QrCodeSortingTypes
 }
 
 export interface GetQrCodesByAccountIdResponseBody {
   accountId: string
   lastKey?: string
   numberOfQrCodes: number
-  qrCodes: QrCodeNamed[]
+  qrCodes: QrCode[]
 }
 
 export interface GetScansByAccountIdPathParameters {
@@ -1066,6 +1362,19 @@ export interface GetScansByAccountIdResponseBody {
   lastKey?: string
   numberOfScans: number
   scans: Scan[]
+}
+
+export interface UploadQrCodeLogoByAccountPathParameters {
+  accountId: string
+}
+
+export interface UploadQrCodeLogoByAccountRequestBody {
+  logo: string
+}
+
+export interface UploadQrCodeLogoByAccountResponseBody {
+  qrCodeLogoId: string
+  qrCodeLogoUrl: string
 }
 
 export interface CreateContactByAssetIdPathParameters {
@@ -1098,6 +1407,7 @@ export interface CreateQrCodeByAssetIdPathParameters {
 }
 
 export interface CreateQrCodeByAssetIdRequestBody {
+  customQueryStringParameterName?: string
   dynamicRedirectType?: QrCodeDynamicRedirectType
   imageOptions?: QrCodeImageOptions
   intent?: string
@@ -1105,6 +1415,7 @@ export interface CreateQrCodeByAssetIdRequestBody {
   intentType?: QrCodeIntentType
   locatorKeyType?: QrCodeLocatorKeyType
   status?: QrCodeStatus
+  stylingTemplateId?: string
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
@@ -1151,7 +1462,10 @@ export interface GetAssetQueryStringParameters {
   logo?: string
   logoMargin?: number
   margin?: number
+  qrCodeLogoId?: string
+  saveAsBlob?: boolean
   scale?: number
+  stylingTemplateId?: string
   version?: number
   width?: number
 }
@@ -1166,8 +1480,10 @@ export interface GetContactsByAssetIdPathParameters {
 }
 
 export interface GetContactsByAssetIdQueryStringParameters {
+  ascending?: boolean
   lastKey?: string
   limit?: number
+  sortField?: ContactAssetSortingTypes
 }
 
 export interface GetContactsByAssetIdResponseBody {
@@ -1206,7 +1522,10 @@ export interface GetQrCodesByAssetIdQueryStringParameters {
   logo?: string
   logoMargin?: number
   margin?: number
+  qrCodeLogoId?: string
+  saveAsBlob?: boolean
   scale?: number
+  stylingTemplateId?: string
   version?: number
   width?: number
 }
@@ -1261,6 +1580,7 @@ export interface UpdateAssetPathParameters {
 export interface UpdateAssetRequestBody {
   customAttributes?: NestedKeyValueObject
   description?: string
+  name?: string
 }
 
 export interface UpdateAssetResponseBody {
@@ -1517,9 +1837,11 @@ export interface GetAssetsByProjectIdPathParameters {
 }
 
 export interface GetAssetsByProjectIdQueryStringParameters {
+  ascending?: boolean
   lastKey?: string
   limit?: number
   name?: string
+  sortField?: AssetSortingTypes
 }
 
 export interface GetAssetsByProjectIdResponseBody {
@@ -1551,12 +1873,14 @@ export interface GetContactsByProjectIdPathParameters {
 }
 
 export interface GetContactsByProjectIdQueryStringParameters {
+  ascending?: boolean
   assetName?: string
   contactName?: string
   email?: string
   lastKey?: string
   limit?: number
   phone?: string
+  sortField?: ContactSortingTypes
 }
 
 export interface GetContactsByProjectIdResponseBody {
@@ -1579,16 +1903,18 @@ export interface GetQrCodesByProjectIdPathParameters {
 }
 
 export interface GetQrCodesByProjectIdQueryStringParameters {
+  ascending?: boolean
   assetName?: string
   lastKey?: string
   limit?: number
+  sortField?: QrCodeSortingTypes
 }
 
 export interface GetQrCodesByProjectIdResponseBody {
   lastKey?: string
   numberOfQrCodes: number
   projectId: string
-  qrCodes: QrCodeNamed[]
+  qrCodes: QrCode[]
 }
 
 export interface GetScansByProjectIdPathParameters {
@@ -1673,6 +1999,28 @@ export interface UpdateSmsTemplateResponseBody {
   statusUrl?: string
 }
 
+export interface GetQrCodeLogoByQrCodeLogoIdPathParameters {
+  qrCodeLogoId: string
+}
+
+export interface GetQrCodeLogoByQrCodeLogoIdResponseBody {
+  qrCodeLogo: QrCodeLogo
+  qrCodeLogoId: string
+}
+
+export interface UpdateQrCodeLogoByQrCodeLogoIdPathParameters {
+  qrCodeLogoId: string
+}
+
+export interface UpdateQrCodeLogoByQrCodeLogoIdRequestBody {
+  hidden?: boolean
+}
+
+export interface UpdateQrCodeLogoByQrCodeLogoIdResponseBody {
+  qrCodeLogo: QrCodeLogo
+  qrCodeLogoId: string
+}
+
 export interface DeleteQrCodePathParameters {
   qrCodeId: string
 }
@@ -1707,12 +2055,17 @@ export interface GetQrCodeQueryStringParameters {
   logo?: string
   logoMargin?: number
   margin?: number
+  qrCodeLogoId?: string
+  saveAsBlob?: boolean
   scale?: number
+  stylingTemplateId?: string
   version?: number
   width?: number
 }
 
 export interface GetQrCodeResponseBody extends ResponseQrCode {
+  appAccountId?: string
+  appId?: string
   assetId: string
   created?: string | Date | number
   dynamicRedirectType?: QrCodeDynamicRedirectType
@@ -1728,6 +2081,7 @@ export interface GetQrCodeResponseBody extends ResponseQrCode {
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
+  stylingTemplateId?: string
   validFrom?: string | Date | number
   validTo?: string | Date | number
 }
@@ -1742,6 +2096,7 @@ export interface UpdateQrCodeRequestBody {
   intent?: string
   intentState?: NestedKeyValueObject
   status?: QrCodeStatus
+  stylingTemplateId?: string
 }
 
 export interface UpdateQrCodeResponseBody {
@@ -1800,6 +2155,38 @@ export interface SendSmsByScanIdResponseBody {
   sms: Sms
 }
 
+export interface DeleteQrCodeStylingTemplateByStylingTemplateIdPathParameters {
+  stylingTemplateId: string
+}
+
+export interface DeleteQrCodeStylingTemplateByStylingTemplateIdResponseBody {
+  qrCodeStylingTemplate: QrCodeStylingTemplate
+  stylingTemplateId: string
+}
+
+export interface GetQrCodeStylingTemplateByStylingTemplateIdPathParameters {
+  stylingTemplateId: string
+}
+
+export interface GetQrCodeStylingTemplateByStylingTemplateIdResponseBody {
+  qrCodeStylingTemplate: QrCodeStylingTemplate
+  stylingTemplateId: string
+}
+
+export interface UpdateQrCodeStylingTemplateByStylingTemplateIdPathParameters {
+  stylingTemplateId: string
+}
+
+export interface UpdateQrCodeStylingTemplateByStylingTemplateIdRequestBody {
+  imageOptions?: QrCodeImageOptions
+  qrCodeLogoId?: string
+}
+
+export interface UpdateQrCodeStylingTemplateByStylingTemplateIdResponseBody {
+  qrCodeStylingTemplate: QrCodeStylingTemplate
+  stylingTemplateId: string
+}
+
 export interface DeleteSessionApiKeySessionResponseBody {
   apiKeyId: string
   expires: string | Date | number
@@ -1834,6 +2221,30 @@ export class CreateProjectByAccountIdRequest extends RequestPost<
   routeSegments?: RequestRouteSegment[] = [
     {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
     {routePart: 'projects', sdkPartName: 'projects'},
+  ]
+}
+
+export class CreateQrCodeLogoByAccountRequest extends RequestPost<
+  CreateQrCodeLogoByAccountPathParameters,
+  undefined,
+  CreateQrCodeLogoByAccountRequestBody,
+  CreateQrCodeLogoByAccountResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'qrcodelogos', sdkPartName: 'qrcodelogos'},
+  ]
+}
+
+export class CreateQrCodeStylingTemplateByAccountRequest extends RequestPost<
+  CreateQrCodeStylingTemplateByAccountPathParameters,
+  undefined,
+  CreateQrCodeStylingTemplateByAccountRequestBody,
+  CreateQrCodeStylingTemplateByAccountResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'stylingtemplates', sdkPartName: 'stylingtemplates'},
   ]
 }
 
@@ -1892,6 +2303,28 @@ export class GetProjectsByAccountIdRequest extends RequestGet<
   ]
 }
 
+export class GetQrCodeLogosByAccountIdRequest extends RequestGet<
+  GetQrCodeLogosByAccountIdPathParameters,
+  GetQrCodeLogosByAccountIdQueryStringParameters,
+  GetQrCodeLogosByAccountIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'qrcodelogos', sdkPartName: 'qrcodelogos'},
+  ]
+}
+
+export class GetQrCodeStylingTemplatesByAccountIdRequest extends RequestGet<
+  GetQrCodeStylingTemplatesByAccountIdPathParameters,
+  GetQrCodeStylingTemplatesByAccountIdQueryStringParameters,
+  GetQrCodeStylingTemplatesByAccountIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'stylingtemplates', sdkPartName: 'stylingtemplates'},
+  ]
+}
+
 export class GetQrCodesByAccountIdRequest extends RequestGet<
   GetQrCodesByAccountIdPathParameters,
   GetQrCodesByAccountIdQueryStringParameters,
@@ -1911,6 +2344,18 @@ export class GetScansByAccountIdRequest extends RequestGet<
   routeSegments?: RequestRouteSegment[] = [
     {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
     {routePart: 'scans', sdkPartName: 'scans'},
+  ]
+}
+
+export class UploadQrCodeLogoByAccountRequest extends RequestPost<
+  UploadQrCodeLogoByAccountPathParameters,
+  undefined,
+  UploadQrCodeLogoByAccountRequestBody,
+  UploadQrCodeLogoByAccountResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'qrcodelogos/upload', sdkPartName: 'qrcodelogosUpload'},
   ]
 }
 
@@ -2300,6 +2745,23 @@ export class UpdateSmsTemplateRequest extends RequestPatch<
   ]
 }
 
+export class GetQrCodeLogoByQrCodeLogoIdRequest extends RequestGet<
+  GetQrCodeLogoByQrCodeLogoIdPathParameters,
+  undefined,
+  GetQrCodeLogoByQrCodeLogoIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [{parm: 'qrCodeLogoId', routePart: 'qrcodelogos', sdkPartName: 'qrcodelogo'}]
+}
+
+export class UpdateQrCodeLogoByQrCodeLogoIdRequest extends RequestPatch<
+  UpdateQrCodeLogoByQrCodeLogoIdPathParameters,
+  undefined,
+  UpdateQrCodeLogoByQrCodeLogoIdRequestBody,
+  UpdateQrCodeLogoByQrCodeLogoIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [{parm: 'qrCodeLogoId', routePart: 'qrcodelogos', sdkPartName: 'qrcodelogo'}]
+}
+
 export class DeleteQrCodeRequest extends RequestDelete<
   DeleteQrCodePathParameters,
   undefined,
@@ -2353,6 +2815,37 @@ export class SendSmsByScanIdRequest extends RequestPost<
   ]
 }
 
+export class DeleteQrCodeStylingTemplateByStylingTemplateIdRequest extends RequestDelete<
+  DeleteQrCodeStylingTemplateByStylingTemplateIdPathParameters,
+  undefined,
+  DeleteQrCodeStylingTemplateByStylingTemplateIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'stylingTemplateId', routePart: 'stylingtemplates', sdkPartName: 'stylingtemplate'},
+  ]
+}
+
+export class GetQrCodeStylingTemplateByStylingTemplateIdRequest extends RequestGet<
+  GetQrCodeStylingTemplateByStylingTemplateIdPathParameters,
+  undefined,
+  GetQrCodeStylingTemplateByStylingTemplateIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'stylingTemplateId', routePart: 'stylingtemplates', sdkPartName: 'stylingtemplate'},
+  ]
+}
+
+export class UpdateQrCodeStylingTemplateByStylingTemplateIdRequest extends RequestPatch<
+  UpdateQrCodeStylingTemplateByStylingTemplateIdPathParameters,
+  undefined,
+  UpdateQrCodeStylingTemplateByStylingTemplateIdRequestBody,
+  UpdateQrCodeStylingTemplateByStylingTemplateIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'stylingTemplateId', routePart: 'stylingtemplates', sdkPartName: 'stylingtemplate'},
+  ]
+}
+
 export class DeleteSessionRequest extends RequestDelete<
   undefined,
   undefined,
@@ -2395,6 +2888,42 @@ export class SdkAccountProjectsResources extends Resources {
     options?: any,
   ): Promise<GetProjectsByAccountIdResponseBody> {
     const request = new GetProjectsByAccountIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkAccountQrcodelogosResources extends Resources {
+  async create(
+    requestBody: CreateQrCodeLogoByAccountRequestBody,
+    options?: any,
+  ): Promise<CreateQrCodeLogoByAccountResponseBody> {
+    const request = new CreateQrCodeLogoByAccountRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+
+  async get(
+    queryStringParameters: GetQrCodeLogosByAccountIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetQrCodeLogosByAccountIdResponseBody> {
+    const request = new GetQrCodeLogosByAccountIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkAccountStylingtemplatesResources extends Resources {
+  async create(
+    requestBody: CreateQrCodeStylingTemplateByAccountRequestBody,
+    options?: any,
+  ): Promise<CreateQrCodeStylingTemplateByAccountResponseBody> {
+    const request = new CreateQrCodeStylingTemplateByAccountRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+
+  async get(
+    queryStringParameters: GetQrCodeStylingTemplatesByAccountIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetQrCodeStylingTemplatesByAccountIdResponseBody> {
+    const request = new GetQrCodeStylingTemplatesByAccountIdRequest(this.session)
     return request.go(this.pathParameters, queryStringParameters, options)
   }
 }
@@ -2459,9 +2988,27 @@ export class SdkAccountScansResources extends Resources {
   }
 }
 
+export class SdkAccountQrcodelogosUploadResources extends Resources {
+  async create(
+    requestBody: UploadQrCodeLogoByAccountRequestBody,
+    options?: any,
+  ): Promise<UploadQrCodeLogoByAccountResponseBody> {
+    const request = new UploadQrCodeLogoByAccountRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
 export class SdkAccountResource extends Resource {
   projects(): SdkAccountProjectsResources {
     return new SdkAccountProjectsResources(this.getSession(), this.pathParameters)
+  }
+
+  qrcodelogos(): SdkAccountQrcodelogosResources {
+    return new SdkAccountQrcodelogosResources(this.getSession(), this.pathParameters)
+  }
+
+  stylingtemplates(): SdkAccountStylingtemplatesResources {
+    return new SdkAccountStylingtemplatesResources(this.getSession(), this.pathParameters)
   }
 
   contactsBatch(): SdkAccountContactsBatchResources {
@@ -2486,6 +3033,10 @@ export class SdkAccountResource extends Resource {
 
   scans(): SdkAccountScansResources {
     return new SdkAccountScansResources(this.getSession(), this.pathParameters)
+  }
+
+  qrcodelogosUpload(): SdkAccountQrcodelogosUploadResources {
+    return new SdkAccountQrcodelogosUploadResources(this.getSession(), this.pathParameters)
   }
 }
 
@@ -2848,6 +3399,21 @@ export class SdkProjectResource extends Resource {
   }
 }
 
+export class SdkQrcodelogoResource extends Resource {
+  async get(options?: any): Promise<GetQrCodeLogoByQrCodeLogoIdResponseBody> {
+    const request = new GetQrCodeLogoByQrCodeLogoIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, options)
+  }
+
+  async update(
+    requestBody: UpdateQrCodeLogoByQrCodeLogoIdRequestBody,
+    options?: any,
+  ): Promise<UpdateQrCodeLogoByQrCodeLogoIdResponseBody> {
+    const request = new UpdateQrCodeLogoByQrCodeLogoIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
 export class SdkQrCodeResource extends Resource {
   async delete(options?: any): Promise<DeleteQrCodeResponseBody> {
     const request = new DeleteQrCodeRequest(this.session)
@@ -2897,6 +3463,26 @@ export class SdkScanResource extends Resource {
   }
 }
 
+export class SdkStylingtemplateResource extends Resource {
+  async delete(options?: any): Promise<DeleteQrCodeStylingTemplateByStylingTemplateIdResponseBody> {
+    const request = new DeleteQrCodeStylingTemplateByStylingTemplateIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, options)
+  }
+
+  async get(options?: any): Promise<GetQrCodeStylingTemplateByStylingTemplateIdResponseBody> {
+    const request = new GetQrCodeStylingTemplateByStylingTemplateIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, options)
+  }
+
+  async update(
+    requestBody: UpdateQrCodeStylingTemplateByStylingTemplateIdRequestBody,
+    options?: any,
+  ): Promise<UpdateQrCodeStylingTemplateByStylingTemplateIdResponseBody> {
+    const request = new UpdateQrCodeStylingTemplateByStylingTemplateIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
 export class SdkAuthSessionResources extends Resources {
   async delete(options?: any): Promise<GetSessionRefreshApiKeySessionResponseBody> {
     const request = new DeleteSessionRequest(this.session)
@@ -2933,12 +3519,20 @@ export class SdkResources extends Resources {
     return new SdkProjectResource(this.getSession(), {...this.pathParameters, projectId})
   }
 
+  qrcodelogo(qrCodeLogoId: string): SdkQrcodelogoResource {
+    return new SdkQrcodelogoResource(this.getSession(), {...this.pathParameters, qrCodeLogoId})
+  }
+
   qrCode(qrCodeId: string): SdkQrCodeResource {
     return new SdkQrCodeResource(this.getSession(), {...this.pathParameters, qrCodeId})
   }
 
   scan(scanId: string): SdkScanResource {
     return new SdkScanResource(this.getSession(), {...this.pathParameters, scanId})
+  }
+
+  stylingtemplate(stylingTemplateId: string): SdkStylingtemplateResource {
+    return new SdkStylingtemplateResource(this.getSession(), {...this.pathParameters, stylingTemplateId})
   }
 
   authSession(): SdkAuthSessionResources {
