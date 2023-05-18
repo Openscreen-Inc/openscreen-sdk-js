@@ -24,11 +24,30 @@ export enum AccountUserRole {
   INVITATION_DECLINED = 'INVITATION_DECLINED',
 }
 
+export enum AssetByAssetTypeSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+  SCAN_COUNT = 'SCAN_COUNT',
+  QR_CODE_COUNT = 'QR_CODE_COUNT',
+}
+
 export enum AssetSortingTypes {
   MODIFIED = 'MODIFIED',
   NAME = 'NAME',
   SCAN_COUNT = 'SCAN_COUNT',
   QR_CODE_COUNT = 'QR_CODE_COUNT',
+  ASSET_TYPE_NAME = 'ASSET_TYPE_NAME',
+}
+
+export enum AssetTypeSortingTypes {
+  MODIFIED = 'MODIFIED',
+  NAME = 'NAME',
+}
+
+export enum AssetTypeUsabilityState {
+  PUBLISHED = 'PUBLISHED',
+  DRAFT = 'DRAFT',
+  ARCHIVED = 'ARCHIVED',
 }
 
 export enum AuthMessageId {
@@ -228,46 +247,54 @@ export enum UserSettingsDomain {
 export interface Entity {}
 
 export interface DdbEntity {
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
 }
 
 export interface Response {
-  body?: DdbEntity
+  body?: DdbEntity | null
   code: number
-  created?: string | Date | number
-  data?: NestedKeyValueObject
-  message?: string
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  data?: NestedKeyValueObject | null
+  message?: string | null
+  modified?: string | Date | number | null
   name: string
-  request?: string
+  request?: string | null
   responseId: string
-  source?: string
-  stack?: Array<any>
+  source?: string | null
+  stack?: Array<any> | null
   userId: string
 }
 
 export interface DdbDownstreamedEntity {
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+}
+
+export interface DdbHistoryEntity {
+  _timestamp: string | Date | number
+  created?: string | Date | number | null
+  expiresAt?: string | Date | number | null
+  modified?: string | Date | number | null
 }
 
 export interface Account {
   accountId: string
   assetCount: number
   collectTaxInfo?: boolean
-  companyName?: string
+  companyName?: string | null
   contactCount: number
-  created?: string | Date | number
+  created?: string | Date | number | null
   dynamicQrCodeCount: number
   emailCount: number
-  isLocked?: boolean
-  lastScanId?: string
+  isLocked?: boolean | null
+  lastScanId?: string | null
   mmsCount: number
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   needsPaymentUpdate: boolean
-  paymentFailedDate?: string
+  paymentFailedDate?: string | null
   projectCount: number
+  qrDomain?: string | null
   scanCount: number
   smsCount: number
   staticQrCodeCount: number
@@ -276,12 +303,12 @@ export interface Account {
   userCount: number
 }
 
-export interface AccountEmailContact extends DdbDownstreamedEntity {
+export interface AccountEmailContact {
   accountId: string
   contactId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   email: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
 }
 
 export interface AccountInstalledApp {
@@ -289,20 +316,21 @@ export interface AccountInstalledApp {
   appAccountId: string
   appId: string
   appName: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  ownerAccountId?: string | null
 }
 
 export interface AccountInvitation {
   accountId: string
-  companyName?: string
-  created?: string | Date | number
+  companyName?: string | null
+  created?: string | Date | number | null
   email: string
-  expiresAt?: string | Date | number
+  expiresAt?: string | Date | number | null
   firstName: string
   invitationId: string
   lastName: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   sendersFirstName: string
   sendersLastName: string
   sendersUserId: string
@@ -316,18 +344,18 @@ export interface AccountInvitationRequestBody {
   userRole: AccountUserRole
 }
 
-export interface AccountPhoneContact extends DdbDownstreamedEntity {
+export interface AccountPhoneContact {
   accountId: string
   contactId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   phone: string
 }
 
 export interface AccountPublishedApp {
   appId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   ownerAccountId: string
 }
 
@@ -335,20 +363,21 @@ export interface AccountResponse extends Account {
   accountId: string
   assetCount: number
   collectTaxInfo?: boolean
-  companyName?: string
+  companyName?: string | null
   contactCount: number
-  created?: string | Date | number
+  created?: string | Date | number | null
   currentPeriod: PricePlanPeriod
   dynamicQrCodeCount: number
   emailCount: number
-  isLocked?: boolean
-  lastScanId?: string
+  isLocked?: boolean | null
+  lastScanId?: string | null
   mmsCount: number
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   needsPaymentUpdate: boolean
-  paymentFailedDate?: string
+  paymentFailedDate?: string | null
   pricePlan: PricePlan
   projectCount: number
+  qrDomain?: string | null
   scanCount: number
   smsCount: number
   staticQrCodeCount: number
@@ -360,38 +389,38 @@ export interface AccountResponse extends Account {
 export interface AccountScan {
   accountId: string
   assetId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   scanId: string
 }
 
 export interface AccountUser {
   accountId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   userId: string
   userRole: AccountUserRole
 }
 
 export interface ApiKey {
   apiKeyId: string
-  created?: string | Date | number
-  description?: string
+  created?: string | Date | number | null
+  description?: string | null
   key: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   name: string
 }
 
 export interface ApiKeyCredentials {
   algorithm?: string
   apiKeyId: string
-  created?: string | Date | number
-  description?: string
+  created?: string | Date | number | null
+  description?: string | null
   invalidAttemptCount: number
   key: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   name: string
-  secret?: string
+  secret?: string | null
   status: string
 }
 
@@ -402,27 +431,27 @@ export interface ApiKeySessionResponseBody {
 }
 
 export interface App {
-  appDetailMedia?: string[]
+  appDetailMedia?: string[] | null
   appId: string
   appName: string
   appPrice: number
-  appStoreThumbnail?: string
-  appWebhook?: string
-  categories?: Array<any>
-  created?: string | Date | number
-  description?: string
+  appStoreThumbnail?: string | null
+  appWebhook?: string | null
+  categories?: Array<any> | null
+  created?: string | Date | number | null
+  description?: string | null
   featured: boolean
-  features?: string
-  heroImage?: string
+  features?: string | null
+  heroImage?: string | null
   isPublished: boolean
-  keywords?: Array<any>
-  logo?: string
-  modified?: string | Date | number
+  keywords?: Array<any> | null
+  logo?: string | null
+  modified?: string | Date | number | null
   ownerAccountId: string
-  pricePlanPoints?: Array<any>
-  tagline?: string
+  pricePlanPoints?: Array<any> | null
+  tagline?: string | null
   uiUrl: string
-  website?: string
+  website?: string | null
 }
 
 export interface AppAccount {
@@ -431,14 +460,15 @@ export interface AppAccount {
   appName: string
   assetCount: number
   contactCount: number
-  created?: string | Date | number
+  created?: string | Date | number | null
   dynamicQrCodeCount: number
   emailCount: number
-  lastScanId?: string
+  lastScanId?: string | null
   mainAccountId: string
   mmsCount: number
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   projectCount: number
+  qrDomain?: string | null
   scanCount: number
   smsCount: number
   staticQrCodeCount: number
@@ -447,7 +477,7 @@ export interface AppAccount {
 
 export interface AppBasicDetails {
   appId: string
-  appLogo?: string
+  appLogo?: string | null
   appName: string
   mainAccountId: string
 }
@@ -455,29 +485,36 @@ export interface AppBasicDetails {
 export interface AppByName {
   appId: string
   appName: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
 }
 
 export interface AppByTimestamp {
   appId: string
   appName: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   timestamp: string | Date | number
 }
 
 export interface Asset {
-  appAccountId?: string
-  appId?: string
+  appAccountId?: string | null
+  appId?: string | null
   assetId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  description?: string
+  assetTypeId?: string | null
+  category?: string | null
+  childAssets?: NestedKeyValueObject | null
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
   dynamicQrCodeCount: number
-  lastScanId?: string
-  modified?: string | Date | number
+  isValidChildAssets?: boolean | null
+  isValidCustomAttributes?: boolean | null
+  lastScanId?: string | null
+  locationId?: string | null
+  modified?: string | Date | number | null
   name: string
+  parentAssetId?: string | null
   projectId: string
   scanCount: number
   staticQrCodeCount: number
@@ -486,32 +523,86 @@ export interface Asset {
 export interface AssetContact {
   assetId: string
   contactId: string
-  created?: string | Date | number
-  modified?: string | Date | number
-  type?: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  type?: string | null
+}
+
+export interface AssetHistory {
+  _timestamp: string | Date | number
+  appAccountId?: string | null
+  appId?: string | null
+  assetId?: string | null
+  assetTypeId?: string | null
+  category?: string | null
+  childAssets?: NestedKeyValueObject | null
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  dynamicQrCodeCount?: number | null
+  expiresAt?: string | Date | number | null
+  isValidChildAssets?: boolean | null
+  isValidCustomAttributes?: boolean | null
+  lastScanId?: string | null
+  locationId?: string | null
+  modified?: string | Date | number | null
+  name?: string | null
+  parentAssetId?: string | null
+  projectId?: string | null
+  scanCount?: number | null
+  staticQrCodeCount?: number | null
+}
+
+export interface AssetType {
+  accountId: string
+  appAccountId?: string | null
+  assetTypeId: string
+  category?: string | null
+  childItems?: NestedKeyValueObject | null
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  instanceCount: number
+  instanceProperties?: NestedKeyValueObject | null
+  intent: string
+  managedCount: number
+  modified?: string | Date | number | null
+  name: string
+  staticProperties?: NestedKeyValueObject | null
+  usabilityState: AssetTypeUsabilityState
+}
+
+export interface AssetTypeByLocation {
+  assetTypeId: string
+  created?: string | Date | number | null
+  instanceCount: number
+  locationId: string
+  locationName?: string | null
+  managedCount: number
+  modified?: string | Date | number | null
 }
 
 export interface Contact {
   accountId: string
-  appAccountId?: string
-  appId?: string
-  cellPhone?: string
-  consent?: ContactConsent[]
+  appAccountId?: string | null
+  appId?: string | null
+  cellPhone?: string | null
+  consent?: ContactConsent[] | null
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  emailAddress?: string
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  emailAddress?: string | null
   firstName: string
   lastName: string
-  lastScan?: LastScan
-  lastScanProjectName?: string
-  lastSms?: string
-  mailingAddress?: ContactMailingAddress
+  lastScan?: LastScan | null
+  lastScanProjectName?: string | null
+  lastSms?: string | null
+  mailingAddress?: ContactMailingAddress | null
   middleName: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   nickname: string
   scanCount: number
-  type?: string
+  type?: string | null
 }
 
 export interface ContactAccountCustomConsent {
@@ -519,10 +610,10 @@ export interface ContactAccountCustomConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
+  url?: string | null
   urls: string[]
 }
 
@@ -531,10 +622,10 @@ export interface ContactAccountDataConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
+  url?: string | null
   urls: string[]
 }
 
@@ -543,10 +634,10 @@ export interface ContactAccountEmailConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
+  url?: string | null
   urls: string[]
 }
 
@@ -555,26 +646,26 @@ export interface ContactAccountSmsConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
-  url?: string
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
+  url?: string | null
   urls: string[]
 }
 
 export interface ContactConsent {
-  accountId?: string
-  accountName?: string
-  consentStatus?: ConsentStatus
-  consentType?: ConsentType
+  accountId?: string | null
+  accountName?: string | null
+  consentStatus?: ConsentStatus | null
+  consentType?: ConsentType | null
   consented: boolean
   consentedAt: string | Date | number
-  contactId?: string
-  customAttributes?: NestedKeyValueObject
-  projectId?: string
-  projectName?: string
-  url?: string
-  urls?: string[]
+  contactId?: string | null
+  customAttributes?: NestedKeyValueObject | null
+  projectId?: string | null
+  projectName?: string | null
+  url?: string | null
+  urls?: string[] | null
 }
 
 export interface ContactMailingAddress {
@@ -589,11 +680,11 @@ export interface ContactProjectCustomConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
   projectId: string
-  url?: string
+  url?: string | null
   urls: string[]
 }
 
@@ -601,11 +692,11 @@ export interface ContactProjectDataConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
   projectId: string
-  url?: string
+  url?: string | null
   urls: string[]
 }
 
@@ -614,11 +705,11 @@ export interface ContactProjectEmailConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
   projectId: string
-  url?: string
+  url?: string | null
   urls: string[]
 }
 
@@ -627,127 +718,453 @@ export interface ContactProjectSmsConsent {
   consentStatus: ConsentStatus
   consentedAt: string | Date | number
   contactId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  modified?: string | Date | number | null
   projectId: string
-  url?: string
+  url?: string | null
   urls: string[]
 }
 
 export interface EmailInvitation {
   accountId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   email: string
-  expiresAt?: string | Date | number
+  expiresAt?: string | Date | number | null
   invitationId: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
 }
 
 export interface LastScan {
   assetId: string
   assetName: string
-  browserName?: string
-  browserVersion?: string
-  cpuArchitecture?: string
-  created?: string | Date | number
-  deviceModel?: string
-  deviceType?: string
-  deviceVendor?: string
-  engineName?: string
-  engineVersion?: string
-  ipAddress?: string
-  locationCityName?: string
-  locationCountryCode?: string
-  locationCountryName?: string
-  locationLatitude?: string
-  locationLongitude?: string
-  locationPostalCode?: string
-  locationRegionCode?: string
-  locationRegionName?: string
-  locationTimeZone?: string
-  modified?: string | Date | number
-  osName?: string
-  osVersion?: string
+  browserName?: string | null
+  browserVersion?: string | null
+  cpuArchitecture?: string | null
+  created?: string | Date | number | null
+  deviceModel?: string | null
+  deviceType?: string | null
+  deviceVendor?: string | null
+  engineName?: string | null
+  engineVersion?: string | null
+  ipAddress?: string | null
+  locationCityName?: string | null
+  locationCountryCode?: string | null
+  locationCountryName?: string | null
+  locationLatitude?: string | null
+  locationLongitude?: string | null
+  locationPostalCode?: string | null
+  locationRegionCode?: string | null
+  locationRegionName?: string | null
+  locationTimeZone?: string | null
+  modified?: string | Date | number | null
+  osName?: string | null
+  osVersion?: string | null
   projectId: string
-  qrCodeId?: string
+  qrCodeId?: string | null
   scanId: string
   scanTime: string | Date | number
-  userAgent?: string
+  userAgent?: string | null
+}
+
+export interface Location {
+  accountId: string
+  address?: string | null
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  locationId: string
+  modified?: string | Date | number | null
+  name: string
 }
 
 export interface MostScannedAssetResponse {
-  assetId?: string
-  lastScanDate?: string | Date | number
+  assetId?: string | null
+  lastScanDate?: string | Date | number | null
   name: string
-  projectId?: string
-  todaysScansCount?: number
-  totalScansCount?: number
-  weeklyScansCount?: number
+  projectId?: string | null
+  todaysScansCount?: number | null
+  totalScansCount?: number | null
+  weeklyScansCount?: number | null
 }
 
 export interface NestedAsset {
-  customAttributes?: NestedKeyValueObject
-  description?: string
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
   name: string
-  qrCodes?: NestedQrCode[]
+  qrCodes?: NestedQrCode[] | null
 }
 
 export interface NestedContact {
-  asset?: NestedAsset
-  cellPhone?: string
-  consent?: ContactConsent[]
-  customAttributes?: NestedKeyValueObject
-  emailAddress?: string
-  firstName?: string
-  lastName?: string
-  mailingAddress?: ContactMailingAddress
-  middleName?: string
-  nickname?: string
-  type?: string
+  asset?: NestedAsset | null
+  cellPhone?: string | null
+  consent?: ContactConsent[] | null
+  customAttributes?: NestedKeyValueObject | null
+  emailAddress?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  mailingAddress?: ContactMailingAddress | null
+  middleName?: string | null
+  nickname?: string | null
+  type?: string | null
 }
 
 export interface NestedQrCode {
   customQueryStringParameterName?: string
   dynamicRedirectType?: QrCodeDynamicRedirectType
   imageOptions?: QrCodeImageOptions
-  intent?: string
-  intentState?: NestedKeyValueObject
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
   intentType?: QrCodeIntentType
   locatorKeyType?: QrCodeLocatorKeyType
-  status?: QrCodeStatus
-  stylingTemplateId?: string
-  validFrom?: string | Date | number
-  validTo?: string | Date | number
+  status?: QrCodeStatus | null
+  stylingTemplateId?: string | null
+  validFrom?: string | Date | number | null
+  validTo?: string | Date | number | null
+}
+
+export interface NestedTypedAsset {
+  childAssets?: NestedKeyValueObject | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  locationId?: string | null
+  name?: string | null
+  qrCodes?: NestedQrCode[] | null
+}
+
+export interface NewAccountByAccountId {
+  _GLOBAL: string
+  _prefix?: string
+  accountId: string
+  created?: string | Date | number | null
+  mainAccountId: string
+  modified?: string | Date | number | null
+}
+
+export interface NewAccountByCompanyName {
+  _GLOBAL: string
+  _prefix?: string
+  accountId: string
+  companyName: string
+  created?: string | Date | number | null
+  mainAccountId: string
+  modified?: string | Date | number | null
+  timestamp: string | Date | number
+}
+
+export interface NewAccountByContactCount {
+  _GLOBAL: string
+  _prefix?: string
+  accountId: string
+  contactCount: number
+  created?: string | Date | number | null
+  mainAccountId: string
+  modified?: string | Date | number | null
+}
+
+export interface NewAccountByUserCount {
+  _GLOBAL: string
+  _prefix?: string
+  accountId: string
+  created?: string | Date | number | null
+  mainAccountId: string
+  modified?: string | Date | number | null
+  userCount: number
+}
+
+export interface NewAppByName {
+  _GLOBAL: string
+  _prefix?: string
+  appId: string
+  appName: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  ownerAccountId: string
+  timestamp: string | Date | number
+}
+
+export interface NewAppByTimestamp {
+  _GLOBAL: string
+  _prefix?: string
+  appId: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  ownerAccountId: string
+  timestamp: string | Date | number
+}
+
+export interface NewAssetByAssetType {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetTypeId?: string | null
+  assetTypeName: string
+  created?: string | Date | number | null
+  locationId?: string | null
+  modified?: string | Date | number | null
+  projectId: string
+  timestamp: string | Date | number
+}
+
+export interface NewAssetByName {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetName: string
+  assetTypeId?: string | null
+  created?: string | Date | number | null
+  locationId?: string | null
+  modified?: string | Date | number | null
+  projectId: string
+  timestamp: string | Date | number
+}
+
+export interface NewAssetByQrCodeCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetTypeId?: string | null
+  created?: string | Date | number | null
+  locationId?: string | null
+  modified?: string | Date | number | null
+  projectId: string
+  qrCodeCount: number
+}
+
+export interface NewAssetByScanCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetTypeId?: string | null
+  created?: string | Date | number | null
+  locationId?: string | null
+  modified?: string | Date | number | null
+  projectId: string
+  scanCount: number
+}
+
+export interface NewAssetByTimestamp {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetTypeId?: string | null
+  created?: string | Date | number | null
+  locationId?: string | null
+  modified?: string | Date | number | null
+  projectId: string
+  timestamp: string | Date | number
+}
+
+export interface NewProjectByAssetCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetCount: number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+}
+
+export interface NewProjectByContactCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  contactCount: number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+}
+
+export interface NewProjectByName {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  projectName: string
+  timestamp: string | Date | number
+}
+
+export interface NewProjectByQrCodeCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  qrCodeCount: number
+}
+
+export interface NewProjectByScanCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  scanCount: number
+}
+
+export interface NewProjectByTimestamp {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  timestamp: string | Date | number
+}
+
+export interface NewPublishedAppByName {
+  _GLOBAL: string
+  _prefix?: string
+  appId: string
+  appName: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  ownerAccountId: string
+  timestamp: string | Date | number
+}
+
+export interface NewPublishedAppByTimestamp {
+  _GLOBAL: string
+  _prefix?: string
+  appId: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  ownerAccountId: string
+  timestamp: string | Date | number
+}
+
+export interface NewQrCodeByAssetName {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetName: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  qrCodeId: string
+  timestamp: string | Date | number
+}
+
+export interface NewQrCodeByScanCount {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  qrCodeId: string
+  scanCount: number
+}
+
+export interface NewQrCodeByTimestamp {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  qrCodeId: string
+  timestamp: string | Date | number
+}
+
+export interface NewQrCodeLogoByTimestamp {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  qrCodeLogoId: string
+  timestamp: string | Date | number
+}
+
+export interface NewQrCodeStylingTemplateByName {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  stylingTemplateId: string
+  stylingTemplateName: string
+  timestamp: string | Date | number
+}
+
+export interface NewQrCodeStylingTemplateByTimestamp {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  stylingTemplateId: string
+  timestamp: string | Date | number
+}
+
+export interface NewScanByAssetName {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  assetName: string
+  contactId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  scanId: string
+  timestamp: string | Date | number
+}
+
+export interface NewScanByTimestamp {
+  _prefix?: string
+  accountId: string
+  appAccountId?: string | null
+  assetId: string
+  contactId?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
+  projectId: string
+  scanId: string
+  timestamp: string | Date | number
 }
 
 export interface PatchApp {
-  appDetailMedia?: string[]
-  appPrice?: number
-  appStoreThumbnail?: string
-  appWebhook?: string
-  categories?: Array<any>
-  created?: string | Date | number
-  description?: string
-  featured?: boolean
-  features?: string
-  heroImage?: string
-  isPublished?: boolean
-  keywords?: Array<any>
-  logo?: string
-  modified?: string | Date | number
-  pricePlanPoints?: Array<any>
-  tagline?: string
-  uiUrl?: string
-  website?: string
+  appDetailMedia?: string[] | null
+  appPrice?: number | null
+  appStoreThumbnail?: string | null
+  appWebhook?: string | null
+  categories?: Array<any> | null
+  created?: string | Date | number | null
+  description?: string | null
+  featured?: boolean | null
+  features?: string | null
+  heroImage?: string | null
+  isPublished?: boolean | null
+  keywords?: Array<any> | null
+  logo?: string | null
+  modified?: string | Date | number | null
+  pricePlanPoints?: Array<any> | null
+  tagline?: string | null
+  uiUrl?: string | null
+  website?: string | null
 }
 
 export interface PhoneSession {
   contactId: string
   contactPhone: string
-  created?: string | Date | number
-  expiresAt?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  expiresAt?: string | Date | number | null
+  modified?: string | Date | number | null
   smsId: string
   twilioPhone: string
 }
@@ -756,14 +1173,14 @@ export interface PricePlan {
   annualPrice: number
   assets: number
   contacts: number
-  created?: string | Date | number
+  created?: string | Date | number | null
   dataExport: boolean
   emails: number
   mms: number
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   monthlyPrice: number
   name: string
-  paymentPeriod?: string
+  paymentPeriod?: string | null
   pricePerAsset: number
   pricePerContact: number
   pricePerEmail: number
@@ -781,47 +1198,47 @@ export interface PricePlan {
 }
 
 export interface PricePlanPeriod {
-  assetsLimit?: number
+  assetsLimit?: number | null
   assetsTotal: number
-  contactsLimit?: number
+  contactsLimit?: number | null
   contactsTotal: number
-  created?: string | Date | number
-  emailsLimit?: number
-  emailsSentThisPeriod?: number
+  created?: string | Date | number | null
+  emailsLimit?: number | null
+  emailsSentThisPeriod?: number | null
   emailsTotal: number
-  invoiceId?: string
-  mmsLimit?: number
-  mmsSentThisPeriod?: number
+  invoiceId?: string | null
+  mmsLimit?: number | null
+  mmsSentThisPeriod?: number | null
   mmsTotal: number
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   period: string | Date | number
   periodEndDate: string | Date | number
   pricePlanId: string
-  projectsLimit?: number
+  projectsLimit?: number | null
   projectsTotal: number
-  qrCodesLimit?: number
+  qrCodesLimit?: number | null
   qrCodesTotal: number
-  qrScansLimit?: number
+  qrScansLimit?: number | null
   scansUsedTotal: number
-  smsLimit?: number
-  smsSentThisPeriod?: number
+  smsLimit?: number | null
+  smsSentThisPeriod?: number | null
   smsTotal: number
-  usersLimit?: number
+  usersLimit?: number | null
   usersTotal: number
 }
 
 export interface Project {
   accountId: string
-  appAccountId?: string
-  appId?: string
+  appAccountId?: string | null
+  appId?: string | null
   assetCount: number
-  companyName?: string
+  companyName?: string | null
   contactCount: number
-  created?: string | Date | number
-  description?: string
+  created?: string | Date | number | null
+  description?: string | null
   dynamicQrCodeCount: number
-  lastScanId?: string
-  modified?: string | Date | number
+  lastScanId?: string | null
+  modified?: string | Date | number | null
   name: string
   projectId: string
   scanCount: number
@@ -831,38 +1248,38 @@ export interface Project {
 
 export interface ProjectAccount {
   accountId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   projectId: string
 }
 
 export interface ProjectContact {
   contactId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   projectId: string
 }
 
-export interface ProjectEmailContact extends DdbDownstreamedEntity {
+export interface ProjectEmailContact {
   contactId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   email: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   projectId: string
 }
 
-export interface ProjectPhoneContact extends DdbDownstreamedEntity {
+export interface ProjectPhoneContact {
   contactId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   phone: string
   projectId: string
 }
 
 export interface ProjectScan {
   assetId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   projectId: string
   scanId: string
 }
@@ -870,40 +1287,41 @@ export interface ProjectScan {
 export interface PublishedAppByName {
   appId: string
   appName: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
 }
 
 export interface PublishedAppByTimestamp {
   appId: string
   appName: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   timestamp: string | Date | number
 }
 
 export interface QrCode {
-  appAccountId?: string
-  appId?: string
+  appAccountId?: string | null
+  appId?: string | null
   assetId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   customQueryStringParameterName?: string
   dynamicRedirectType?: QrCodeDynamicRedirectType
   imageOptions?: QrCodeImageOptions
-  intent?: string
-  intentState?: NestedKeyValueObject
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
   intentType?: QrCodeIntentType
   locatorKey: string
   locatorKeyType?: QrCodeLocatorKeyType
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   name: string
-  projectId?: string
+  projectId?: string | null
   qrCodeId: string
+  qrDomain?: string | null
   scanCount: number
   status?: QrCodeStatus
-  stylingTemplateId?: string
-  validFrom?: string | Date | number
-  validTo?: string | Date | number
+  stylingTemplateId?: string | null
+  validFrom?: string | Date | number | null
+  validTo?: string | Date | number | null
 }
 
 export interface QrCodeImage {
@@ -913,47 +1331,76 @@ export interface QrCodeImage {
 
 export interface QrCodeImageOptions {
   background?: string
-  backgroundGradientColors?: string
-  backgroundGradientRotation?: number
-  backgroundGradientType?: QrCodeGradientTypes
-  cornerDotColor?: string
-  cornerDotType?: QrCodeCornerDotTypes
-  cornerSquareColor?: string
-  cornerSquareType?: QrCodeCornerSquareTypes
-  darkColor?: string
+  backgroundGradientColors?: string | null
+  backgroundGradientRotation?: number | null
+  backgroundGradientType?: QrCodeGradientTypes | null
+  cornerDotColor?: string | null
+  cornerDotType?: QrCodeCornerDotTypes | null
+  cornerSquareColor?: string | null
+  cornerSquareType?: QrCodeCornerSquareTypes | null
+  darkColor?: string | null
   dataUrl: boolean
-  dotType?: QrCodeDotTypes
+  dotType?: QrCodeDotTypes | null
   errorCorrectionLevel?: QrCodeErrorCorrectionLevel
   foreground?: string
-  foregroundGradientColors?: string
-  foregroundGradientRotation?: number
-  foregroundGradientType?: QrCodeGradientTypes
+  foregroundGradientColors?: string | null
+  foregroundGradientRotation?: number | null
+  foregroundGradientType?: QrCodeGradientTypes | null
   format?: QrCodeType
-  lightColor?: string
-  logo?: string
+  lightColor?: string | null
+  logo?: string | null
   logoMargin?: number
   margin?: number
-  qrCodeLogoId?: string
-  saveAsBlob?: boolean
+  qrCodeLogoId?: string | null
+  saveAsBlob?: boolean | null
   scale?: number
-  version?: number
+  version?: number | null
   width?: number
 }
 
+export interface QrCodeImageOptionsNoDefaults {
+  background?: string | null
+  backgroundGradientColors?: string | null
+  backgroundGradientRotation?: number | null
+  backgroundGradientType?: QrCodeGradientTypes | null
+  cornerDotColor?: string | null
+  cornerDotType?: QrCodeCornerDotTypes | null
+  cornerSquareColor?: string | null
+  cornerSquareType?: QrCodeCornerSquareTypes | null
+  darkColor?: string | null
+  dataUrl?: boolean | null
+  dotType?: QrCodeDotTypes | null
+  errorCorrectionLevel?: QrCodeErrorCorrectionLevel | null
+  foreground?: string | null
+  foregroundGradientColors?: string | null
+  foregroundGradientRotation?: number | null
+  foregroundGradientType?: QrCodeGradientTypes | null
+  format?: QrCodeType | null
+  lightColor?: string | null
+  logo?: string | null
+  logoMargin?: number | null
+  margin?: number | null
+  qrCodeLogoId?: string | null
+  saveAsBlob?: boolean | null
+  scale?: number | null
+  version?: number | null
+  width?: number | null
+}
+
 export interface QrCodeLocator {
-  created?: string | Date | number
+  created?: string | Date | number | null
   locatorKey: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   qrCodeId: string
 }
 
 export interface QrCodeLogo {
   accountId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   createdBy: string
   hidden: boolean
   lastModifiedBy: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   qrCodeLogoId: string
   s3Key: string
   url: string
@@ -961,128 +1408,151 @@ export interface QrCodeLogo {
 
 export interface QrCodeStylingTemplate {
   accountId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   createdBy: string
+  hidden?: boolean | null
   imageOptions?: QrCodeImageOptions
   lastModifiedBy: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   name: string
-  projectId?: string
-  qrCodeLogo?: QrCodeLogo
+  projectId?: string | null
+  qrCodeLogo?: QrCodeLogo | null
   stylingTemplateId: string
 }
 
 export interface RequestApp {
-  appDetailMedia?: string[]
+  appDetailMedia?: string[] | null
   appName: string
   appPrice: number
-  appStoreThumbnail?: string
-  appWebhook?: string
-  categories?: Array<any>
-  created?: string | Date | number
-  description?: string
+  appStoreThumbnail?: string | null
+  appWebhook?: string | null
+  categories?: Array<any> | null
+  created?: string | Date | number | null
+  description?: string | null
   featured: boolean
-  features?: string
-  heroImage?: string
+  features?: string | null
+  heroImage?: string | null
   isPublished: boolean
-  keywords?: Array<any>
-  logo?: string
-  modified?: string | Date | number
-  pricePlanPoints?: Array<any>
-  tagline?: string
+  keywords?: Array<any> | null
+  logo?: string | null
+  modified?: string | Date | number | null
+  pricePlanPoints?: Array<any> | null
+  tagline?: string | null
   uiUrl: string
-  website?: string
+  website?: string | null
+}
+
+export interface RequestQrCode {
+  customQueryStringParameterName?: string
+  dynamicRedirectType?: QrCodeDynamicRedirectType
+  imageOptions?: QrCodeImageOptions
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
+  intentType?: QrCodeIntentType
+  locatorKeyType?: QrCodeLocatorKeyType
+  status?: QrCodeStatus | null
+  stylingTemplateId?: string | null
+  useCustomDomain: boolean
+  validFrom?: string | Date | number | null
+  validTo?: string | Date | number | null
 }
 
 export interface ResponseAsset {
-  appAccountId?: string
-  appId?: string
+  appAccountId?: string | null
+  appId?: string | null
   assetId: string
-  created?: string | Date | number
-  customAttributes?: NestedKeyValueObject
-  description?: string
-  lastScan?: LastScan
-  modified?: string | Date | number
+  assetTypeId?: string | null
+  category?: string | null
+  childAssets?: NestedKeyValueObject | null
+  created?: string | Date | number | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  isValidChildAssets?: boolean | null
+  isValidCustomAttributes?: boolean | null
+  lastScan?: LastScan | null
+  locationId?: string | null
+  modified?: string | Date | number | null
   name: string
+  parentAssetId?: string | null
   projectId: string
-  projectName?: string
-  qrCodes?: ResponseQrCode[]
+  projectName?: string | null
+  qrCodes?: ResponseQrCode[] | null
   scanCount: number
 }
 
 export interface ResponseBodyUser {
   created: string | Date | number
   email: string
-  expiresAt?: string | Date | number
+  expiresAt?: string | Date | number | null
   firstName: string
-  invitationId?: string
+  invitationId?: string | null
   lastName: string
   middleName: string
-  userId?: string
+  userId?: string | null
   userRole: AccountUserRole
 }
 
 export interface ResponseQrCode {
-  appAccountId?: string
-  appId?: string
+  appAccountId?: string | null
+  appId?: string | null
   assetId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   dynamicRedirectType?: QrCodeDynamicRedirectType
   image: QrCodeImage
-  intent?: string
-  intentState?: NestedKeyValueObject
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
   intentType?: QrCodeIntentType
   locatorKey: string
   locatorKeyType?: QrCodeLocatorKeyType
-  modified?: string | Date | number
-  name?: string
-  projectId?: string
+  modified?: string | Date | number | null
+  name?: string | null
+  projectId?: string | null
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
-  stylingTemplateId?: string
-  validFrom?: string | Date | number
-  validTo?: string | Date | number
+  stylingTemplateId?: string | null
+  validFrom?: string | Date | number | null
+  validTo?: string | Date | number | null
 }
 
 export interface Scan {
   assetId: string
   assetName: string
-  browserName?: string
-  browserVersion?: string
-  cpuArchitecture?: string
-  created?: string | Date | number
-  deviceModel?: string
-  deviceType?: string
-  deviceVendor?: string
-  engineName?: string
-  engineVersion?: string
-  ipAddress?: string
-  locationCityName?: string
-  locationCountryCode?: string
-  locationCountryName?: string
-  locationLatitude?: string
-  locationLongitude?: string
-  locationPostalCode?: string
-  locationRegionCode?: string
-  locationRegionName?: string
-  locationTimeZone?: string
-  modified?: string | Date | number
-  osName?: string
-  osVersion?: string
+  browserName?: string | null
+  browserVersion?: string | null
+  cpuArchitecture?: string | null
+  created?: string | Date | number | null
+  deviceModel?: string | null
+  deviceType?: string | null
+  deviceVendor?: string | null
+  engineName?: string | null
+  engineVersion?: string | null
+  ipAddress?: string | null
+  locationCityName?: string | null
+  locationCountryCode?: string | null
+  locationCountryName?: string | null
+  locationLatitude?: string | null
+  locationLongitude?: string | null
+  locationPostalCode?: string | null
+  locationRegionCode?: string | null
+  locationRegionName?: string | null
+  locationTimeZone?: string | null
+  modified?: string | Date | number | null
+  osName?: string | null
+  osVersion?: string | null
   projectId: string
-  qrCodeId?: string
+  qrCodeId?: string | null
   scanId: string
   scanTime: string | Date | number
-  userAgent?: string
+  userAgent?: string | null
 }
 
 export interface ScanContact {
   assetId: string
   assetName: string
   contactId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   projectId: string
   scanId: string
 }
@@ -1090,19 +1560,19 @@ export interface ScanContact {
 export interface Sms {
   body: string
   contactId: string
-  created?: string | Date | number
-  delivered?: boolean
-  deliveredAt?: string | Date | number
+  created?: string | Date | number | null
+  delivered?: boolean | null
+  deliveredAt?: string | Date | number | null
   from: string
   inbound: boolean
-  modified?: string | Date | number
-  price?: number
+  modified?: string | Date | number | null
+  price?: number | null
   priceUnit: string
   projectId: string
-  responses?: SmsResponse[]
+  responses?: SmsResponse[] | null
   smsId: string
-  smsTemplateName?: string
-  status?: string
+  smsTemplateName?: string | null
+  status?: string | null
   to: string
 }
 
@@ -1114,57 +1584,94 @@ export interface SmsResponse {
 }
 
 export interface SmsTemplate {
-  body?: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  body?: string | null
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   projectId: string
-  responseUrl?: string
+  responseUrl?: string | null
   smsTemplateName: string
-  statusUrl?: string
+  statusUrl?: string | null
 }
 
 export interface SuspendedAccount {
-  created?: string | Date | number
+  created?: string | Date | number | null
   isLocked: boolean
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   paymentFailDate: string | Date | number
   suspendedAccount: string
 }
 
 export interface User {
-  created?: string | Date | number
+  created?: string | Date | number | null
   email: string
   firstName: string
   lastName: string
   middleName: string
-  modified?: string | Date | number
+  modified?: string | Date | number | null
   userId: string
 }
 
 export interface UserSessionResponseBody {
   expires: string | Date | number
   scope: AuthTokenScope
-  user?: User
+  user?: User | null
   userId: string
 }
 
 export interface UserSettings {
-  created?: string | Date | number
-  lastSelectedAccountId?: string
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  lastSelectedAccountId?: string | null
+  modified?: string | Date | number | null
   path: UserSettingsDomain
   userId: string
 }
 
 // HANDLER INTERFACE TYPES
 
+export interface CreateAssetTypeByAccountIdPathParameters {
+  accountId: string
+}
+
+export interface CreateAssetTypeByAccountIdRequestBody {
+  category?: string | null
+  childItems?: NestedKeyValueObject | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  instanceProperties?: NestedKeyValueObject | null
+  intent: string
+  name: string
+  staticProperties?: NestedKeyValueObject | null
+  usabilityState?: AssetTypeUsabilityState | null
+}
+
+export interface CreateAssetTypeByAccountIdResponseBody {
+  accountId: string
+  assetType: AssetType
+}
+
+export interface CreateLocationByAccountIdPathParameters {
+  accountId: string
+}
+
+export interface CreateLocationByAccountIdRequestBody {
+  address?: string | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  name: string
+}
+
+export interface CreateLocationByAccountIdResponseBody {
+  accountId: string
+  location: Location
+}
+
 export interface CreateProjectByAccountIdPathParameters {
   accountId: string
 }
 
 export interface CreateProjectByAccountIdRequestBody {
-  companyName?: string
-  description?: string
+  companyName?: string | null
+  description?: string | null
   name: string
 }
 
@@ -1193,7 +1700,7 @@ export interface CreateQrCodeStylingTemplateByAccountPathParameters {
 export interface CreateQrCodeStylingTemplateByAccountRequestBody {
   imageOptions?: QrCodeImageOptions
   name: string
-  projectId?: string
+  projectId?: string | null
 }
 
 export interface CreateQrCodeStylingTemplateByAccountResponseBody {
@@ -1206,8 +1713,8 @@ export interface DeleteContactsByAccountIdPathParameters {
 }
 
 export interface DeleteContactsByAccountIdQueryStringParameters {
-  cellPhone?: string
-  emailAddress?: string
+  cellPhone?: string | null
+  emailAddress?: string | null
 }
 
 export interface DeleteContactsByAccountIdResponseBody {
@@ -1215,22 +1722,44 @@ export interface DeleteContactsByAccountIdResponseBody {
   contacts: Contact[]
 }
 
+export interface GetAssetTypesByAccountIdPathParameters {
+  accountId: string
+}
+
+export interface GetAssetTypesByAccountIdQueryStringParameters {
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  locationId?: string | null
+  name?: string | null
+  sortField?: AssetTypeSortingTypes | null
+  usabilityState?: AssetTypeUsabilityState | null
+}
+
+export interface GetAssetTypesByAccountIdResponseBody {
+  accountId: string
+  assetTypes: AssetType[]
+  assetTypesByLocation?: AssetTypeByLocation[] | null
+  lastKey?: string | null
+  numberOfAssetTypes: number
+}
+
 export interface GetAssetsByAccountIdPathParameters {
   accountId: string
 }
 
 export interface GetAssetsByAccountIdQueryStringParameters {
-  ascending?: boolean
-  lastKey?: string
-  limit?: number
-  name?: string
-  sortField?: AssetSortingTypes
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  name?: string | null
+  sortField?: AssetSortingTypes | null
 }
 
 export interface GetAssetsByAccountIdResponseBody {
   accountId: string
   assets: Asset[]
-  lastKey?: string
+  lastKey?: string | null
   numberOfAssets: number
 }
 
@@ -1241,14 +1770,14 @@ export interface GetConsentByAccountIdPathParameters {
 export interface GetConsentByAccountIdQueryStringParameters {
   consentStatus?: ConsentStatus
   consentType: ConsentType
-  lastKey?: string
-  limit?: number
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetConsentByAccountIdResponseBody {
   accountId: string
   consent: ContactConsent[]
-  lastKey?: string
+  lastKey?: string | null
 }
 
 export interface GetContactsByAccountIdPathParameters {
@@ -1256,21 +1785,39 @@ export interface GetContactsByAccountIdPathParameters {
 }
 
 export interface GetContactsByAccountIdQueryStringParameters {
-  ascending?: boolean
-  assetName?: string
-  contactName?: string
-  email?: string
-  lastKey?: string
-  limit?: number
-  phone?: string
-  sortField?: ContactSortingTypes
+  ascending?: boolean | null
+  assetName?: string | null
+  contactName?: string | null
+  email?: string | null
+  lastKey?: string | null
+  limit?: number | null
+  phone?: string | null
+  sortField?: ContactSortingTypes | null
 }
 
 export interface GetContactsByAccountIdResponseBody {
   accountId: string
   contacts: Contact[]
-  lastKey?: string
+  lastKey?: string | null
   numberOfContacts: number
+}
+
+export interface GetLocationsByAccountIdPathParameters {
+  accountId: string
+}
+
+export interface GetLocationsByAccountIdQueryStringParameters {
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  name?: string | null
+}
+
+export interface GetLocationsByAccountIdResponseBody {
+  accountId: string
+  lastKey?: string | null
+  locations: Location[]
+  numberOfLocations: number
 }
 
 export interface GetProjectsByAccountIdPathParameters {
@@ -1278,16 +1825,16 @@ export interface GetProjectsByAccountIdPathParameters {
 }
 
 export interface GetProjectsByAccountIdQueryStringParameters {
-  ascending?: boolean
-  lastKey?: string
-  limit?: number
-  name?: string
-  sortField?: ProjectSortingTypes
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  name?: string | null
+  sortField?: ProjectSortingTypes | null
 }
 
 export interface GetProjectsByAccountIdResponseBody {
   accountId: string
-  lastKey?: string
+  lastKey?: string | null
   numberOfProjects: number
   projects: Project[]
 }
@@ -1297,14 +1844,14 @@ export interface GetQrCodeLogosByAccountIdPathParameters {
 }
 
 export interface GetQrCodeLogosByAccountIdQueryStringParameters {
-  ascending?: boolean
-  lastKey?: string
-  limit?: number
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetQrCodeLogosByAccountIdResponseBody {
   accountId: string
-  lastKey?: string
+  lastKey?: string | null
   numberOfQrCodeLogos: number
   qrCodeLogos: QrCodeLogo[]
 }
@@ -1314,10 +1861,10 @@ export interface GetQrCodeStylingTemplatesByAccountIdPathParameters {
 }
 
 export interface GetQrCodeStylingTemplatesByAccountIdQueryStringParameters {
-  ascending?: boolean
-  lastKey?: string
-  limit?: number
-  stylingTemplateName?: string
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  stylingTemplateName?: string | null
 }
 
 export interface GetQrCodeStylingTemplatesByAccountIdResponseBody {
@@ -1331,16 +1878,16 @@ export interface GetQrCodesByAccountIdPathParameters {
 }
 
 export interface GetQrCodesByAccountIdQueryStringParameters {
-  ascending?: boolean
-  assetName?: string
-  lastKey?: string
-  limit?: number
-  sortField?: QrCodeSortingTypes
+  ascending?: boolean | null
+  assetName?: string | null
+  lastKey?: string | null
+  limit?: number | null
+  sortField?: QrCodeSortingTypes | null
 }
 
 export interface GetQrCodesByAccountIdResponseBody {
   accountId: string
-  lastKey?: string
+  lastKey?: string | null
   numberOfQrCodes: number
   qrCodes: QrCode[]
 }
@@ -1350,16 +1897,16 @@ export interface GetScansByAccountIdPathParameters {
 }
 
 export interface GetScansByAccountIdQueryStringParameters {
-  ascending?: boolean
-  assetName?: string
-  contactId?: string
-  lastKey?: string
-  limit?: number
+  ascending?: boolean | null
+  assetName?: string | null
+  contactId?: string | null
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetScansByAccountIdResponseBody {
   accountId: string
-  lastKey?: string
+  lastKey?: string | null
   numberOfScans: number
   scans: Scan[]
 }
@@ -1377,21 +1924,127 @@ export interface UploadQrCodeLogoByAccountResponseBody {
   qrCodeLogoUrl: string
 }
 
+export interface ComposeAssetByAssetTypePathParameters {
+  assetId: string
+  assetTypeId: string
+}
+
+export interface ComposeAssetByAssetTypeRequestBody {
+  category: string
+  childItems?: NestedKeyValueObject | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  instanceProperties?: NestedKeyValueObject | null
+  locationId?: string | null
+  name?: string | null
+  staticProperties?: NestedKeyValueObject | null
+  totalCount: number
+  usabilityState?: AssetTypeUsabilityState | null
+}
+
+export interface ComposeAssetByAssetTypeResponseBody {
+  asset: Asset
+  assetId: string
+}
+
+export interface CreateAssetByAssetTypePathParameters {
+  assetTypeId: string
+}
+
+export interface CreateAssetByAssetTypeRequestBody {
+  asset: NestedTypedAsset
+  projectId: string
+  stylingTemplateId?: string | null
+}
+
+export interface CreateAssetByAssetTypeResponseBody {
+  asset: ResponseAsset
+  assetId: string
+  assetType: AssetType
+}
+
+export interface GetAssetTypeByAssetTypeIdPathParameters {
+  assetTypeId: string
+}
+
+export interface GetAssetTypeByAssetTypeIdQueryStringParameters {}
+
+export interface GetAssetTypeByAssetTypeIdResponseBody {
+  assetType: AssetType
+}
+
+export interface GetAssetsByAssetTypePathParameters {
+  assetTypeId: string
+}
+
+export interface GetAssetsByAssetTypeQueryStringParameters {
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  name?: string | null
+  sortField?: AssetByAssetTypeSortingTypes | null
+}
+
+export interface GetAssetsByAssetTypeResponseBody {
+  assetTypeId: string
+  assets: Asset[]
+  lastKey?: string | null
+  numberOfAssets: number
+}
+
+export interface GetAssetTypeCountsByLocationPathParameters {
+  assetTypeId: string
+}
+
+export interface GetAssetTypeCountsByLocationQueryStringParameters {
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+}
+
+export interface GetAssetTypeCountsByLocationResponseBody {
+  assetType: AssetType
+  assetTypesByLocation: AssetTypeByLocation[]
+  count: number
+  lastKey?: string | null
+}
+
+export interface UpdateAssetTypePathParameters {
+  assetTypeId: string
+}
+
+export interface UpdateAssetTypeRequestBody {
+  category?: string | null
+  childItems?: NestedKeyValueObject | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  instanceProperties?: NestedKeyValueObject | null
+  intent?: string | null
+  name?: string | null
+  staticProperties?: NestedKeyValueObject | null
+  usabilityState?: AssetTypeUsabilityState | null
+}
+
+export interface UpdateAssetTypeResponseBody {
+  assetType: AssetType
+  assetTypeId: string
+}
+
 export interface CreateContactByAssetIdPathParameters {
   assetId: string
 }
 
 export interface CreateContactByAssetIdRequestBody {
-  cellPhone?: string
-  consent?: ContactConsent[]
-  customAttributes?: NestedKeyValueObject
-  emailAddress?: string
-  firstName?: string
-  lastName?: string
-  mailingAddress?: ContactMailingAddress
-  middleName?: string
-  nickname?: string
-  type?: string
+  cellPhone?: string | null
+  consent?: ContactConsent[] | null
+  customAttributes?: NestedKeyValueObject | null
+  emailAddress?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  mailingAddress?: ContactMailingAddress | null
+  middleName?: string | null
+  nickname?: string | null
+  type?: string | null
 }
 
 export interface CreateContactByAssetIdResponseBody {
@@ -1406,18 +2059,20 @@ export interface CreateQrCodeByAssetIdPathParameters {
   assetId: string
 }
 
-export interface CreateQrCodeByAssetIdRequestBody {
+export interface CreateQrCodeByAssetIdRequestBody extends RequestQrCode {
   customQueryStringParameterName?: string
   dynamicRedirectType?: QrCodeDynamicRedirectType
   imageOptions?: QrCodeImageOptions
-  intent?: string
-  intentState?: NestedKeyValueObject
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
   intentType?: QrCodeIntentType
   locatorKeyType?: QrCodeLocatorKeyType
-  status?: QrCodeStatus
-  stylingTemplateId?: string
-  validFrom?: string | Date | number
-  validTo?: string | Date | number
+  qrCodes?: RequestQrCode[]
+  status?: QrCodeStatus | null
+  stylingTemplateId?: string | null
+  useCustomDomain: boolean
+  validFrom?: string | Date | number | null
+  validTo?: string | Date | number | null
 }
 
 export interface CreateQrCodeByAssetIdResponseBody {
@@ -1426,6 +2081,21 @@ export interface CreateQrCodeByAssetIdResponseBody {
   locatorKey: string
   qrCode: ResponseQrCode
   qrCodeId: string
+}
+
+export interface CreateQrCodesByAssetIdPathParameters {
+  assetId: string
+}
+
+export interface CreateQrCodesByAssetIdRequestBody {
+  qrCodes?: RequestQrCode[]
+}
+
+export interface CreateQrCodesByAssetIdResponseBody {
+  asset: Asset
+  assetId: string
+  locatorKeys: QrCodeLocator[]
+  qrCodes: ResponseQrCode[]
 }
 
 export interface DeleteAssetPathParameters {
@@ -1441,33 +2111,33 @@ export interface GetAssetPathParameters {
 }
 
 export interface GetAssetQueryStringParameters {
-  background?: string
-  backgroundGradientColors?: string
-  backgroundGradientRotation?: number
-  backgroundGradientType?: QrCodeGradientTypes
-  cornerDotColor?: string
-  cornerDotType?: QrCodeCornerDotTypes
-  cornerSquareColor?: string
-  cornerSquareType?: QrCodeCornerSquareTypes
-  darkColor?: string
-  dataUrl?: boolean
-  dotType?: QrCodeDotTypes
-  errorCorrectionLevel?: QrCodeErrorCorrectionLevel
-  foreground?: string
-  foregroundGradientColors?: string
-  foregroundGradientRotation?: number
-  foregroundGradientType?: QrCodeGradientTypes
-  format?: QrCodeType
-  lightColor?: string
-  logo?: string
-  logoMargin?: number
-  margin?: number
-  qrCodeLogoId?: string
-  saveAsBlob?: boolean
-  scale?: number
-  stylingTemplateId?: string
-  version?: number
-  width?: number
+  background?: string | null
+  backgroundGradientColors?: string | null
+  backgroundGradientRotation?: number | null
+  backgroundGradientType?: QrCodeGradientTypes | null
+  cornerDotColor?: string | null
+  cornerDotType?: QrCodeCornerDotTypes | null
+  cornerSquareColor?: string | null
+  cornerSquareType?: QrCodeCornerSquareTypes | null
+  darkColor?: string | null
+  dataUrl?: boolean | null
+  dotType?: QrCodeDotTypes | null
+  errorCorrectionLevel?: QrCodeErrorCorrectionLevel | null
+  foreground?: string | null
+  foregroundGradientColors?: string | null
+  foregroundGradientRotation?: number | null
+  foregroundGradientType?: QrCodeGradientTypes | null
+  format?: QrCodeType | null
+  lightColor?: string | null
+  logo?: string | null
+  logoMargin?: number | null
+  margin?: number | null
+  qrCodeLogoId?: string | null
+  saveAsBlob?: boolean | null
+  scale?: number | null
+  stylingTemplateId?: string | null
+  version?: number | null
+  width?: number | null
 }
 
 export interface GetAssetResponseBody {
@@ -1475,22 +2145,40 @@ export interface GetAssetResponseBody {
   assetId: string
 }
 
+export interface GetAssetHistoryPathParameters {
+  assetId: string
+}
+
+export interface GetAssetHistoryQueryStringParameters {
+  ascending?: boolean | null
+  at?: string | Date | number | null
+  from?: string | Date | number | null
+  limit?: number | null
+  to?: string | Date | number | null
+}
+
+export interface GetAssetHistoryResponseBody {
+  assetId: string
+  history: Asset[]
+  numberOfRecords: number
+}
+
 export interface GetContactsByAssetIdPathParameters {
   assetId: string
 }
 
 export interface GetContactsByAssetIdQueryStringParameters {
-  ascending?: boolean
-  lastKey?: string
-  limit?: number
-  sortField?: ContactAssetSortingTypes
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  sortField?: ContactAssetSortingTypes | null
 }
 
 export interface GetContactsByAssetIdResponseBody {
   assetContacts: AssetContact[]
   assetId: string
   contacts: Contact[]
-  lastKey?: string
+  lastKey?: string | null
   numberOfContacts: number
 }
 
@@ -1499,40 +2187,42 @@ export interface GetQrCodesByAssetIdPathParameters {
 }
 
 export interface GetQrCodesByAssetIdQueryStringParameters {
-  background?: string
-  backgroundGradientColors?: string
-  backgroundGradientRotation?: number
-  backgroundGradientType?: QrCodeGradientTypes
-  cornerDotColor?: string
-  cornerDotType?: QrCodeCornerDotTypes
-  cornerSquareColor?: string
-  cornerSquareType?: QrCodeCornerSquareTypes
-  darkColor?: string
-  dataUrl?: boolean
-  dotType?: QrCodeDotTypes
-  errorCorrectionLevel?: QrCodeErrorCorrectionLevel
-  foreground?: string
-  foregroundGradientColors?: string
-  foregroundGradientRotation?: number
-  foregroundGradientType?: QrCodeGradientTypes
-  format?: QrCodeType
-  lastKey?: string
-  lightColor?: string
-  limit?: number
-  logo?: string
-  logoMargin?: number
-  margin?: number
-  qrCodeLogoId?: string
-  saveAsBlob?: boolean
-  scale?: number
-  stylingTemplateId?: string
-  version?: number
-  width?: number
+  ascending?: boolean | null
+  background?: string | null
+  backgroundGradientColors?: string | null
+  backgroundGradientRotation?: number | null
+  backgroundGradientType?: QrCodeGradientTypes | null
+  cornerDotColor?: string | null
+  cornerDotType?: QrCodeCornerDotTypes | null
+  cornerSquareColor?: string | null
+  cornerSquareType?: QrCodeCornerSquareTypes | null
+  darkColor?: string | null
+  dataUrl?: boolean | null
+  dotType?: QrCodeDotTypes | null
+  errorCorrectionLevel?: QrCodeErrorCorrectionLevel | null
+  foreground?: string | null
+  foregroundGradientColors?: string | null
+  foregroundGradientRotation?: number | null
+  foregroundGradientType?: QrCodeGradientTypes | null
+  format?: QrCodeType | null
+  lastKey?: string | null
+  lightColor?: string | null
+  limit?: number | null
+  logo?: string | null
+  logoMargin?: number | null
+  margin?: number | null
+  qrCodeLogoId?: string | null
+  saveAsBlob?: boolean | null
+  scale?: number | null
+  sortField?: QrCodeSortingTypes | null
+  stylingTemplateId?: string | null
+  version?: number | null
+  width?: number | null
 }
 
 export interface GetQrCodesByAssetIdResponseBody {
   assetId: string
-  lastKey?: string
+  lastKey?: string | null
   numberOfQrCodes: number
   qrCodes: ResponseQrCode[]
 }
@@ -1543,13 +2233,13 @@ export interface GetScansByAssetIdPathParameters {
 
 export interface GetScansByAssetIdQueryStringParameters {
   ascending?: boolean
-  lastKey?: string
-  limit?: number
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetScansByAssetIdResponseBody {
   assetId: string
-  lastKey?: string
+  lastKey?: string | null
   numberOfScans: number
   scans: Scan[]
 }
@@ -1560,7 +2250,7 @@ export interface LinkContactToAssetPathParameters {
 }
 
 export interface LinkContactToAssetRequestBody {
-  type?: string
+  type?: string | null
 }
 
 export interface LinkContactToAssetResponseBody {
@@ -1578,14 +2268,20 @@ export interface UpdateAssetPathParameters {
 }
 
 export interface UpdateAssetRequestBody {
-  customAttributes?: NestedKeyValueObject
-  description?: string
-  name?: string
+  assetTypeId?: string | null
+  category?: string | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  locationId?: string | null
+  name?: string | null
+  parentAssetId?: string | null
 }
 
 export interface UpdateAssetResponseBody {
   asset: Asset
   assetId: string
+  assetType?: AssetType | null
+  location?: Location | null
 }
 
 export interface CreateConsentByContactIdPathParameters {
@@ -1596,8 +2292,8 @@ export interface CreateConsentByContactIdRequestBody {
   consentStatus?: ConsentStatus
   consentType: ConsentType
   consentedAt: string | Date | number
-  projectId?: string
-  url?: string
+  projectId?: string | null
+  url?: string | null
   urls?: string[]
 }
 
@@ -1613,7 +2309,7 @@ export interface DeleteConsentByContactIdPathParameters {
 export interface DeleteConsentByContactIdQueryStringParameters {
   consentStatus?: ConsentStatus
   consentType: ConsentType
-  projectId?: string
+  projectId?: string | null
 }
 
 export interface DeleteConsentByContactIdResponseBody {
@@ -1635,16 +2331,16 @@ export interface GetConsentByContactIdPathParameters {
 
 export interface GetConsentByContactIdQueryStringParameters {
   consentStatus?: ConsentStatus
-  consentType?: ConsentType
-  lastKey?: string
-  limit?: number
-  projectId?: string
+  consentType?: ConsentType | null
+  lastKey?: string | null
+  limit?: number | null
+  projectId?: string | null
 }
 
 export interface GetConsentByContactIdResponseBody {
   consent: ContactConsent[]
   contactId: string
-  lastKey?: string
+  lastKey?: string | null
 }
 
 export interface GetContactPathParameters {
@@ -1684,8 +2380,8 @@ export interface LinkContactToScanResponseBody extends ScanContact {
   assetId: string
   assetName: string
   contactId: string
-  created?: string | Date | number
-  modified?: string | Date | number
+  created?: string | Date | number | null
+  modified?: string | Date | number | null
   projectId: string
   scanId: string
 }
@@ -1695,15 +2391,15 @@ export interface UpdateContactPathParameters {
 }
 
 export interface UpdateContactRequestBody {
-  cellPhone?: string
-  consent?: ContactConsent[]
-  customAttributes?: NestedKeyValueObject
-  emailAddress?: string
-  firstName?: string
-  lastName?: string
-  mailingAddress?: ContactMailingAddress
-  middleName?: string
-  nickname?: string
+  cellPhone?: string | null
+  consent?: ContactConsent[] | null
+  customAttributes?: NestedKeyValueObject | null
+  emailAddress?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  mailingAddress?: ContactMailingAddress | null
+  middleName?: string | null
+  nickname?: string | null
 }
 
 export interface UpdateContactResponseBody {
@@ -1711,15 +2407,87 @@ export interface UpdateContactResponseBody {
   contactId: string
 }
 
+export interface UpdateAssetsLocationsPathParameters {
+  locationId: string
+}
+
+export interface UpdateAssetsLocationsRequestBody {
+  assetIds: Array<any>
+}
+
+export interface UpdateAssetsLocationsResponseBody {
+  assets: Asset
+}
+
+export interface GetAssetTypeCountAtLocationPathParameters {
+  assetTypeId: string
+  locationId: string
+}
+
+export interface GetAssetTypeCountAtLocationResponseBody {
+  assetType: AssetType
+  assetTypeByLocation: AssetTypeByLocation
+}
+
+export interface GetAssetsByLocationIdPathParameters {
+  locationId: string
+}
+
+export interface GetAssetsByLocationIdQueryStringParameters {
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  name?: string | null
+  sortField?: AssetSortingTypes | null
+}
+
+export interface GetAssetsByLocationIdResponseBody {
+  assets: Asset[]
+  lastKey?: string | null
+  locationId: string
+  numberOfAssets: number
+}
+
+export interface UpdateAssetTypeCountAtLocationPathParameters {
+  assetTypeId: string
+  locationId: string
+}
+
+export interface UpdateAssetTypeCountAtLocationRequestBody {
+  count: number
+  isDelta: boolean
+}
+
+export interface UpdateAssetTypeCountAtLocationResponseBody {
+  assetType: AssetType
+  assetTypeByLocation: AssetTypeByLocation
+}
+
+export interface UpdateLocationPathParameters {
+  locationId: string
+}
+
+export interface UpdateLocationRequestBody {
+  address?: string | null
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
+  name?: string | null
+}
+
+export interface UpdateLocationResponseBody {
+  location: Location
+}
+
 export interface CreateAssetByProjectIdPathParameters {
   projectId: string
 }
 
 export interface CreateAssetByProjectIdRequestBody extends NestedAsset {
-  customAttributes?: NestedKeyValueObject
-  description?: string
+  customAttributes?: NestedKeyValueObject | null
+  description?: string | null
   name: string
-  qrCodes?: NestedQrCode[]
+  qrCodes?: NestedQrCode[] | null
+  useCustomDomain: boolean
 }
 
 export interface CreateAssetByProjectIdResponseBody {
@@ -1733,6 +2501,7 @@ export interface CreateAssetsByProjectIdPathParameters {
 
 export interface CreateAssetsByProjectIdRequestBody {
   assets: NestedAsset[]
+  useCustomDomain: boolean
 }
 
 export interface CreateAssetsByProjectIdResponseBody {
@@ -1746,26 +2515,26 @@ export interface CreateContactByProjectIdPathParameters {
 }
 
 export interface CreateContactByProjectIdRequestBody {
-  asset?: NestedAsset
-  cellPhone?: string
-  consent?: ContactConsent[]
-  customAttributes?: NestedKeyValueObject
-  emailAddress?: string
-  firstName?: string
-  lastName?: string
-  mailingAddress?: ContactMailingAddress
-  middleName?: string
-  nickname?: string
-  type?: string
+  asset?: NestedAsset | null
+  cellPhone?: string | null
+  consent?: ContactConsent[] | null
+  customAttributes?: NestedKeyValueObject | null
+  emailAddress?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  mailingAddress?: ContactMailingAddress | null
+  middleName?: string | null
+  nickname?: string | null
+  type?: string | null
 }
 
 export interface CreateContactByProjectIdResponseBody {
-  asset?: Asset
-  assetContact?: AssetContact
+  asset?: Asset | null
+  assetContact?: AssetContact | null
   contact: Contact
   projectContact: ProjectContact
   projectId: string
-  qrCodes?: QrCode[]
+  qrCodes?: QrCode[] | null
 }
 
 export interface CreateContactsByProjectIdPathParameters {
@@ -1787,10 +2556,10 @@ export interface CreateSmsTemplateByProjectIdPathParameters {
 }
 
 export interface CreateSmsTemplateByProjectIdRequestBody {
-  body?: string
-  responseUrl?: string
+  body?: string | null
+  responseUrl?: string | null
   smsTemplateName: string
-  statusUrl?: string
+  statusUrl?: string | null
 }
 
 export interface CreateSmsTemplateByProjectIdResponseBody {
@@ -1802,8 +2571,8 @@ export interface DeleteContactsByProjectIdPathParameters {
 }
 
 export interface DeleteContactsByProjectIdQueryStringParameters {
-  cellPhone?: string
-  emailAddress?: string
+  cellPhone?: string | null
+  emailAddress?: string | null
 }
 
 export interface DeleteContactsByProjectIdResponseBody {
@@ -1825,11 +2594,11 @@ export interface DeleteSmsTemplateByProjectIdPathParameters {
 }
 
 export interface DeleteSmsTemplateByProjectIdResponseBody {
-  body?: string
+  body?: string | null
   projectId: string
-  responseUrl?: string
-  smsTemplateName?: string
-  statusUrl?: string
+  responseUrl?: string | null
+  smsTemplateName?: string | null
+  statusUrl?: string | null
 }
 
 export interface GetAssetsByProjectIdPathParameters {
@@ -1837,16 +2606,16 @@ export interface GetAssetsByProjectIdPathParameters {
 }
 
 export interface GetAssetsByProjectIdQueryStringParameters {
-  ascending?: boolean
-  lastKey?: string
-  limit?: number
-  name?: string
-  sortField?: AssetSortingTypes
+  ascending?: boolean | null
+  lastKey?: string | null
+  limit?: number | null
+  name?: string | null
+  sortField?: AssetSortingTypes | null
 }
 
 export interface GetAssetsByProjectIdResponseBody {
   assets: Asset[]
-  lastKey?: string
+  lastKey?: string | null
   numberOfAssets: number
   projectId: string
 }
@@ -1858,13 +2627,13 @@ export interface GetConsentByProjectIdPathParameters {
 export interface GetConsentByProjectIdQueryStringParameters {
   consentStatus?: ConsentStatus
   consentType: ConsentType
-  lastKey?: string
-  limit?: number
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetConsentByProjectIdResponseBody {
   consent: ContactConsent[]
-  lastKey?: string
+  lastKey?: string | null
   projectId: string
 }
 
@@ -1873,19 +2642,19 @@ export interface GetContactsByProjectIdPathParameters {
 }
 
 export interface GetContactsByProjectIdQueryStringParameters {
-  ascending?: boolean
-  assetName?: string
-  contactName?: string
-  email?: string
-  lastKey?: string
-  limit?: number
-  phone?: string
-  sortField?: ContactSortingTypes
+  ascending?: boolean | null
+  assetName?: string | null
+  contactName?: string | null
+  email?: string | null
+  lastKey?: string | null
+  limit?: number | null
+  phone?: string | null
+  sortField?: ContactSortingTypes | null
 }
 
 export interface GetContactsByProjectIdResponseBody {
   contacts: Contact[]
-  lastKey?: string
+  lastKey?: string | null
   numberOfContacts: number
   projectId: string
 }
@@ -1903,15 +2672,15 @@ export interface GetQrCodesByProjectIdPathParameters {
 }
 
 export interface GetQrCodesByProjectIdQueryStringParameters {
-  ascending?: boolean
-  assetName?: string
-  lastKey?: string
-  limit?: number
-  sortField?: QrCodeSortingTypes
+  ascending?: boolean | null
+  assetName?: string | null
+  lastKey?: string | null
+  limit?: number | null
+  sortField?: QrCodeSortingTypes | null
 }
 
 export interface GetQrCodesByProjectIdResponseBody {
-  lastKey?: string
+  lastKey?: string | null
   numberOfQrCodes: number
   projectId: string
   qrCodes: QrCode[]
@@ -1922,15 +2691,15 @@ export interface GetScansByProjectIdPathParameters {
 }
 
 export interface GetScansByProjectIdQueryStringParameters {
-  ascending: boolean
-  assetName?: string
-  contactId?: string
-  lastKey?: string
-  limit?: number
+  ascending?: boolean | null
+  assetName?: string | null
+  contactId?: string | null
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetScansByProjectIdResponseBody {
-  lastKey?: string
+  lastKey?: string | null
   numberOfScans: number
   projectId: string
   scans: Scan[]
@@ -1942,11 +2711,11 @@ export interface GetSmsTemplateByProjectIdPathParameters {
 }
 
 export interface GetSmsTemplateByProjectIdResponseBody {
-  body?: string
+  body?: string | null
   projectId: string
-  responseUrl?: string
+  responseUrl?: string | null
   smsTemplateName: string
-  statusUrl?: string
+  statusUrl?: string | null
 }
 
 export interface GetSmsTemplatesByProjectIdPathParameters {
@@ -1954,12 +2723,12 @@ export interface GetSmsTemplatesByProjectIdPathParameters {
 }
 
 export interface GetSmsTemplatesByProjectIdQueryStringParameters {
-  lastKey?: string
-  limit?: number
+  lastKey?: string | null
+  limit?: number | null
 }
 
 export interface GetSmsTemplatesByProjectIdResponseBody {
-  lastKey?: string
+  lastKey?: string | null
   numberOfSmsTemplates: number
   projectId: string
   smsTemplates: SmsTemplate[]
@@ -1970,10 +2739,10 @@ export interface UpdateProjectByProjectIdPathParameters {
 }
 
 export interface UpdateProjectByProjectIdRequestBody {
-  companyName?: string
-  description?: string
-  name?: string
-  status?: ProjectStatus
+  companyName?: string | null
+  description?: string | null
+  name?: string | null
+  status?: ProjectStatus | null
 }
 
 export interface UpdateProjectByProjectIdResponseBody {
@@ -1986,17 +2755,17 @@ export interface UpdateSmsTemplatePathParameters {
 }
 
 export interface UpdateSmsTemplateRequestBody {
-  body?: string
-  responseUrl?: string
-  statusUrl?: string
+  body?: string | null
+  responseUrl?: string | null
+  statusUrl?: string | null
 }
 
 export interface UpdateSmsTemplateResponseBody {
-  body?: string
+  body?: string | null
   projectId: string
-  responseUrl?: string
-  smsTemplateName?: string
-  statusUrl?: string
+  responseUrl?: string | null
+  smsTemplateName?: string | null
+  statusUrl?: string | null
 }
 
 export interface GetQrCodeLogoByQrCodeLogoIdPathParameters {
@@ -2013,7 +2782,7 @@ export interface UpdateQrCodeLogoByQrCodeLogoIdPathParameters {
 }
 
 export interface UpdateQrCodeLogoByQrCodeLogoIdRequestBody {
-  hidden?: boolean
+  hidden?: boolean | null
 }
 
 export interface UpdateQrCodeLogoByQrCodeLogoIdResponseBody {
@@ -2034,56 +2803,56 @@ export interface GetQrCodePathParameters {
 }
 
 export interface GetQrCodeQueryStringParameters {
-  background?: string
-  backgroundGradientColors?: string
-  backgroundGradientRotation?: number
-  backgroundGradientType?: QrCodeGradientTypes
-  cornerDotColor?: string
-  cornerDotType?: QrCodeCornerDotTypes
-  cornerSquareColor?: string
-  cornerSquareType?: QrCodeCornerSquareTypes
-  darkColor?: string
-  dataUrl?: boolean
-  dotType?: QrCodeDotTypes
-  errorCorrectionLevel?: QrCodeErrorCorrectionLevel
-  foreground?: string
-  foregroundGradientColors?: string
-  foregroundGradientRotation?: number
-  foregroundGradientType?: QrCodeGradientTypes
-  format?: QrCodeType
-  lightColor?: string
-  logo?: string
-  logoMargin?: number
-  margin?: number
-  qrCodeLogoId?: string
-  saveAsBlob?: boolean
-  scale?: number
-  stylingTemplateId?: string
-  version?: number
-  width?: number
+  background?: string | null
+  backgroundGradientColors?: string | null
+  backgroundGradientRotation?: number | null
+  backgroundGradientType?: QrCodeGradientTypes | null
+  cornerDotColor?: string | null
+  cornerDotType?: QrCodeCornerDotTypes | null
+  cornerSquareColor?: string | null
+  cornerSquareType?: QrCodeCornerSquareTypes | null
+  darkColor?: string | null
+  dataUrl?: boolean | null
+  dotType?: QrCodeDotTypes | null
+  errorCorrectionLevel?: QrCodeErrorCorrectionLevel | null
+  foreground?: string | null
+  foregroundGradientColors?: string | null
+  foregroundGradientRotation?: number | null
+  foregroundGradientType?: QrCodeGradientTypes | null
+  format?: QrCodeType | null
+  lightColor?: string | null
+  logo?: string | null
+  logoMargin?: number | null
+  margin?: number | null
+  qrCodeLogoId?: string | null
+  saveAsBlob?: boolean | null
+  scale?: number | null
+  stylingTemplateId?: string | null
+  version?: number | null
+  width?: number | null
 }
 
 export interface GetQrCodeResponseBody extends ResponseQrCode {
-  appAccountId?: string
-  appId?: string
+  appAccountId?: string | null
+  appId?: string | null
   assetId: string
-  created?: string | Date | number
+  created?: string | Date | number | null
   dynamicRedirectType?: QrCodeDynamicRedirectType
   image: QrCodeImage
-  intent?: string
-  intentState?: NestedKeyValueObject
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
   intentType?: QrCodeIntentType
   locatorKey: string
   locatorKeyType?: QrCodeLocatorKeyType
-  modified?: string | Date | number
-  name?: string
-  projectId?: string
+  modified?: string | Date | number | null
+  name?: string | null
+  projectId?: string | null
   qrCodeId: string
   scanCount: number
   status?: QrCodeStatus
-  stylingTemplateId?: string
-  validFrom?: string | Date | number
-  validTo?: string | Date | number
+  stylingTemplateId?: string | null
+  validFrom?: string | Date | number | null
+  validTo?: string | Date | number | null
 }
 
 export interface UpdateQrCodePathParameters {
@@ -2091,12 +2860,12 @@ export interface UpdateQrCodePathParameters {
 }
 
 export interface UpdateQrCodeRequestBody {
-  dynamicRedirectType?: QrCodeDynamicRedirectType
-  imageOptions?: QrCodeImageOptions
-  intent?: string
-  intentState?: NestedKeyValueObject
-  status?: QrCodeStatus
-  stylingTemplateId?: string
+  dynamicRedirectType?: QrCodeDynamicRedirectType | null
+  imageOptions?: QrCodeImageOptions | null
+  intent?: string | null
+  intentState?: NestedKeyValueObject | null
+  status?: QrCodeStatus | null
+  stylingTemplateId?: string | null
 }
 
 export interface UpdateQrCodeResponseBody {
@@ -2108,16 +2877,16 @@ export interface CreateContactByScanIdPathParameters {
 }
 
 export interface CreateContactByScanIdRequestBody {
-  cellPhone?: string
-  consent?: ContactConsent[]
-  customAttributes?: NestedKeyValueObject
-  emailAddress?: string
-  firstName?: string
-  lastName?: string
-  mailingAddress?: ContactMailingAddress
-  middleName?: string
-  nickname?: string
-  type?: string
+  cellPhone?: string | null
+  consent?: ContactConsent[] | null
+  customAttributes?: NestedKeyValueObject | null
+  emailAddress?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  mailingAddress?: ContactMailingAddress | null
+  middleName?: string | null
+  nickname?: string | null
+  type?: string | null
 }
 
 export interface CreateContactByScanIdResponseBody {
@@ -2145,10 +2914,10 @@ export interface SendSmsByScanIdPathParameters {
 }
 
 export interface SendSmsByScanIdRequestBody {
-  body?: string
+  body?: string | null
   contactId: string
-  customVariables?: NestedKeyValueObject
-  smsTemplateName?: string
+  customVariables?: NestedKeyValueObject | null
+  smsTemplateName?: string | null
 }
 
 export interface SendSmsByScanIdResponseBody {
@@ -2178,8 +2947,9 @@ export interface UpdateQrCodeStylingTemplateByStylingTemplateIdPathParameters {
 }
 
 export interface UpdateQrCodeStylingTemplateByStylingTemplateIdRequestBody {
-  imageOptions?: QrCodeImageOptions
-  qrCodeLogoId?: string
+  imageOptions?: QrCodeImageOptionsNoDefaults
+  name?: string | null
+  qrCodeLogoId?: string | null
 }
 
 export interface UpdateQrCodeStylingTemplateByStylingTemplateIdResponseBody {
@@ -2211,6 +2981,30 @@ export interface GetSessionRefreshApiKeySessionResponseBody {
 }
 
 // HANDLER REQUEST CLASSES
+
+export class CreateAssetTypeByAccountIdRequest extends RequestPost<
+  CreateAssetTypeByAccountIdPathParameters,
+  undefined,
+  CreateAssetTypeByAccountIdRequestBody,
+  CreateAssetTypeByAccountIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'assettypes', sdkPartName: 'assettypes'},
+  ]
+}
+
+export class CreateLocationByAccountIdRequest extends RequestPost<
+  CreateLocationByAccountIdPathParameters,
+  undefined,
+  CreateLocationByAccountIdRequestBody,
+  CreateLocationByAccountIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'locations', sdkPartName: 'locations'},
+  ]
+}
 
 export class CreateProjectByAccountIdRequest extends RequestPost<
   CreateProjectByAccountIdPathParameters,
@@ -2259,6 +3053,17 @@ export class DeleteContactsByAccountIdRequest extends RequestDelete<
   ]
 }
 
+export class GetAssetTypesByAccountIdRequest extends RequestGet<
+  GetAssetTypesByAccountIdPathParameters,
+  GetAssetTypesByAccountIdQueryStringParameters,
+  GetAssetTypesByAccountIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'assettypes', sdkPartName: 'assettypes'},
+  ]
+}
+
 export class GetAssetsByAccountIdRequest extends RequestGet<
   GetAssetsByAccountIdPathParameters,
   GetAssetsByAccountIdQueryStringParameters,
@@ -2289,6 +3094,17 @@ export class GetContactsByAccountIdRequest extends RequestGet<
   routeSegments?: RequestRouteSegment[] = [
     {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
     {routePart: 'contacts', sdkPartName: 'contacts'},
+  ]
+}
+
+export class GetLocationsByAccountIdRequest extends RequestGet<
+  GetLocationsByAccountIdPathParameters,
+  GetLocationsByAccountIdQueryStringParameters,
+  GetLocationsByAccountIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'accountId', routePart: 'accounts', sdkPartName: 'account'},
+    {routePart: 'locations', sdkPartName: 'locations'},
   ]
 }
 
@@ -2359,6 +3175,69 @@ export class UploadQrCodeLogoByAccountRequest extends RequestPost<
   ]
 }
 
+export class ComposeAssetByAssetTypeRequest extends RequestPost<
+  ComposeAssetByAssetTypePathParameters,
+  undefined,
+  ComposeAssetByAssetTypeRequestBody,
+  ComposeAssetByAssetTypeResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'assetTypeId', routePart: 'assettypes', sdkPartName: 'assettype'},
+    {parm: 'assetId', routePart: 'assets', sdkPartName: 'asset'},
+  ]
+}
+
+export class CreateAssetByAssetTypeRequest extends RequestPost<
+  CreateAssetByAssetTypePathParameters,
+  undefined,
+  CreateAssetByAssetTypeRequestBody,
+  CreateAssetByAssetTypeResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'assetTypeId', routePart: 'assettypes', sdkPartName: 'assettype'},
+    {routePart: 'assets', sdkPartName: 'assets'},
+  ]
+}
+
+export class GetAssetTypeByAssetTypeIdRequest extends RequestGet<
+  GetAssetTypeByAssetTypeIdPathParameters,
+  GetAssetTypeByAssetTypeIdQueryStringParameters,
+  GetAssetTypeByAssetTypeIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [{parm: 'assetTypeId', routePart: 'assettypes', sdkPartName: 'assettype'}]
+}
+
+export class GetAssetsByAssetTypeRequest extends RequestGet<
+  GetAssetsByAssetTypePathParameters,
+  GetAssetsByAssetTypeQueryStringParameters,
+  GetAssetsByAssetTypeResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'assetTypeId', routePart: 'assettypes', sdkPartName: 'assettype'},
+    {routePart: 'assets', sdkPartName: 'assets'},
+  ]
+}
+
+export class GetAssetTypeCountsByLocationRequest extends RequestGet<
+  GetAssetTypeCountsByLocationPathParameters,
+  GetAssetTypeCountsByLocationQueryStringParameters,
+  GetAssetTypeCountsByLocationResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'assetTypeId', routePart: 'assettypes', sdkPartName: 'assettype'},
+    {routePart: 'locations', sdkPartName: 'locations'},
+  ]
+}
+
+export class UpdateAssetTypeRequest extends RequestPatch<
+  UpdateAssetTypePathParameters,
+  undefined,
+  UpdateAssetTypeRequestBody,
+  UpdateAssetTypeResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [{parm: 'assetTypeId', routePart: 'assettypes', sdkPartName: 'assettype'}]
+}
+
 export class CreateContactByAssetIdRequest extends RequestPost<
   CreateContactByAssetIdPathParameters,
   undefined,
@@ -2383,6 +3262,18 @@ export class CreateQrCodeByAssetIdRequest extends RequestPost<
   ]
 }
 
+export class CreateQrCodesByAssetIdRequest extends RequestPost<
+  CreateQrCodesByAssetIdPathParameters,
+  undefined,
+  CreateQrCodesByAssetIdRequestBody,
+  CreateQrCodesByAssetIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'assetId', routePart: 'assets', sdkPartName: 'asset'},
+    {routePart: 'qrcodes', sdkPartName: 'qrCodes'},
+  ]
+}
+
 export class DeleteAssetRequest extends RequestDelete<DeleteAssetPathParameters, undefined, DeleteAssetResponseBody> {
   routeSegments?: RequestRouteSegment[] = [{parm: 'assetId', routePart: 'assets', sdkPartName: 'asset'}]
 }
@@ -2393,6 +3284,17 @@ export class GetAssetRequest extends RequestGet<
   GetAssetResponseBody
 > {
   routeSegments?: RequestRouteSegment[] = [{parm: 'assetId', routePart: 'assets', sdkPartName: 'asset'}]
+}
+
+export class GetAssetHistoryRequest extends RequestGet<
+  GetAssetHistoryPathParameters,
+  GetAssetHistoryQueryStringParameters,
+  GetAssetHistoryResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'assetId', routePart: 'assets', sdkPartName: 'asset'},
+    {routePart: 'history', sdkPartName: 'history'},
+  ]
 }
 
 export class GetContactsByAssetIdRequest extends RequestGet<
@@ -2547,6 +3449,61 @@ export class UpdateContactRequest extends RequestPatch<
   UpdateContactResponseBody
 > {
   routeSegments?: RequestRouteSegment[] = [{parm: 'contactId', routePart: 'contacts', sdkPartName: 'contact'}]
+}
+
+export class UpdateAssetsLocationsRequest extends RequestPatch<
+  UpdateAssetsLocationsPathParameters,
+  undefined,
+  UpdateAssetsLocationsRequestBody,
+  UpdateAssetsLocationsResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'locationId', routePart: 'location', sdkPartName: 'location'},
+    {routePart: 'assets', sdkPartName: 'assets'},
+  ]
+}
+
+export class GetAssetTypeCountAtLocationRequest extends RequestGet<
+  GetAssetTypeCountAtLocationPathParameters,
+  undefined,
+  GetAssetTypeCountAtLocationResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'locationId', routePart: 'location', sdkPartName: 'location'},
+    {parm: 'assetTypeId', routePart: 'assetType', sdkPartName: 'assetType'},
+  ]
+}
+
+export class GetAssetsByLocationIdRequest extends RequestGet<
+  GetAssetsByLocationIdPathParameters,
+  GetAssetsByLocationIdQueryStringParameters,
+  GetAssetsByLocationIdResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'locationId', routePart: 'locations', sdkPartName: 'location'},
+    {routePart: 'assets', sdkPartName: 'assets'},
+  ]
+}
+
+export class UpdateAssetTypeCountAtLocationRequest extends RequestPatch<
+  UpdateAssetTypeCountAtLocationPathParameters,
+  undefined,
+  UpdateAssetTypeCountAtLocationRequestBody,
+  UpdateAssetTypeCountAtLocationResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [
+    {parm: 'locationId', routePart: 'location', sdkPartName: 'location'},
+    {parm: 'assetTypeId', routePart: 'assettype', sdkPartName: 'assettype'},
+  ]
+}
+
+export class UpdateLocationRequest extends RequestPatch<
+  UpdateLocationPathParameters,
+  undefined,
+  UpdateLocationRequestBody,
+  UpdateLocationResponseBody
+> {
+  routeSegments?: RequestRouteSegment[] = [{parm: 'locationId', routePart: 'location', sdkPartName: 'location'}]
 }
 
 export class CreateAssetByProjectIdRequest extends RequestPost<
@@ -2874,6 +3831,42 @@ export class GetSessionRefreshRequest extends RequestPost<
 
 // HANDLER RESOURCE CLASSES
 
+export class SdkAccountAssettypesResources extends Resources {
+  async create(
+    requestBody: CreateAssetTypeByAccountIdRequestBody,
+    options?: any,
+  ): Promise<CreateAssetTypeByAccountIdResponseBody> {
+    const request = new CreateAssetTypeByAccountIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+
+  async get(
+    queryStringParameters: GetAssetTypesByAccountIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetAssetTypesByAccountIdResponseBody> {
+    const request = new GetAssetTypesByAccountIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkAccountLocationsResources extends Resources {
+  async create(
+    requestBody: CreateLocationByAccountIdRequestBody,
+    options?: any,
+  ): Promise<CreateLocationByAccountIdResponseBody> {
+    const request = new CreateLocationByAccountIdRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+
+  async get(
+    queryStringParameters: GetLocationsByAccountIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetLocationsByAccountIdResponseBody> {
+    const request = new GetLocationsByAccountIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
 export class SdkAccountProjectsResources extends Resources {
   async create(
     requestBody: CreateProjectByAccountIdRequestBody,
@@ -2999,6 +3992,14 @@ export class SdkAccountQrcodelogosUploadResources extends Resources {
 }
 
 export class SdkAccountResource extends Resource {
+  assettypes(): SdkAccountAssettypesResources {
+    return new SdkAccountAssettypesResources(this.getSession(), this.pathParameters)
+  }
+
+  locations(): SdkAccountLocationsResources {
+    return new SdkAccountLocationsResources(this.getSession(), this.pathParameters)
+  }
+
   projects(): SdkAccountProjectsResources {
     return new SdkAccountProjectsResources(this.getSession(), this.pathParameters)
   }
@@ -3040,6 +4041,71 @@ export class SdkAccountResource extends Resource {
   }
 }
 
+export class SdkAssettypeAssetResource extends Resource {
+  async compose(
+    requestBody: ComposeAssetByAssetTypeRequestBody,
+    options?: any,
+  ): Promise<ComposeAssetByAssetTypeResponseBody> {
+    const request = new ComposeAssetByAssetTypeRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
+export class SdkAssettypeAssetsResources extends Resources {
+  async create(
+    requestBody: CreateAssetByAssetTypeRequestBody,
+    options?: any,
+  ): Promise<CreateAssetByAssetTypeResponseBody> {
+    const request = new CreateAssetByAssetTypeRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+
+  async get(
+    queryStringParameters: GetAssetsByAssetTypeQueryStringParameters,
+    options?: any,
+  ): Promise<GetAssetsByAssetTypeResponseBody> {
+    const request = new GetAssetsByAssetTypeRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkAssettypeLocationsResources extends Resources {
+  async get(
+    queryStringParameters: GetAssetTypeCountsByLocationQueryStringParameters,
+    options?: any,
+  ): Promise<GetAssetTypeCountsByLocationResponseBody> {
+    const request = new GetAssetTypeCountsByLocationRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkAssettypeResource extends Resource {
+  asset(assetId: string): SdkAssettypeAssetResource {
+    return new SdkAssettypeAssetResource(this.getSession(), {...this.pathParameters, assetId})
+  }
+
+  assets(): SdkAssettypeAssetsResources {
+    return new SdkAssettypeAssetsResources(this.getSession(), this.pathParameters)
+  }
+
+  locations(): SdkAssettypeLocationsResources {
+    return new SdkAssettypeLocationsResources(this.getSession(), this.pathParameters)
+  }
+
+  async get(
+    queryStringParameters: GetAssetTypeByAssetTypeIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetAssetTypeByAssetTypeIdResponseBody> {
+    const request = new GetAssetTypeByAssetTypeIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+
+  async update(requestBody: UpdateAssetTypeRequestBody, options?: any): Promise<UpdateAssetTypeResponseBody> {
+    const request = new UpdateAssetTypeRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
 export class SdkAssetContactsResources extends Resources {
   async create(
     requestBody: CreateContactByAssetIdRequestBody,
@@ -3060,10 +4126,10 @@ export class SdkAssetContactsResources extends Resources {
 
 export class SdkAssetQrCodesResources extends Resources {
   async create(
-    requestBody: CreateQrCodeByAssetIdRequestBody,
+    requestBody: CreateQrCodesByAssetIdRequestBody,
     options?: any,
-  ): Promise<CreateQrCodeByAssetIdResponseBody> {
-    const request = new CreateQrCodeByAssetIdRequest(this.session)
+  ): Promise<CreateQrCodesByAssetIdResponseBody> {
+    const request = new CreateQrCodesByAssetIdRequest(this.session)
     return request.go(this.pathParameters, undefined, requestBody, options)
   }
 
@@ -3072,6 +4138,16 @@ export class SdkAssetQrCodesResources extends Resources {
     options?: any,
   ): Promise<GetQrCodesByAssetIdResponseBody> {
     const request = new GetQrCodesByAssetIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkAssetHistoryResources extends Resources {
+  async get(
+    queryStringParameters: GetAssetHistoryQueryStringParameters,
+    options?: any,
+  ): Promise<GetAssetHistoryResponseBody> {
+    const request = new GetAssetHistoryRequest(this.session)
     return request.go(this.pathParameters, queryStringParameters, options)
   }
 }
@@ -3105,6 +4181,10 @@ export class SdkAssetResource extends Resource {
 
   qrCodes(): SdkAssetQrCodesResources {
     return new SdkAssetQrCodesResources(this.getSession(), this.pathParameters)
+  }
+
+  history(): SdkAssetHistoryResources {
+    return new SdkAssetHistoryResources(this.getSession(), this.pathParameters)
   }
 
   scans(): SdkAssetScansResources {
@@ -3210,6 +4290,60 @@ export class SdkContactResource extends Resource {
 
   async update(requestBody: UpdateContactRequestBody, options?: any): Promise<UpdateContactResponseBody> {
     const request = new UpdateContactRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
+export class SdkLocationAssetsResources extends Resources {
+  async update(
+    requestBody: UpdateAssetsLocationsRequestBody,
+    options?: any,
+  ): Promise<UpdateAssetsLocationsResponseBody> {
+    const request = new UpdateAssetsLocationsRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+
+  async get(
+    queryStringParameters: GetAssetsByLocationIdQueryStringParameters,
+    options?: any,
+  ): Promise<GetAssetsByLocationIdResponseBody> {
+    const request = new GetAssetsByLocationIdRequest(this.session)
+    return request.go(this.pathParameters, queryStringParameters, options)
+  }
+}
+
+export class SdkLocationAssetTypeResource extends Resource {
+  async get(options?: any): Promise<GetAssetTypeCountAtLocationResponseBody> {
+    const request = new GetAssetTypeCountAtLocationRequest(this.session)
+    return request.go(this.pathParameters, undefined, options)
+  }
+}
+
+export class SdkLocationAssettypeResource extends Resource {
+  async update(
+    requestBody: UpdateAssetTypeCountAtLocationRequestBody,
+    options?: any,
+  ): Promise<UpdateAssetTypeCountAtLocationResponseBody> {
+    const request = new UpdateAssetTypeCountAtLocationRequest(this.session)
+    return request.go(this.pathParameters, undefined, requestBody, options)
+  }
+}
+
+export class SdkLocationResource extends Resource {
+  assets(): SdkLocationAssetsResources {
+    return new SdkLocationAssetsResources(this.getSession(), this.pathParameters)
+  }
+
+  assetType(assetTypeId: string): SdkLocationAssetTypeResource {
+    return new SdkLocationAssetTypeResource(this.getSession(), {...this.pathParameters, assetTypeId})
+  }
+
+  assettype(assetTypeId: string): SdkLocationAssettypeResource {
+    return new SdkLocationAssettypeResource(this.getSession(), {...this.pathParameters, assetTypeId})
+  }
+
+  async update(requestBody: UpdateLocationRequestBody, options?: any): Promise<UpdateLocationResponseBody> {
+    const request = new UpdateLocationRequest(this.session)
     return request.go(this.pathParameters, undefined, requestBody, options)
   }
 }
@@ -3507,12 +4641,20 @@ export class SdkResources extends Resources {
     return new SdkAccountResource(this.getSession(), {...this.pathParameters, accountId})
   }
 
+  assettype(assetTypeId: string): SdkAssettypeResource {
+    return new SdkAssettypeResource(this.getSession(), {...this.pathParameters, assetTypeId})
+  }
+
   asset(assetId: string): SdkAssetResource {
     return new SdkAssetResource(this.getSession(), {...this.pathParameters, assetId})
   }
 
   contact(contactId: string): SdkContactResource {
     return new SdkContactResource(this.getSession(), {...this.pathParameters, contactId})
+  }
+
+  location(locationId: string): SdkLocationResource {
+    return new SdkLocationResource(this.getSession(), {...this.pathParameters, locationId})
   }
 
   project(projectId: string): SdkProjectResource {
