@@ -8,10 +8,6 @@
 ### Fixed
 - Ability to unset certain fields using `null`, now `null` is also allowed alongside `undefined`
 
-
-### Fixed
-- Fix refresh token after 48 hours
-
 ## Version 1.4.0
 ### Added
 - Add new SDK endpoints for QR Code Templates:
